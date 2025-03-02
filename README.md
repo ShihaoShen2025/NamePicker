@@ -12,7 +12,10 @@
 运行主程序即可
 
 ## 运行指南（源码）
-运行main.py
+
+1. 安装依赖项
+`pip install -r requirements.txt`
+2. 运行main.py
 
 ## FAQ
 Q:没有找到names.txt，请参照README进行处理
