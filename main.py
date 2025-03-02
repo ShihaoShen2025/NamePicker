@@ -6,16 +6,20 @@ import darkdetect
 import random
 import json
 import sys
+import configgui
 
 class App(tkinter.Tk):
     def __init__(self):
+        global allowRepeat,alwaysOnTop
+        allowRepeat = False
+        alwaysOnTop = True
         super().__init__()
         self.geometry("200x200")
-        self.attributes('-topmost',self.alwaysOnTop)
+        self.loadcfg()
+        self.attributes('-topmost',alwaysOnTop)
         self.title("随机抽选")
         self.resizable(False, False)
         sv_ttk.set_theme(darkdetect.theme())
-        self.loadcfg()
         self.loadname()
         self.createWidget()
     names = []
@@ -31,7 +35,8 @@ class App(tkinter.Tk):
         name.config(text=ch)
 
     def opencfg(self):
-        pass
+        cfg = configgui.cfgpage()
+        cfg.mainloop()
 
     def createWidget(self):
         global name
@@ -51,8 +56,6 @@ class App(tkinter.Tk):
             r = showerror("错误","没有找到names.txt，请参照README进行处理")
             sys.exit(114514)
 
-    allowRepeat = False
-    alwaysOnTop =True
     def loadcfg(self):
         global alwaysOnTop,allowRepeat
         with open("config.json","r",encoding="utf-8") as f:
