@@ -3,13 +3,19 @@ from tkinter import ttk
 import sv_ttk
 import darkdetect
 import random
+import json
 
-allowRepeat = False
 names = []
 chosen = []
 with open("names.txt","r",encoding="utf-8") as f:
     for i in f.readlines():
         names.append(i.strip("\n"))
+
+with open("config.json","r",encoding="utf-8") as f:
+    conf = f.read()
+config = json.loads(conf)
+allowRepeat = config["allowRepeat"]
+alwaysOnTop = config["alwaysOnTop"]
 
 def pick():
     global name,names,allowRepeat,chosen
@@ -24,10 +30,10 @@ def pick():
 
 root = tkinter.Tk()
 root.geometry("200x200")
-root.attributes('-topmost', 'true')
+root.attributes('-topmost',alwaysOnTop)
 root.title("随机抽选")
 
-name = ttk.Label(root,text="11111")
+name = ttk.Label(root,text="尚未抽选")
 name.place(x=100,y=50,anchor="center")
 button = ttk.Button(root, text="点击以抽选",command=pick)
 button.place(x=100,y=100,anchor="center")
