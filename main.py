@@ -17,7 +17,7 @@ class App(tkinter.Tk):
         self.geometry("200x200")
         self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
-        self.title("随机抽选")
+        self.title("NamePicker - 随机抽选")
         self.resizable(False, False)
         sv_ttk.set_theme(darkdetect.theme())
         self.loadname()

@@ -11,7 +11,7 @@ class cfgpage(tkinter.Tk):
         super().__init__()
         sv_ttk.set_theme(darkdetect.theme())
         self.geometry("250x200")
-        self.title("配置菜单")
+        self.title("NamePicker - 配置菜单")
         self.resizable(False, False)
         cfgvar = [tkinter.IntVar(), tkinter.IntVar()]
         self.loadcfg()
