@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="v0.0.1-patch2 画大饼，没更新任何实际功能">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:更新README和requirements.txt，添加编译脚本">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +21,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -30,16 +36,16 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/LHGS-github/NamePicker.git&quot;,
-    &quot;accountId&quot;: &quot;9d42321e-c105-44c7-8e7d-ee87067aa42f&quot;
+    &quot;url&quot;: &quot;https://github.com/NamePickerOrg/NamePicker.git&quot;,
+    &quot;accountId&quot;: &quot;0feb3c8d-1e46-4025-a315-326d1e4446d5&quot;
   }
 }</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2tk80oStNLyD6SZnfTX9mfMu7H7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -53,9 +59,9 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "1.0.0dev",
     "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "build.tools"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -154,8 +160,75 @@
       <option name="project" value="LOCAL" />
       <updated>1740911462780</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat:更新标题栏样式">
+      <option name="closed" value="true" />
+      <created>1741354725699</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741354725699</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat:为配置文件增加版本标识">
+      <option name="closed" value="true" />
+      <created>1741400644273</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1741400644273</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat:没有配置文件时会自动创建">
+      <option name="closed" value="true" />
+      <created>1741401906973</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1741401906973</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat:没有配置文件时会自动创建">
+      <option name="closed" value="true" />
+      <created>1741401974129</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1741401974129</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat:修改名单配置文件，准备做点名规则">
+      <option name="closed" value="true" />
+      <created>1741404394944</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1741404394944</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat:完成只抽男/女功能">
+      <option name="closed" value="true" />
+      <created>1741409338214</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1741409338214</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat:完成只抽单数/双数功能，1.0.0dev完成">
+      <option name="closed" value="true" />
+      <created>1741410831245</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1741410831245</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat:更新README和requirements.txt，添加编译脚本">
+      <option name="closed" value="true" />
+      <created>1741411816495</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1741411816495</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -178,6 +251,13 @@
     <MESSAGE value="v0.0.1-patch1" />
     <MESSAGE value="v0.0.1-patch1 补充requirements.txt，修改readme" />
     <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
+    <MESSAGE value="feat:更新标题栏样式" />
+    <MESSAGE value="feat:为配置文件增加版本标识" />
+    <MESSAGE value="feat:没有配置文件时会自动创建" />
+    <MESSAGE value="feat:修改名单配置文件，准备做点名规则" />
+    <MESSAGE value="feat:完成只抽男/女功能" />
+    <MESSAGE value="feat:完成只抽单数/双数功能，1.0.0dev完成" />
+    <MESSAGE value="feat:更新README和requirements.txt，添加编译脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:更新README和requirements.txt，添加编译脚本" />
   </component>
 </project>
