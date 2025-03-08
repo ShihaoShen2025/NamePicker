@@ -5,7 +5,6 @@ import sv_ttk
 import darkdetect
 import random
 import json
-import time
 
 import configgui
 import pandas as pd

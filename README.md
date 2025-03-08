@@ -5,7 +5,7 @@
 1. [x] 基础的点名功能
 2. [x] 人性化（大嘘）的配置修改界面
 3. [x] 从外部读取名单
-4. [ ] 特殊点名规则
+4. [x] 特殊点名规则
 5. [ ] 概率内定
 6. [ ] 悬浮窗（点击展开主界面）
 
@@ -14,15 +14,27 @@
 
 ## 运行指南（源码）
 
+0. （可选）创建虚拟环境
 1. 安装依赖项
 `pip install -r requirements.txt`
 2. 运行main.py
 
+## 打包可执行文件指南（使用打包脚本）
+
+1. 使用venv创建虚拟环境（如何创建请自行百度，并保证虚拟环境目录为./venv）
+2. 安装依赖项
+`pip install -r requirements.txt`
+3. 运行build.bat
+
+## 打包可执行文件指南（不使用打包脚本）
+
+0. （可选）创建虚拟环境
+1. 安装依赖项
+`pip install -r requirements.txt`
+2. 在虚拟环境中运行
+`nuitka --standalone --onefile --enable-plugin=tk-inter --remove-output --windows-disable-console  main.py`
+
 ## FAQ
-Q:没有找到names.txt，请参照README进行处理
-
-A:将names_example.txt复制一份并将复制的那份改名为names.txt，随后按照names.txt中内容操作
-
 Q:配置界面和主界面风格不同
 
 A:作者目前没找到怎么修，但不影响使用
