@@ -5,6 +5,8 @@ import darkdetect
 import json
 from tkinter.messagebox import *
 
+VERSION = "1.0.0dev"
+VER_NO = 1
 class cfgpage(tkinter.Tk):
     def __init__(self):
         global cfgvar
@@ -19,8 +21,10 @@ class cfgpage(tkinter.Tk):
 
         
     def savecfg(self):
-        cfg = {"allowRepeat":self.getcfg(cfgvar[0]),
-               "alwaysOnTop":self.getcfg(cfgvar[0])}
+        cfg = {"VERSION":VERSION,
+               "VER_NO":VER_NO,
+                "allowRepeat":self.getcfg(cfgvar[0]),
+               "alwaysOnTop":self.getcfg(cfgvar[1])}
         conf = json.dumps(cfg)
         with open("config.json","w",encoding="utf-8") as f:
             f.write(conf)

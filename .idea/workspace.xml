@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="v0.0.1-patch2 画大饼，没更新任何实际功能">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:更新标题栏样式">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -30,16 +38,16 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/LHGS-github/NamePicker.git&quot;,
-    &quot;accountId&quot;: &quot;9d42321e-c105-44c7-8e7d-ee87067aa42f&quot;
+    &quot;url&quot;: &quot;https://github.com/NamePickerOrg/NamePicker.git&quot;,
+    &quot;accountId&quot;: &quot;0feb3c8d-1e46-4025-a315-326d1e4446d5&quot;
   }
 }</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2tk80oStNLyD6SZnfTX9mfMu7H7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -53,9 +61,9 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "1.0.0dev",
     "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "build.tools"
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -154,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740911462780</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat:更新标题栏样式">
+      <option name="closed" value="true" />
+      <created>1741354725699</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741354725699</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -178,6 +194,7 @@
     <MESSAGE value="v0.0.1-patch1" />
     <MESSAGE value="v0.0.1-patch1 补充requirements.txt，修改readme" />
     <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
+    <MESSAGE value="feat:更新标题栏样式" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:更新标题栏样式" />
   </component>
 </project>

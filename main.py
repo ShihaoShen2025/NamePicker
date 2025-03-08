@@ -8,6 +8,8 @@ import json
 import sys
 import configgui
 
+VERSION = "1.0.0dev"
+VER_NO = 1
 class App(tkinter.Tk):
     def __init__(self):
         global allowRepeat,alwaysOnTop
@@ -15,10 +17,10 @@ class App(tkinter.Tk):
         alwaysOnTop = True
         super().__init__()
         self.geometry("200x200")
-        self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
         self.resizable(False, False)
+        self.loadcfg()
         sv_ttk.set_theme(darkdetect.theme())
         self.loadname()
         self.createWidget()
@@ -63,6 +65,10 @@ class App(tkinter.Tk):
         config = json.loads(conf)
         allowRepeat = config["allowRepeat"]
         alwaysOnTop = config["alwaysOnTop"]
+        if config["VER_NO"] < VER_NO:
+            r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
+        elif config["VER_NO"] > VER_NO:
+            r = showwarning("警告","当前配置文件版本较高，可能会出现一些玄学问题")
 
 
 if __name__ == "__main__":
