@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:修改名单配置文件，准备做点名规则">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成只抽男/女功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/names.csv" beforeDir="false" afterPath="$PROJECT_DIR$/names.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741404394944</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="feat:完成只抽男/女功能">
+      <option name="closed" value="true" />
+      <created>1741409338214</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1741409338214</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -231,6 +240,7 @@
     <MESSAGE value="feat:为配置文件增加版本标识" />
     <MESSAGE value="feat:没有配置文件时会自动创建" />
     <MESSAGE value="feat:修改名单配置文件，准备做点名规则" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:修改名单配置文件，准备做点名规则" />
+    <MESSAGE value="feat:完成只抽男/女功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:完成只抽男/女功能" />
   </component>
 </project>

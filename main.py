@@ -5,8 +5,7 @@ import sv_ttk
 import darkdetect
 import random
 import json
-
-from numpy.ma.core import count
+import time
 
 import configgui
 import pandas as pd
@@ -20,13 +19,13 @@ class App(tkinter.Tk):
         alwaysOnTop = True
         showName = True
         super().__init__()
-        self.geometry("400x200")
+        self.geometry("450x200")
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
         self.resizable(False, False)
         self.loadcfg()
         sv_ttk.set_theme(darkdetect.theme())
-        pref = [tkinter.StringVar(), tkinter.IntVar()]
+        pref = [tkinter.StringVar(), tkinter.StringVar()]
         self.loadname()
         self.createWidget()
     names = []
@@ -34,6 +33,8 @@ class App(tkinter.Tk):
     length = 0
     sexlen = [0,0]
     sexl = [[],[]]
+    numlen = [0,0]
+    numl = [[],[]]
     def pick(self):
         global allowRepeat,showName
         if pref[0].get() != "男女都抽":
@@ -47,6 +48,13 @@ class App(tkinter.Tk):
             le = self.length
             tar = self.names[0]
 
+        if pref[1].get() != "单双都抽":
+            if pref[1].get() == "只抽双数":
+                tar = list(set(tar)&set(self.numl[0]))
+                le = len(tar)
+            else:
+                tar = list(set(tar) & set(self.numl[1]))
+                le = len(tar)
         chs = random.randint(0, le - 1)
         if not allowRepeat:
             if len(self.chosen)>=le:
@@ -76,7 +84,9 @@ class App(tkinter.Tk):
         confb = ttk.Button(self, text="点击打开配置菜单", command=self.opencfg)
         confb.place(x=300, y=150, anchor="center")
         sexpref = ttk.OptionMenu(self,pref[0],"男女都抽","只抽男","只抽女","男女都抽")
-        sexpref.place(x=300,y=100,anchor="center")
+        sexpref.place(x=250,y=100,anchor="center")
+        numpref = ttk.OptionMenu(self, pref[1], "单双都抽", "只抽单数", "只抽双数", "单双都抽")
+        numpref.place(x=350, y=100, anchor="center")
 
     def loadname(self):
         name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
@@ -92,6 +102,14 @@ class App(tkinter.Tk):
                 self.sexl[0].append(i)
             else:
                 self.sexl[1].append(i)
+
+        for i in self.names[0]:
+            if self.names[2][self.names[0].index(i)]%2==0:
+                self.numl[0].append(i)
+            else:
+                self.numl[1].append(i)
+        self.numlen[0] = len(self.numl[0])
+        self.numlen[1] = len(self.numl[1])
 
     def loadcfg(self):
         try:
