@@ -16,7 +16,7 @@ class App(tkinter.Tk):
         allowRepeat = False
         alwaysOnTop = True
         super().__init__()
-        self.geometry("200x200")
+        self.geometry("400x200")
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
         self.resizable(False, False)
@@ -45,9 +45,9 @@ class App(tkinter.Tk):
         name = ttk.Label(self, text="尚未抽选")
         name.place(x=100, y=50, anchor="center")
         button = ttk.Button(self, text="点击以抽选", command=self.pick)
-        button.place(x=100, y=100, anchor="center")
+        button.place(x=300, y=50, anchor="center")
         confb = ttk.Button(self, text="点击打开配置菜单", command=self.opencfg)
-        confb.place(x=100, y=150, anchor="center")
+        confb.place(x=300, y=150, anchor="center")
 
     def loadname(self):
         try:
@@ -59,16 +59,26 @@ class App(tkinter.Tk):
             sys.exit(114514)
 
     def loadcfg(self):
-        global alwaysOnTop,allowRepeat
-        with open("config.json","r",encoding="utf-8") as f:
-            conf = f.read()
-        config = json.loads(conf)
-        allowRepeat = config["allowRepeat"]
-        alwaysOnTop = config["alwaysOnTop"]
-        if config["VER_NO"] < VER_NO:
-            r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
-        elif config["VER_NO"] > VER_NO:
-            r = showwarning("警告","当前配置文件版本较高，可能会出现一些玄学问题")
+        try:
+            global alwaysOnTop,allowRepeat
+            with open("config.json","r",encoding="utf-8") as f:
+                conf = f.read()
+            config = json.loads(conf)
+            allowRepeat = config["allowRepeat"]
+            alwaysOnTop = config["alwaysOnTop"]
+            if config["VER_NO"] < VER_NO:
+                r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
+            elif config["VER_NO"] > VER_NO:
+                r = showwarning("警告","当前配置文件版本较高，可能会出现一些玄学问题")
+        except FileNotFoundError:
+            cfg = {"VERSION": VERSION,
+                   "VER_NO": VER_NO,
+                   "allowRepeat": False,
+                    "alwaysOnTop": True}
+            conf = json.dumps(cfg)
+            with open("config.json", "w", encoding="utf-8") as f:
+                f.write(conf)
+            r = showinfo("完成","没有检测到配置文件，已创建默认配置文件")
 
 
 if __name__ == "__main__":

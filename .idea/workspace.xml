@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:更新标题栏样式">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:为配置文件增加版本标识">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -56,7 +56,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.configgui.executor": "Run",
+    "Python.configgui.executor": "Debug",
     "Python.configui.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -170,7 +170,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741354725699</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="feat:为配置文件增加版本标识">
+      <option name="closed" value="true" />
+      <created>1741400644273</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1741400644273</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -195,6 +203,7 @@
     <MESSAGE value="v0.0.1-patch1 补充requirements.txt，修改readme" />
     <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
     <MESSAGE value="feat:更新标题栏样式" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:更新标题栏样式" />
+    <MESSAGE value="feat:为配置文件增加版本标识" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:为配置文件增加版本标识" />
   </component>
 </project>

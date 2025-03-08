@@ -4,6 +4,7 @@ import sv_ttk
 import darkdetect
 import json
 from tkinter.messagebox import *
+import main
 
 VERSION = "1.0.0dev"
 VER_NO = 1
@@ -11,15 +12,14 @@ class cfgpage(tkinter.Tk):
     def __init__(self):
         global cfgvar
         super().__init__()
-        sv_ttk.set_theme(darkdetect.theme())
         self.geometry("250x200")
         self.title("NamePicker - 配置菜单")
         self.resizable(False, False)
+        sv_ttk.set_theme(darkdetect.theme())
         cfgvar = [tkinter.IntVar(), tkinter.IntVar()]
         self.loadcfg()
         self.createWidget()
 
-        
     def savecfg(self):
         cfg = {"VERSION":VERSION,
                "VER_NO":VER_NO,
@@ -51,11 +51,22 @@ class cfgpage(tkinter.Tk):
             return False
 
     def loadcfg(self):
-        with open("config.json","r",encoding="utf-8") as f:
-            conf = f.read()
-        config = json.loads(conf)
-        self.setcfg(cfgvar[0],config["allowRepeat"])
-        self.setcfg(cfgvar[1],config["alwaysOnTop"])
+        try:
+            with open("config.json","r",encoding="utf-8") as f:
+                conf = f.read()
+            config = json.loads(conf)
+            self.setcfg(cfgvar[0],config["allowRepeat"])
+            self.setcfg(cfgvar[1],config["alwaysOnTop"])
+        except FileNotFoundError:
+            cfg = {"VERSION": VERSION,
+                   "VER_NO": VER_NO,
+                   "allowRepeat": False,
+                    "alwaysOnTop": True}
+            conf = json.dumps(cfg)
+            with open("config.json", "w", encoding="utf-8") as f:
+                f.write(conf)
+            r = showinfo("完成","没有检测到配置文件，已创建默认配置文件")
+
 
 if __name__ == "__main__":
     app = cfgpage()
