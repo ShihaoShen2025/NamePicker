@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:为配置文件增加版本标识">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:没有配置文件时会自动创建">
+      <change afterPath="$PROJECT_DIR$/names.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/names_example.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +58,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.configgui.executor": "Debug",
+    "Python.configgui.executor": "Run",
     "Python.configui.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -178,8 +180,27 @@
       <option name="project" value="LOCAL" />
       <updated>1741400644273</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="feat:没有配置文件时会自动创建">
+      <option name="closed" value="true" />
+      <created>1741401906973</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1741401906973</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat:没有配置文件时会自动创建">
+      <option name="closed" value="true" />
+      <created>1741401974129</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1741401974129</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -204,6 +225,7 @@
     <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
     <MESSAGE value="feat:更新标题栏样式" />
     <MESSAGE value="feat:为配置文件增加版本标识" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:为配置文件增加版本标识" />
+    <MESSAGE value="feat:没有配置文件时会自动创建" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:没有配置文件时会自动创建" />
   </component>
 </project>

@@ -12,11 +12,11 @@ class cfgpage(tkinter.Tk):
     def __init__(self):
         global cfgvar
         super().__init__()
-        self.geometry("250x200")
+        self.geometry("300x300")
         self.title("NamePicker - 配置菜单")
         self.resizable(False, False)
         sv_ttk.set_theme(darkdetect.theme())
-        cfgvar = [tkinter.IntVar(), tkinter.IntVar()]
+        cfgvar = [tkinter.IntVar(), tkinter.IntVar(),tkinter.IntVar()]
         self.loadcfg()
         self.createWidget()
 
@@ -24,7 +24,8 @@ class cfgpage(tkinter.Tk):
         cfg = {"VERSION":VERSION,
                "VER_NO":VER_NO,
                 "allowRepeat":self.getcfg(cfgvar[0]),
-               "alwaysOnTop":self.getcfg(cfgvar[1])}
+               "alwaysOnTop":self.getcfg(cfgvar[1]),
+               "showName":self.getcfg(cfgvar[2])}
         conf = json.dumps(cfg)
         with open("config.json","w",encoding="utf-8") as f:
             f.write(conf)
@@ -34,6 +35,7 @@ class cfgpage(tkinter.Tk):
 
         cfg = [ttk.Checkbutton(self, text="允许重复点名", variable=cfgvar[0]),
                ttk.Checkbutton(self, text="始终置顶", variable=cfgvar[1]),
+               ttk.Checkbutton(self, text="抽选结果显示名字（而非学号）", variable=cfgvar[1]),
                ttk.Button(self, text="保存配置", command=self.savecfg)]
         for i in range(len(cfg)):
             cfg[i].place(x=50, y=50 + 50 * i)
@@ -61,7 +63,8 @@ class cfgpage(tkinter.Tk):
             cfg = {"VERSION": VERSION,
                    "VER_NO": VER_NO,
                    "allowRepeat": False,
-                    "alwaysOnTop": True}
+                    "alwaysOnTop": True,
+                   "showName":True}
             conf = json.dumps(cfg)
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)

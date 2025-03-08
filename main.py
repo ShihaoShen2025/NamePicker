@@ -5,16 +5,18 @@ import sv_ttk
 import darkdetect
 import random
 import json
-import sys
+
 import configgui
+import pandas as pd
 
 VERSION = "1.0.0dev"
 VER_NO = 1
 class App(tkinter.Tk):
     def __init__(self):
-        global allowRepeat,alwaysOnTop
+        global allowRepeat,alwaysOnTop,showName
         allowRepeat = False
         alwaysOnTop = True
+        showName = True
         super().__init__()
         self.geometry("400x200")
         self.attributes('-topmost',alwaysOnTop)
@@ -26,14 +28,22 @@ class App(tkinter.Tk):
         self.createWidget()
     names = []
     chosen = []
+    length = 0
     def pick(self):
-        ch = random.choice(self.names)
+        global allowRepeat,showName
+        chs = random.randint(0,self.length-1)
         if not allowRepeat:
-            if len(self.names) == len(self.chosen):
-                self.chosen = []
-            while ch in self.chosen:
-                ch = random.choice(self.names)
-            self.chosen.append(ch)
+            if len(self.chosen)==self.length:
+                self.chosen=[]
+                chs = random.randint(0, self.length-1)
+            else:
+                while chs in self.chosen:
+                    chs = random.randint(0, self.length-1)
+            self.chosen.append(chs)
+        if showName:
+            ch = self.names[0][chs]
+        else:
+            ch = self.names[2][chs]
         name.config(text=ch)
 
     def opencfg(self):
@@ -42,8 +52,8 @@ class App(tkinter.Tk):
 
     def createWidget(self):
         global name
-        name = ttk.Label(self, text="尚未抽选")
-        name.place(x=100, y=50, anchor="center")
+        name = ttk.Label(self, text="尚未抽选",font=('微软雅黑', 20))
+        name.place(x=100, y=100, anchor="center")
         button = ttk.Button(self, text="点击以抽选", command=self.pick)
         button.place(x=300, y=50, anchor="center")
         confb = ttk.Button(self, text="点击打开配置菜单", command=self.opencfg)
@@ -51,21 +61,23 @@ class App(tkinter.Tk):
 
     def loadname(self):
         try:
-            with open("names.txt","r",encoding="utf-8") as f:
-                for i in f.readlines():
-                    self.names.append(i.strip("\n"))
-        except FileNotFoundError:
-            r = showerror("错误","没有找到names.txt，请参照README进行处理")
-            sys.exit(114514)
-
+            name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
+            name = name.to_dict()
+            self.names.append(name["name"])
+            self.names.append(name["sex"])
+            self.names.append(name["no"])
+            self.length =len(name["name"])
+        except:
+            print("err")
     def loadcfg(self):
         try:
-            global alwaysOnTop,allowRepeat
+            global allowRepeat,alwaysOnTop,showName
             with open("config.json","r",encoding="utf-8") as f:
                 conf = f.read()
             config = json.loads(conf)
             allowRepeat = config["allowRepeat"]
             alwaysOnTop = config["alwaysOnTop"]
+            showName = config["showName"]
             if config["VER_NO"] < VER_NO:
                 r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
             elif config["VER_NO"] > VER_NO:
@@ -74,7 +86,8 @@ class App(tkinter.Tk):
             cfg = {"VERSION": VERSION,
                    "VER_NO": VER_NO,
                    "allowRepeat": False,
-                    "alwaysOnTop": True}
+                   "alwaysOnTop": True,
+                   "showName": True}
             conf = json.dumps(cfg)
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)
