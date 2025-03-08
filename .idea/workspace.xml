@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成只抽男/女功能">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:更新README和requirements.txt，添加编译脚本">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/names.csv" beforeDir="false" afterPath="$PROJECT_DIR$/names.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +61,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "1.0.0dev",
     "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -209,7 +208,23 @@
       <option name="project" value="LOCAL" />
       <updated>1741409338214</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="feat:完成只抽单数/双数功能，1.0.0dev完成">
+      <option name="closed" value="true" />
+      <created>1741410831245</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1741410831245</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat:更新README和requirements.txt，添加编译脚本">
+      <option name="closed" value="true" />
+      <created>1741411816495</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1741411816495</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -241,6 +256,8 @@
     <MESSAGE value="feat:没有配置文件时会自动创建" />
     <MESSAGE value="feat:修改名单配置文件，准备做点名规则" />
     <MESSAGE value="feat:完成只抽男/女功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:完成只抽男/女功能" />
+    <MESSAGE value="feat:完成只抽单数/双数功能，1.0.0dev完成" />
+    <MESSAGE value="feat:更新README和requirements.txt，添加编译脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:更新README和requirements.txt，添加编译脚本" />
   </component>
 </project>
