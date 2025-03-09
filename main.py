@@ -1,3 +1,4 @@
+import sys
 import tkinter
 from tkinter import ttk
 from tkinter.messagebox import *
@@ -88,27 +89,34 @@ class App(tkinter.Tk):
         numpref.place(x=350, y=100, anchor="center")
 
     def loadname(self):
-        name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
-        name = name.to_dict()
-        self.names.append(list(name["name"].values()))
-        self.names.append(list(name["sex"].values()))
-        self.names.append(list(name["no"].values()))
-        self.length =len(name["name"])
-        self.sexlen[0] = self.names[1].count(0)
-        self.sexlen[1] = self.names[1].count(1)
-        for i in self.names[0]:
-            if self.names[1][self.names[0].index(i)] == 0:
-                self.sexl[0].append(i)
-            else:
-                self.sexl[1].append(i)
+        try:
+            name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
+            name = name.to_dict()
+            self.names.append(list(name["name"].values()))
+            self.names.append(list(name["sex"].values()))
+            self.names.append(list(name["no"].values()))
+            self.length =len(name["name"])
+            self.sexlen[0] = self.names[1].count(0)
+            self.sexlen[1] = self.names[1].count(1)
+            for i in self.names[0]:
+                if self.names[1][self.names[0].index(i)] == 0:
+                    self.sexl[0].append(i)
+                else:
+                    self.sexl[1].append(i)
 
-        for i in self.names[0]:
-            if self.names[2][self.names[0].index(i)]%2==0:
-                self.numl[0].append(i)
-            else:
-                self.numl[1].append(i)
-        self.numlen[0] = len(self.numl[0])
-        self.numlen[1] = len(self.numl[1])
+            for i in self.names[0]:
+                if self.names[2][self.names[0].index(i)]%2==0:
+                    self.numl[0].append(i)
+                else:
+                    self.numl[1].append(i)
+            self.numlen[0] = len(self.numl[0])
+            self.numlen[1] = len(self.numl[1])
+        except FileNotFoundError:
+            with open("names.csv","w",encoding="utf-8") as f:
+                st  = ["name,sex,no\n","example,0,1"]
+                f.writelines(st)
+            r = showwarning("警告","检测到names.csv不存在，已为您创建样板文件，请修改")
+            sys.exit(114514)
 
     def loadcfg(self):
         try:
