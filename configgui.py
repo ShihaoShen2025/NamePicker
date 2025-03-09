@@ -6,8 +6,8 @@ import json
 from tkinter.messagebox import *
 import main
 
-VERSION = "1.0.0rel"
-VER_NO = 1
+VERSION = "1.0.1dev"
+VER_NO = 2
 class cfgpage(tkinter.Toplevel):
     def __init__(self,theme):
         global cfgvar
