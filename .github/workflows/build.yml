@@ -38,14 +38,13 @@ jobs:
           mode: standalone
           enable-plugins: tk-inter
           disable-console: True
-          onefile: True
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }} Build
           path: |
-            main.exe
-            main.bin
+            build/main.exe
+            build/main.bin
           include-hidden-files: true
           if-no-files-found: error
