@@ -47,4 +47,3 @@ jobs:
             ${{ github.workspace }}/build/main.exe
             ${{ github.workspace }}/build/main.bin
           include-hidden-files: true
-          if-no-files-found: error
