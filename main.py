@@ -10,8 +10,8 @@ import json
 import configgui
 import pandas as pd
 
-VERSION = "1.0.0rel"
-VER_NO = 1
+VERSION = "1.0.1dev"
+VER_NO = 2
 class App(tkinter.Tk):
     def __init__(self):
         global allowRepeat,alwaysOnTop,showName,pref
