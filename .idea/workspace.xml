@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:添加names.csv不存在时的逻辑">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:在配置界面可以查看版本号，顺带测试Action自动构建">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,16 +52,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.configgui.executor": "Run",
+    "Python.configui.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -169,13 +168,13 @@
       <option name="project" value="LOCAL" />
       <updated>1741508110553</updated>
     </task>
-    <task id="LOCAL-00011" summary="feat:添加names.csv不存在时的逻辑">
+    <task id="LOCAL-00011" summary="feat:开启1.0.1dev">
       <option name="closed" value="true" />
-      <created>1741518280506</created>
+      <created>1741516603850</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1741518280506</updated>
+      <updated>1741516603850</updated>
     </task>
     <option name="localTasksCounter" value="12" />
     <servers />
@@ -202,7 +201,8 @@
     <MESSAGE value="v0.0.1-patch1 补充requirements.txt，修改readme" />
     <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
     <MESSAGE value="fix:修复了配置界面和主界面风格不同的问题，更新到1.0.0 Release(v1.0.0rel)" />
-    <MESSAGE value="feat:添加names.csv不存在时的逻辑" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:添加names.csv不存在时的逻辑" />
+    <MESSAGE value="feat:开启1.0.1dev" />
+    <MESSAGE value="feat:在配置界面可以查看版本号，顺带测试Action自动构建" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:在配置界面可以查看版本号，顺带测试Action自动构建" />
   </component>
 </project>
