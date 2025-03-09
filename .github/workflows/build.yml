@@ -44,5 +44,6 @@ jobs:
         with:
           name: ${{ runner.os }} Build
           path: |
-            ${{ github.workspace }}/build/main.bin
+            ${{ github.workspace }}/build/main.dist/main.exe
+            ${{ github.workspace }}/build/main.dist/main.bin
           include-hidden-files: true
