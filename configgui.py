@@ -6,16 +6,16 @@ import json
 from tkinter.messagebox import *
 import main
 
-VERSION = "1.0.0dev"
+VERSION = "1.0.0rel"
 VER_NO = 1
-class cfgpage(tkinter.Tk):
-    def __init__(self):
+class cfgpage(tkinter.Toplevel):
+    def __init__(self,theme):
         global cfgvar
         super().__init__()
         self.geometry("300x300")
         self.title("NamePicker - 配置菜单")
         self.resizable(False, False)
-        sv_ttk.set_theme(darkdetect.theme())
+        sv_ttk.set_theme(theme)
         cfgvar = [tkinter.IntVar(), tkinter.IntVar(),tkinter.IntVar()]
         self.loadcfg()
         self.createWidget()

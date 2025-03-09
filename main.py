@@ -9,7 +9,7 @@ import json
 import configgui
 import pandas as pd
 
-VERSION = "1.0.0dev"
+VERSION = "1.0.0rel"
 VER_NO = 1
 class App(tkinter.Tk):
     def __init__(self):
@@ -71,7 +71,7 @@ class App(tkinter.Tk):
         name.config(text=ch)
 
     def opencfg(self):
-        cfg = configgui.cfgpage()
+        cfg = configgui.cfgpage(darkdetect.theme())
         cfg.mainloop()
 
     def createWidget(self):
