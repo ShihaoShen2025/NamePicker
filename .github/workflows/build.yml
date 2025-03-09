@@ -35,7 +35,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: standalone
+          mode: onefile
           enable-plugins: tk-inter
           disable-console: True
 
