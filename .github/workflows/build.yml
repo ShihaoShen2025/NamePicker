@@ -35,14 +35,14 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: onefile
+          mode: app
           enable-plugins: tk-inter
-          disable-console: True
+          windows-console-mode: attach
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ runner.os }} Build
+          name: NamePicker-Action-${{ runner.os }}
           path: |
             ${{ github.workspace }}/build/main.dist/main.exe
             ${{ github.workspace }}/build/main.dist/main.bin
