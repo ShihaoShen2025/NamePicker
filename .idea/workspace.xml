@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:改action">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:我最喜欢改action了">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -184,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741529181165</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="feat:我最喜欢改action了">
+      <option name="closed" value="true" />
+      <created>1742012794775</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1742012794775</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -227,6 +234,7 @@
     <MESSAGE value="feat:开启1.0.1dev" />
     <MESSAGE value="feat:在配置界面可以查看版本号，顺带测试Action自动构建" />
     <MESSAGE value="feat:改action" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:改action" />
+    <MESSAGE value="feat:我最喜欢改action了" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:我最喜欢改action了" />
   </component>
 </project>
