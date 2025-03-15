@@ -32,8 +32,8 @@ class App(tkinter.Tk):
     names = []
     chosen = []
     length = 0
-    sexlen = [0,0]
-    sexl = [[],[]]
+    sexlen = [0,0,0]
+    sexl = [[],[],[]]
     numlen = [0,0]
     numl = [[],[]]
     def pick(self):
@@ -43,9 +43,12 @@ class App(tkinter.Tk):
             if pref[0].get() == "只抽男":
                 le = self.sexlen[0]
                 tar = self.sexl[0]
-            else:
+            elif pref[0].get() == "只抽女":
                 le = self.sexlen[1]
                 tar = self.sexl[1]
+            else:
+                le = self.sexlen[2]
+                tar = self.sexl[2]
         else:
             le = self.length
             tar = self.names[0]
@@ -57,21 +60,24 @@ class App(tkinter.Tk):
             else:
                 tar = list(set(tar) & set(self.numl[1]))
                 le = len(tar)
-        chs = random.randint(0, le - 1)
-        if not allowRepeat:
-            if len(self.chosen)>=le:
-                self.chosen=[]
-                chs = random.randint(0, le-1)
-            else:
-                while chs in self.chosen:
+        if le != 0:
+            chs = random.randint(0, le - 1)
+            if not allowRepeat:
+                if len(self.chosen)>=le:
+                    self.chosen=[]
                     chs = random.randint(0, le-1)
-            self.chosen.append(chs)
+                else:
+                    while chs in self.chosen:
+                        chs = random.randint(0, le-1)
+                self.chosen.append(chs)
 
-        if showName:
-            ch = tar[chs]
+            if showName:
+                ch = tar[chs]
+            else:
+                ch = self.names[2][self.names[0].index(tar[chs])]
+            name.config(text=ch)
         else:
-            ch = self.names[2][self.names[0].index(tar[chs])]
-        name.config(text=ch)
+            showwarning("警告","没有符合筛选条件的学生")
 
     def opencfg(self):
         cfg = configgui.cfgpage(darkdetect.theme())
@@ -85,10 +91,10 @@ class App(tkinter.Tk):
         button.place(x=300, y=50, anchor="center")
         confb = ttk.Button(self, text="点击打开配置菜单", command=self.opencfg)
         confb.place(x=300, y=150, anchor="center")
-        sexpref = ttk.OptionMenu(self,pref[0],"男女都抽","只抽男","只抽女","男女都抽")
+        sexpref = ttk.OptionMenu(self,pref[0],"男女都抽","只抽男","只抽女","只抽非二元","男女都抽")
         sexpref.place(x=250,y=100,anchor="center")
         numpref = ttk.OptionMenu(self, pref[1], "单双都抽", "只抽单数", "只抽双数", "单双都抽")
-        numpref.place(x=350, y=100, anchor="center")
+        numpref.place(x=370, y=100, anchor="center")
 
     def loadname(self):
         try:
@@ -100,11 +106,14 @@ class App(tkinter.Tk):
             self.length =len(name["name"])
             self.sexlen[0] = self.names[1].count(0)
             self.sexlen[1] = self.names[1].count(1)
+            self.sexlen[2] = self.names[1].count(2)
             for i in self.names[0]:
                 if self.names[1][self.names[0].index(i)] == 0:
                     self.sexl[0].append(i)
-                else:
+                elif self.names[1][self.names[0].index(i)] == 1:
                     self.sexl[1].append(i)
+                else:
+                    self.sexl[2].append(i)
 
             for i in self.names[0]:
                 if self.names[2][self.names[0].index(i)]%2==0:
