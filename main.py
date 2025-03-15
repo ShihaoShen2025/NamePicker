@@ -12,6 +12,7 @@ import pandas as pd
 
 VERSION = "1.0.1dev"
 VER_NO = 2
+CODENAME = "Firefly"
 class App(tkinter.Tk):
     def __init__(self):
         global allowRepeat,alwaysOnTop,showName,pref
@@ -20,10 +21,10 @@ class App(tkinter.Tk):
         showName = True
         super().__init__()
         self.geometry("450x200")
+        self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
         self.resizable(False, False)
-        self.loadcfg()
         sv_ttk.set_theme(darkdetect.theme())
         pref = [tkinter.StringVar(), tkinter.StringVar()]
         self.loadname()
@@ -37,6 +38,7 @@ class App(tkinter.Tk):
     numl = [[],[]]
     def pick(self):
         global allowRepeat,showName
+        self.loadcfg()
         if pref[0].get() != "男女都抽":
             if pref[0].get() == "只抽男":
                 le = self.sexlen[0]
@@ -131,16 +133,17 @@ class App(tkinter.Tk):
                 r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
             elif config["VER_NO"] > VER_NO:
                 r = showwarning("警告","当前配置文件版本较高，可能会出现一些玄学问题")
+            self.attributes('-topmost',alwaysOnTop)
         except FileNotFoundError:
             cfg = {"VERSION": VERSION,
                    "VER_NO": VER_NO,
+                   "CODENAME": CODENAME,
                    "allowRepeat": False,
                    "alwaysOnTop": True,
                    "showName": True}
             conf = json.dumps(cfg)
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)
-            r = showinfo("完成","没有检测到配置文件，已创建默认配置文件")
 
 
 if __name__ == "__main__":
