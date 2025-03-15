@@ -12,7 +12,7 @@
 8. [x] 支持非二元性别
 9. [ ] 同时抽选多个
 10. [ ] 播报抽选结果
-11. [ ] 与ClassIsland/Class Widgets联动
+11. [x] 与ClassIsland/Class Widgets联动（目前仅实现了Class Widgets联动，见[NamePicker4CW](https://github.com/NamePickerOrg/NamePicker4CW)）
 12. [ ] 手机遥控抽选
 
 ## 运行指南（成品程序）

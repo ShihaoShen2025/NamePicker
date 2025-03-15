@@ -6,19 +6,21 @@ import sv_ttk
 import darkdetect
 import random
 import json
-
 import configgui
 import pandas as pd
+import tempfile
 
+temp_dir = tempfile.gettempdir()
 VERSION = "1.0.1dev"
 VER_NO = 2
 CODENAME = "Firefly"
 class App(tkinter.Tk):
     def __init__(self):
-        global allowRepeat,alwaysOnTop,showName,pref
+        global allowRepeat,alwaysOnTop,showName,SupportCW,pref
         allowRepeat = False
         alwaysOnTop = True
         showName = True
+        SupportCW = False
         super().__init__()
         self.geometry("450x200")
         self.loadcfg()
@@ -75,9 +77,21 @@ class App(tkinter.Tk):
                 ch = tar[chs]
             else:
                 ch = self.names[2][self.names[0].index(tar[chs])]
-            name.config(text=ch)
+            return ch
         else:
             showwarning("警告","没有符合筛选条件的学生")
+            return "尚未抽选"
+
+    def pickcb(self):
+        global SupportCW,temp_dir
+        if SupportCW:
+            with open("%s\\unread"%temp_dir,"w",encoding="utf-8") as f:
+                f.write("111")
+            with open("%s\\res.txt"%temp_dir,"w",encoding="utf-8") as f:
+                f.write(str(self.pick()))
+
+        else:
+            name.config(text=self.pick())
 
     def opencfg(self):
         cfg = configgui.cfgpage(darkdetect.theme())
@@ -87,7 +101,7 @@ class App(tkinter.Tk):
         global name
         name = ttk.Label(self, text="尚未抽选",font=('微软雅黑', 20))
         name.place(x=100, y=100, anchor="center")
-        button = ttk.Button(self, text="点击以抽选", command=self.pick)
+        button = ttk.Button(self, text="点击以抽选", command=self.pickcb)
         button.place(x=300, y=50, anchor="center")
         confb = ttk.Button(self, text="点击打开配置菜单", command=self.opencfg)
         confb.place(x=300, y=150, anchor="center")
@@ -131,13 +145,14 @@ class App(tkinter.Tk):
 
     def loadcfg(self):
         try:
-            global allowRepeat,alwaysOnTop,showName
+            global allowRepeat,alwaysOnTop,showName,SupportCW
             with open("config.json","r",encoding="utf-8") as f:
                 conf = f.read()
             config = json.loads(conf)
             allowRepeat = config["allowRepeat"]
             alwaysOnTop = config["alwaysOnTop"]
             showName = config["showName"]
+            SupportCW = config["SupportCW"]
             if config["VER_NO"] < VER_NO:
                 r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
             elif config["VER_NO"] > VER_NO:
@@ -149,7 +164,8 @@ class App(tkinter.Tk):
                    "CODENAME": CODENAME,
                    "allowRepeat": False,
                    "alwaysOnTop": True,
-                   "showName": True}
+                   "showName": True,
+                   "SupportCW":False}
             conf = json.dumps(cfg)
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)
