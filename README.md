@@ -10,13 +10,13 @@
 2. [x] 人性化（大嘘）的配置修改界面
 3. [x] 从外部读取名单
 4. [x] 特殊点名规则
-5. [ ] 概率内定
+5. [ ] 概率内定（疑似过于缺德了，短时间内不会加）
 6. [ ] 悬浮窗（点击展开主界面）
 7. [ ] 软件内更新
 8. [x] 支持非二元性别
-9. [ ] 同时抽选多个
+9. [x] 同时抽选多个
 10. [ ] 播报抽选结果
-11. [x] 与ClassIsland/Class Widgets联动（Class Widgets联动已上架Plugin Plaza，ClassIsland联动见[NamePicker4CI](https://github.com/NamePickerOrg/NamePicker4CI)）
+11. [x] 与ClassIsland/Class Widgets联动（联动插件均已上架对应软件的插件商城）
 12. [ ] 手机遥控抽选
 13. [ ] 改用PyQt（工作量约等于重写，大概率会拖到中考后，小概率直接忽视）
 
