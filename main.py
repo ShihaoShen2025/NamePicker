@@ -102,7 +102,7 @@ class App(tkinter.Tk):
             if SupportCW:
                 rese = []
                 for i in res:
-                    rese.append("%s（%s）" % (res[0], res[1]))
+                    rese.append("%s（%s）" % (i[0], i[1]))
                 with open("%s\\unread"%temp_dir,"w",encoding="utf-8") as f:
                     f.write("111")
                 with open("%s\\res.txt"%temp_dir,"w",encoding="utf-8") as f:
