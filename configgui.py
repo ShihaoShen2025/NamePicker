@@ -38,7 +38,7 @@ class cfgpage(tkinter.Toplevel):
         cfg = [ttk.Checkbutton(self, text="允许重复点名", variable=cfgvar[0]),
                ttk.Checkbutton(self, text="始终置顶", variable=cfgvar[1]),
                ttk.Checkbutton(self, text="抽选结果显示名字（而非学号）", variable=cfgvar[2]),
-               ttk.Checkbutton(self, text="Class Widegts支持\n启用后不会在主页显示抽选结果，需要安装CW侧插件", variable=cfgvar[3]),
+               ttk.Checkbutton(self, text="课表软件支持\n启用后不会在主页显示抽选结果，需要安装CW/CI侧插件", variable=cfgvar[3]),
                ttk.Label(self,text="当前版本：%s - Codename %s"%(VERSION,CODENAME)),
                ttk.Button(self, text="保存配置", command=self.savecfg)]
         for i in range(len(cfg)):

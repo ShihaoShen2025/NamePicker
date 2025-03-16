@@ -16,7 +16,7 @@
 8. [x] 支持非二元性别
 9. [ ] 同时抽选多个
 10. [ ] 播报抽选结果
-11. [x] 与ClassIsland/Class Widgets联动（目前仅实现了Class Widgets联动，见[NamePicker4CW](https://github.com/NamePickerOrg/NamePicker4CW)）
+11. [x] 与ClassIsland/Class Widgets联动（Class Widgets联动已上架Plugin Plaza，ClassIsland联动见[NamePicker4CI](https://github.com/NamePickerOrg/NamePicker4CI)）
 12. [ ] 手机遥控抽选
 13. [ ] 改用PyQt（工作量约等于重写，大概率会拖到中考后，小概率直接忽视）
 
