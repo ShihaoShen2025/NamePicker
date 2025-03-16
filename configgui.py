@@ -5,8 +5,8 @@ import darkdetect
 import json
 from tkinter.messagebox import *
 
-VERSION = "1.0.1dev"
-VER_NO = 2
+VERSION = "1.0.2dev"
+VER_NO = 3
 CODENAME = "Firefly"
 class cfgpage(tkinter.Toplevel):
     def __init__(self,theme):

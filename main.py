@@ -11,8 +11,8 @@ import pandas as pd
 import tempfile
 
 temp_dir = tempfile.gettempdir()
-VERSION = "1.0.1dev"
-VER_NO = 2
+VERSION = "1.0.2dev"
+VER_NO = 3
 CODENAME = "Firefly"
 class App(tkinter.Tk):
     def __init__(self):
