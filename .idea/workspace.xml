@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:修改workflow打包规则3">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:修改workflow打包规则4">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,7 +310,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742627903361</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="ci:修改workflow打包规则4">
+      <option name="closed" value="true" />
+      <created>1742628146206</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1742628146206</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -340,7 +348,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="完成配置gui界面，写readme" />
     <MESSAGE value="v0.0.1-hotfix1" />
     <MESSAGE value="最终完成v0.0.1" />
     <MESSAGE value="v0.0.1-patch1" />
@@ -365,6 +372,7 @@
     <MESSAGE value="ci:修改workflow打包规则" />
     <MESSAGE value="ci:修改workflow打包规则2" />
     <MESSAGE value="ci:修改workflow打包规则3" />
-    <option name="LAST_COMMIT_MESSAGE" value="ci:修改workflow打包规则3" />
+    <MESSAGE value="ci:修改workflow打包规则4" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci:修改workflow打包规则4" />
   </component>
 </project>
