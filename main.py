@@ -1,3 +1,4 @@
+import os.path
 import sys
 import tkinter
 from tkinter import ttk
@@ -12,7 +13,15 @@ import tempfile
 from PIL import Image,ImageTk
 import pystray
 import threading
+import logging
+import traceback
 
+if os.path.exists("DEBUG"):
+    logging.basicConfig(filename='log.log',encoding="UTF-8",level=logging.DEBUG,filemode='w')
+elif os.path.exists("IDE"):
+    logging.basicConfig(level=logging.DEBUG)
+else:
+    logging.basicConfig(filename='log.log', encoding="UTF-8", level=logging.INFO, filemode='w')
 temp_dir = tempfile.gettempdir()
 VERSION = "1.0.3dev"
 VER_NO = 4
@@ -20,6 +29,7 @@ CODENAME = "Firefly"
 img = Image.open("NamePicker.png")
 img.resize((100,100))
 
+logging.info("⌈飞萤扑火，向死而生⌋")
 class App(tkinter.Toplevel):
     def __init__(self):
         global allowRepeat,alwaysOnTop,showName,SupportCW,pref,pickNames,pns
@@ -42,6 +52,7 @@ class App(tkinter.Toplevel):
         pns.set(1)
         self.loadname()
         self.createWidget()
+        self.report_callback_exception = self.handle_exception
     names = []
     chosen = []
     length = 0
@@ -84,10 +95,12 @@ class App(tkinter.Toplevel):
                     while chs in self.chosen:
                         chs = random.randint(0, le-1)
                 self.chosen.append(chs)
-
+                logging.debug(self.chosen)
+            logging.info("抽选完成")
             return [tar[chs],self.names[2][self.names[0].index(tar[chs])]]
         else:
             showwarning("警告","没有符合筛选条件的学生")
+            logging.warning("没有符合筛选条件的学生")
             return ["尚未抽选","尚未抽选"]
 
     def pickcb(self):
@@ -100,9 +113,10 @@ class App(tkinter.Toplevel):
                     f.write("111")
                 with open("%s\\res.txt"%temp_dir,"w",encoding="utf-8") as f:
                     f.write("%s（%s）"%(res[0],res[1]))
-
+                logging.info("写入名单完成")
             else:
                 name.insert("","end", values=res)
+                logging.info("写入名单完成")
         else:
             res = []
             for i in range(pickNames):
@@ -115,18 +129,22 @@ class App(tkinter.Toplevel):
                     f.write("111")
                 with open("%s\\res.txt"%temp_dir,"w",encoding="utf-8") as f:
                     f.write("，".join(rese))
+                logging.info("写入名单完成")
             else:
                 for i in res:
                     name.insert("", "end", values=i)
+                logging.info("写入名单完成")
 
 
     def opencfg(self):
         cfg = configgui.cfgpage(darkdetect.theme())
         cfg.mainloop()
+        logging.info("打开配置菜单")
 
     def updatenames(self):
         global pickNames,pns
         pickNames = pns.get()
+        logging.debug("updatenames被调用")
 
     def createWidget(self):
         global name
@@ -149,6 +167,7 @@ class App(tkinter.Toplevel):
         sexpref.place(x=250,y=100,anchor="center")
         numpref = ttk.OptionMenu(self, pref[1], "单双都抽", "只抽单数", "只抽双数", "单双都抽")
         numpref.place(x=370, y=100, anchor="center")
+        logging.info("组件设置完成")
 
     def loadname(self):
         try:
@@ -176,11 +195,13 @@ class App(tkinter.Toplevel):
                     self.numl[1].append(i)
             self.numlen[0] = len(self.numl[0])
             self.numlen[1] = len(self.numl[1])
+            logging.info("名单导入完成")
         except FileNotFoundError:
             with open("names.csv","w",encoding="utf-8") as f:
                 st  = ["name,sex,no\n","example,0,1"]
                 f.writelines(st)
             r = showwarning("警告","检测到names.csv不存在，已为您创建样板文件，请修改")
+            logging.warning("names.csv不存在")
             sys.exit(114514)
 
     def loadcfg(self):
@@ -194,8 +215,10 @@ class App(tkinter.Toplevel):
             SupportCW = config["SupportCW"]
             if config["VER_NO"] < VER_NO:
                 r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
+                logging.warning("当前配置文件版本较低")
             elif config["VER_NO"] > VER_NO:
                 r = showwarning("警告","当前配置文件版本较高，可能会出现一些玄学问题")
+                logging.warning("当前配置文件版本较高")
             self.attributes('-topmost',alwaysOnTop)
         except FileNotFoundError:
             cfg = {"VERSION": VERSION,
@@ -207,6 +230,10 @@ class App(tkinter.Toplevel):
             conf = json.dumps(cfg)
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)
+            logging.warning("没有找到config.json")
+
+    def handle_exception(sel,exception, value, trace):
+        logging.error(traceback.format_exc())
 
 class Shortcut(tkinter.Tk):
     def __init__(self):
@@ -218,6 +245,11 @@ class Shortcut(tkinter.Tk):
         self.photo = None
         self.dragging = False
         self.pack_widgets()
+        self.report_callback_exception = self.handle_exception
+        logging.info("浮窗初始化完成")
+
+    def handle_exception(sel,exception, value, trace):
+        logging.error(traceback.format_exc())
 
     def pack_widgets(self):
         global img
@@ -229,11 +261,13 @@ class Shortcut(tkinter.Tk):
         can.pack()
         can.bind("<B1-Motion>", self.move_window)
         can.bind("<ButtonRelease-1>", self.calls)
+        logging.info("浮窗组件绑定事件完成")
         menu = (pystray.MenuItem(text='打开软件窗口', action=self.calls),
                 pystray.MenuItem(text='退出', action=self.quit_window)
                 )
         icon = pystray.Icon("name", img, "NamePicker", menu)
         threading.Thread(target=icon.run, daemon=True).start()
+        logging.info("浮窗组件设置完成")
 
     def move_window(self,event):
         self.dragging = True
@@ -242,13 +276,14 @@ class Shortcut(tkinter.Tk):
     def calls(self,event):
         if self.dragging:
             self.dragging = False
+            logging.debug("结束拖拽")
         else:
+            logging.debug("点击回调函数")
             app = App()
             app.mainloop()
 
     def quit_window(self):
         self.destroy()
-
 
 if __name__ == "__main__":
     sh = Shortcut()
