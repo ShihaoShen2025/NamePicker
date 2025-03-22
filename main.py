@@ -11,10 +11,12 @@ import pandas as pd
 import tempfile
 
 temp_dir = tempfile.gettempdir()
-VERSION = "1.0.2dev"
-VER_NO = 3
+VERSION = "1.0.3dev"
+VER_NO = 4
 CODENAME = "Firefly"
-class App(tkinter.Tk):
+photo = None
+
+class App(tkinter.Toplevel):
     def __init__(self):
         global allowRepeat,alwaysOnTop,showName,SupportCW,pref,pickNames,pns
         allowRepeat = False
@@ -200,7 +202,31 @@ class App(tkinter.Tk):
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)
 
+class Shortcut(tkinter.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("100x100")
+        self.overrideredirect(True)
+        self.attributes('-topmost', True)
+        sv_ttk.set_theme(darkdetect.theme())
+        self.pack_widgets()
+
+    def pack_widgets(self):
+        frame = ttk.Frame(self,width=100,height=100)
+        frame.pack(anchor="center")
+        frame.bind("<B1-Motion>", self.move_window)
+        frame.bind("<ButtonRelease-1>", self.calls)
+
+    def move_window(self,event):
+        self.geometry("+{0}+{1}".format(event.x_root-50, event.y_root-50))
+
+    def calls(self,event):
+        app = App()
+        app.mainloop()
+
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    # app = App()
+    # app.mainloop()
+    sh = Shortcut()
+    sh.mainloop()

@@ -1,5 +1,5 @@
 <div align="center">
-<img src="NamePicker.png" alt="icon" width="18%">
+<img src="assets\NamePicker.png" alt="icon" width="18%">
 <h1>NamePicker</h1>
 <h3>一款简洁的点名软件</h3>
 </div>
@@ -69,6 +69,7 @@ PS:不建议设置重复的学号和姓名，以免在使用时带来困扰
 
 图形化的编辑界面见[NP-NameEditor](https://github.com/NamePickerOrg/NP-NameEditor)
 
+当然，也没人拦着你用Excel或WPS Office编辑，但是请记住 _**务必使用UTF-8编码保存**_ ，否则会导致无法读取名单
 ### Q:杀毒软件认为这是病毒软件
 
 A:将该软件添加至杀毒软件的白名单/信任区中，本软件保证不含病毒，您可以亲自审查代码，如果还是觉得不放心可以不使用
