@@ -38,12 +38,39 @@ jobs:
           mode: app
           enable-plugins: tk-inter
           windows-console-mode: attach
+          windows-icon-from-ico: favicon.ico
+          linux-icon: favicon.ico
+
+  pack_linux:
+    if: ${{ matrix.os }} == 'ubuntu-latest'
+    steps:
+      - name: Pack Together
+        run: |
+          mkdir pub
+          mv ${{ github.workspace }}/build/main.bin ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.exe
-            ${{ github.workspace }}/build/main.bin
+            ${{ github.workspace }}/pub
+          include-hidden-files: true
+
+  pack_windows:
+    if: ${{ matrix.os }} == 'windows-latest'
+    steps:
+      - name: Pack Together
+        run: |
+          mkdir ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/build/main.exe ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NamePicker-Action-${{ runner.os }}
+          path: |
+            ${{ github.workspace }}/pub
           include-hidden-files: true
