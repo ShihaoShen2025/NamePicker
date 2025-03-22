@@ -23,8 +23,8 @@ elif os.path.exists("IDE"):
 else:
     logging.basicConfig(filename='log.log', encoding="UTF-8", level=logging.INFO, filemode='w')
 temp_dir = tempfile.gettempdir()
-VERSION = "1.0.3dev"
-VER_NO = 4
+VERSION = "1.1.0rel"
+VER_NO = 5
 CODENAME = "Firefly"
 img = Image.open("NamePicker.png")
 img.resize((100,100))
