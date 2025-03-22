@@ -9,12 +9,16 @@ import json
 import configgui
 import pandas as pd
 import tempfile
+from PIL import Image,ImageTk
+import pystray
+import threading
 
 temp_dir = tempfile.gettempdir()
 VERSION = "1.0.3dev"
 VER_NO = 4
 CODENAME = "Firefly"
-photo = None
+img = Image.open("NamePicker.png")
+img.resize((100,100))
 
 class App(tkinter.Toplevel):
     def __init__(self):
@@ -26,6 +30,8 @@ class App(tkinter.Toplevel):
         pickNames = 1
         super().__init__()
         self.geometry("450x200")
+        self.iconbitmap("favicon.ico")
+        self.wm_iconbitmap("favicon.ico")
         self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
@@ -209,24 +215,41 @@ class Shortcut(tkinter.Tk):
         self.overrideredirect(True)
         self.attributes('-topmost', True)
         sv_ttk.set_theme(darkdetect.theme())
+        self.photo = None
+        self.dragging = False
         self.pack_widgets()
 
     def pack_widgets(self):
+        global img
+        self.photo = ImageTk.PhotoImage(img)
         frame = ttk.Frame(self,width=100,height=100)
         frame.pack(anchor="center")
-        frame.bind("<B1-Motion>", self.move_window)
-        frame.bind("<ButtonRelease-1>", self.calls)
+        can = tkinter.Canvas(frame,width=100,height=100)
+        can.create_image(50,50,image=self.photo)
+        can.pack()
+        can.bind("<B1-Motion>", self.move_window)
+        can.bind("<ButtonRelease-1>", self.calls)
+        menu = (pystray.MenuItem(text='打开软件窗口', action=self.calls),
+                pystray.MenuItem(text='退出', action=self.quit_window)
+                )
+        icon = pystray.Icon("name", img, "NamePicker", menu)
+        threading.Thread(target=icon.run, daemon=True).start()
 
     def move_window(self,event):
+        self.dragging = True
         self.geometry("+{0}+{1}".format(event.x_root-50, event.y_root-50))
 
     def calls(self,event):
-        app = App()
-        app.mainloop()
+        if self.dragging:
+            self.dragging = False
+        else:
+            app = App()
+            app.mainloop()
+
+    def quit_window(self):
+        self.destroy()
 
 
 if __name__ == "__main__":
-    # app = App()
-    # app.mainloop()
     sh = Shortcut()
     sh.mainloop()
