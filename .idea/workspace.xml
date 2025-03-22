@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成v1.1.0 Release">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:欸艹忘记加requirements.txt了，火速补上">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -334,7 +335,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742635086740</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="feat:欸艹忘记加requirements.txt了，火速补上">
+      <option name="closed" value="true" />
+      <created>1742635817764</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1742635817764</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -364,7 +373,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.0.1-patch1" />
     <MESSAGE value="v0.0.1-patch1 补充requirements.txt，修改readme" />
     <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
     <MESSAGE value="fix:修复了配置界面和主界面风格不同的问题，更新到1.0.0 Release(v1.0.0rel)" />
@@ -389,6 +397,7 @@
     <MESSAGE value="ci:修改workflow打包规则4" />
     <MESSAGE value="ci:修改workflow打包规则5" />
     <MESSAGE value="feat:完成v1.1.0 Release" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:完成v1.1.0 Release" />
+    <MESSAGE value="feat:欸艹忘记加requirements.txt了，火速补上" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:欸艹忘记加requirements.txt了，火速补上" />
   </component>
 </project>
