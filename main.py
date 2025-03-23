@@ -149,7 +149,7 @@ class App(tkinter.Toplevel):
         global name
         scroll_v = ttk.Scrollbar(self)
         scroll_v.pack(side="right",fill="y")
-        name = ttk.Treeview(self, height=10,columns=["姓名","学号"],show='headings',yscrollcommand=scroll_v.set)
+        name = ttk.Treeview(self, height=8,columns=["姓名","学号"],show='headings',yscrollcommand=scroll_v.set)
         name.heading('姓名', text='姓名')
         name.heading('学号', text='学号')
         name.column("姓名",width=75)
