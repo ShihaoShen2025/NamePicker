@@ -23,7 +23,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
-          
+
       - name: Python GUI With TkInter
         uses: Nuitka/Nuitka-Action@main
         with:
@@ -32,9 +32,15 @@ jobs:
           mode: app
           enable-plugins: tk-inter
           windows-console-mode: attach
-          windows-icon-from-ico: assets/favicon.ico
-          linux-icon: assets/favicon.ico
-          include-data-dir: assets=assets
+          windows-icon-from-ico: favicon.ico
+          linux-icon: favicon.ico
+
+      - name: Pack
+        run: |
+          mkdir pub
+          copy ${{ github.workspace }}/build/main.exe ${{ github.workspace }}/pub
+          copy ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
+          copy ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
 
       - name: Upload Artifacts
         if: ${{ matrix.os }} == 'windows-latest'
@@ -42,7 +48,7 @@ jobs:
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.exe
+            ${{ github.workspace }}/pub
           include-hidden-files: true
 
   build_linux:
@@ -73,9 +79,16 @@ jobs:
           mode: app
           enable-plugins: tk-inter
           windows-console-mode: attach
-          windows-icon-from-ico: assets/favicon.ico
-          linux-icon: assets/favicon.ico
-          include-data-dir: assets=assets
+          windows-icon-from-ico: favicon.ico
+          linux-icon: favicon.ico
+
+      - name: Pack
+        if: ${{ matrix.os }} == 'ubuntu-latest'
+        run: |
+          mkdir pub
+          mv ${{ github.workspace }}/build/main.bin ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
 
       - name: Upload Artifacts
         if: ${{ matrix.os }} == 'ubuntu-latest'
@@ -83,5 +96,5 @@ jobs:
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.bin
+            ${{ github.workspace }}/pub
           include-hidden-files: true

@@ -26,7 +26,7 @@ temp_dir = tempfile.gettempdir()
 VERSION = "1.1.1dev"
 VER_NO = 6
 CODENAME = "Sonetto"
-img = Image.open("assets/NamePicker.png")
+img = Image.open("NamePicker.png")
 img.resize((100,100))
 
 logging.info("⌈晴朗和静谧统治着一切⌋")
@@ -40,8 +40,7 @@ class App(tkinter.Toplevel):
         pickNames = 1
         super().__init__()
         self.geometry("450x200")
-        self.iconbitmap("assets/favicon.ico")
-        self.wm_iconbitmap("assets/favicon.ico")
+        self.iconbitmap("favicon.ico")
         self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
