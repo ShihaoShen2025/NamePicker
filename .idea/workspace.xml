@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="fix:修复了抽选8-10个时部分名字无法显示的问题" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:悬浮窗位置更加友好">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -404,7 +407,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742712933661</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="feat:悬浮窗位置更加友好">
+      <option name="closed" value="true" />
+      <created>1742713493467</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1742713493467</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -434,7 +445,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:添加CODENAME（开发代号字段），并使配置可以半热切换" />
     <MESSAGE value="feat:添加抽选非二元功能" />
     <MESSAGE value="feat:完成与Class Widgets联动功能" />
     <MESSAGE value="feat:完成与Class Widgets联动功能，完成1.0.1dev" />
@@ -459,6 +469,7 @@
     <MESSAGE value="ci:继续调整workflow" />
     <MESSAGE value="ci:使用一种原始手段撤回对workflow的更改" />
     <MESSAGE value="fix:修复了抽选8-10个时部分名字无法显示的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix:修复了抽选8-10个时部分名字无法显示的问题" />
+    <MESSAGE value="feat:悬浮窗位置更加友好" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:悬浮窗位置更加友好" />
   </component>
 </project>
