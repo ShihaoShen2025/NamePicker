@@ -39,7 +39,9 @@ class App(tkinter.Toplevel):
         SupportCW = False
         pickNames = 1
         super().__init__()
-        self.geometry("450x200")
+        w = self.winfo_screenwidth()
+        h = self.winfo_screenheight()
+        self.geometry("450x200+%d+%d"%(w*0.6,h*0.6))
         self.iconbitmap("favicon.ico")
         self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
@@ -237,7 +239,9 @@ class App(tkinter.Toplevel):
 class Shortcut(tkinter.Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("100x100")
+        w = self.winfo_screenwidth()
+        h = self.winfo_screenheight()
+        self.geometry("100x100+%d+%d"%(w*0.7,h*0.7))
         self.overrideredirect(True)
         self.attributes('-topmost', True)
         sv_ttk.set_theme(darkdetect.theme())
