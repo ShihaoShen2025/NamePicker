@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="doc:修改issue模板">
-      <change beforePath="$PROJECT_DIR$/NamePicker.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/NamePicker.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/assets/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat&amp;ci:调整目录结构，调整workflow">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -368,7 +366,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742692764090</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="feat&amp;ci:调整目录结构，调整workflow">
+      <option name="closed" value="true" />
+      <created>1742693160765</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1742693160765</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -398,7 +404,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:开启1.0.1dev" />
     <MESSAGE value="feat:在配置界面可以查看版本号，顺带测试Action自动构建" />
     <MESSAGE value="feat:改action" />
     <MESSAGE value="feat:我最喜欢改action了" />
@@ -423,6 +428,7 @@
     <MESSAGE value="ci:修正workflow" />
     <MESSAGE value="feat:开启1.1.1dev，代号Sonetto" />
     <MESSAGE value="doc:修改issue模板" />
-    <option name="LAST_COMMIT_MESSAGE" value="doc:修改issue模板" />
+    <MESSAGE value="feat&amp;ci:调整目录结构，调整workflow" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat&amp;ci:调整目录结构，调整workflow" />
   </component>
 </project>
