@@ -34,7 +34,7 @@ jobs:
           windows-console-mode: attach
           windows-icon-from-ico: assets/favicon.ico
           linux-icon: assets/favicon.ico
-          include-data-dir: assets=./assets
+          include-data-dir: assets=assets
 
       - name: Upload Artifacts
         if: ${{ matrix.os }} == 'windows-latest'
@@ -75,7 +75,7 @@ jobs:
           windows-console-mode: attach
           windows-icon-from-ico: assets/favicon.ico
           linux-icon: assets/favicon.ico
-          include-data-dir: assets=./assets
+          include-data-dir: assets=assets
 
       - name: Upload Artifacts
         if: ${{ matrix.os }} == 'ubuntu-latest'
