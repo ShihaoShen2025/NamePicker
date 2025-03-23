@@ -23,13 +23,13 @@ elif os.path.exists("IDE"):
 else:
     logging.basicConfig(filename='log.log', encoding="UTF-8", level=logging.INFO, filemode='w')
 temp_dir = tempfile.gettempdir()
-VERSION = "1.1.0rel"
-VER_NO = 5
-CODENAME = "Firefly"
+VERSION = "1.1.1dev"
+VER_NO = 6
+CODENAME = "Sonetto"
 img = Image.open("NamePicker.png")
 img.resize((100,100))
 
-logging.info("⌈飞萤扑火，向死而生⌋")
+logging.info("⌈晴朗和静谧统治着一切⌋")
 class App(tkinter.Toplevel):
     def __init__(self):
         global allowRepeat,alwaysOnTop,showName,SupportCW,pref,pickNames,pns
