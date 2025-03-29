@@ -9,13 +9,13 @@ VERSION = "1.1.1dev"
 VER_NO = 6
 CODENAME = "Sonetto"
 class cfgpage(tkinter.Toplevel):
-    def __init__(self,theme):
+    def __init__(self):
         global cfgvar
         super().__init__()
         self.geometry("450x320")
         self.title("NamePicker - 配置菜单")
         self.resizable(False, False)
-        sv_ttk.set_theme(theme)
+        sv_ttk.set_theme(darkdetect.theme())
         cfgvar = [tkinter.IntVar(), tkinter.IntVar(),tkinter.IntVar(),tkinter.IntVar()]
         self.loadcfg()
         self.createWidget()
@@ -63,5 +63,5 @@ class cfgpage(tkinter.Toplevel):
         self.setcfg(cfgvar[2], config["SupportCW"])
 
 if __name__ == "__main__":
-    app = cfgpage(darkdetect.theme())
+    app = cfgpage()
     app.mainloop()

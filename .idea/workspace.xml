@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:悬浮窗位置更加友好">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:组件使用相对坐标">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -415,7 +416,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742713493467</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="feat:组件使用相对坐标">
+      <option name="closed" value="true" />
+      <created>1742715025723</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1742715025723</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -445,7 +454,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:添加抽选非二元功能" />
     <MESSAGE value="feat:完成与Class Widgets联动功能" />
     <MESSAGE value="feat:完成与Class Widgets联动功能，完成1.0.1dev" />
     <MESSAGE value="feat:开v1.0.2dev，改README" />
@@ -470,6 +478,7 @@
     <MESSAGE value="ci:使用一种原始手段撤回对workflow的更改" />
     <MESSAGE value="fix:修复了抽选8-10个时部分名字无法显示的问题" />
     <MESSAGE value="feat:悬浮窗位置更加友好" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:悬浮窗位置更加友好" />
+    <MESSAGE value="feat:组件使用相对坐标" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:组件使用相对坐标" />
   </component>
 </project>

@@ -64,7 +64,6 @@ class App(tkinter.Toplevel):
 
     def pick(self):
         global allowRepeat,showName
-        self.loadcfg()
         if pref[0].get() != "男女都抽":
             if pref[0].get() == "只抽男":
                 le = self.sexlen[0]
@@ -106,6 +105,7 @@ class App(tkinter.Toplevel):
 
     def pickcb(self):
         global SupportCW,temp_dir,pickNames
+        self.loadcfg()
         name.delete(*name.get_children())
         if pickNames == 1:
             res = self.pick()
@@ -138,7 +138,7 @@ class App(tkinter.Toplevel):
 
 
     def opencfg(self):
-        cfg = configgui.cfgpage(darkdetect.theme())
+        cfg = configgui.cfgpage()
         cfg.mainloop()
         logging.info("打开配置菜单")
 
