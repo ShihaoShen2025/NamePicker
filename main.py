@@ -46,7 +46,6 @@ class App(tkinter.Toplevel):
         self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
-        self.resizable(False, False)
         sv_ttk.set_theme(darkdetect.theme())
         pref = [tkinter.StringVar(), tkinter.StringVar()]
         pns = tkinter.IntVar()
@@ -156,7 +155,7 @@ class App(tkinter.Toplevel):
         name.heading('学号', text='学号')
         name.column("姓名",width=75)
         name.column("学号", width=75)
-        name.place(relx=0,rely=0,anchor="nw")
+        name.place(relx=0,rely=0,anchor="nw",relheight=1)
         scroll_v.config(command=name.yview)
         button = ttk.Button(self, text="点击以抽选", command=self.pickcb)
         button.place(relx=0.53, rely=0.25, anchor="center")
