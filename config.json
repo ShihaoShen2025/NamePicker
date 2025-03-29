@@ -1,1 +1,1 @@
-{"VERSION": "1.1.1dev", "VER_NO": 6, "CODENAME": "Sonetto", "allowRepeat": false, "alwaysOnTop": true, "SupportCW": false}
+{"VERSION": "1.1.1dev", "VER_NO": 6, "CODENAME": "Sonetto", "allowRepeat": false, "alwaysOnTop": true, "SupportCW": false, "logLevel": "Debug", "consoleOutput": true}

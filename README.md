@@ -6,6 +6,12 @@
 
 [QQ群（群号2153027375）](https://qm.qq.com/q/fTjhKuAlCU)
 
+> [!caution]
+> 
+> NamePicker是一款完全开源且免费的软件，官方也没有提供任何付费服务
+> 
+> 如果您需要在某处售卖NamePicker，或者需要提供有关NamePicker的付费服务，请参照[该指南](https://www.baidu.com/s?wd=家里人全死光了怎么办)
+
 ## 功能清单/大饼
 > 由于Tkinter过于原始，迁移至PyQt的计划将会提前
 

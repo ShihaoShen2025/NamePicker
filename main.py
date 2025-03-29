@@ -16,12 +16,25 @@ import threading
 import logging
 import traceback
 
-if os.path.exists("DEBUG"):
-    logging.basicConfig(filename='log.log',encoding="UTF-8",level=logging.DEBUG,filemode='w')
-elif os.path.exists("IDE"):
-    logging.basicConfig(level=logging.DEBUG)
+with open("config.json", "r", encoding="utf-8") as f:
+    confc = f.read()
+cc = json.loads(confc)
+
+def returnLevel(lev):
+    if lev == "Debug":
+        return logging.DEBUG
+    elif lev == "Info":
+        return logging.INFO
+    elif lev == "Warning":
+        return logging.WARNING
+    else:
+        return logging.ERROR
+
+if cc["consoleOutput"]:
+    logging.basicConfig(level=returnLevel(cc["logLevel"]))
 else:
-    logging.basicConfig(filename='log.log', encoding="UTF-8", level=logging.INFO, filemode='w')
+    logging.basicConfig(filename='log.log', encoding="UTF-8", level=returnLevel(cc["logLevel"]), filemode='w')
+
 temp_dir = tempfile.gettempdir()
 VERSION = "1.1.1dev"
 VER_NO = 6
@@ -226,7 +239,9 @@ class App(tkinter.Toplevel):
                    "CODENAME": CODENAME,
                    "allowRepeat": False,
                    "alwaysOnTop": True,
-                   "SupportCW":False}
+                   "SupportCW":False,
+                   "logLevel":"Info",
+                   "consoleOutput":False}
             conf = json.dumps(cfg)
             with open("config.json", "w", encoding="utf-8") as f:
                 f.write(conf)
