@@ -1,4 +1,3 @@
-import os.path
 import sys
 import tkinter
 from tkinter import ttk
@@ -15,6 +14,8 @@ import pystray
 import threading
 import logging
 import traceback
+import pywinstyles
+import os
 
 with open("config.json", "r", encoding="utf-8") as f:
     confc = f.read()
@@ -59,6 +60,8 @@ class App(tkinter.Toplevel):
         self.loadcfg()
         self.attributes('-topmost',alwaysOnTop)
         self.title("NamePicker - 随机抽选")
+        if os.name == "nt":
+            self.apply_theme_to_titlebar()
         sv_ttk.set_theme(darkdetect.theme())
         pref = [tkinter.StringVar(), tkinter.StringVar()]
         pns = tkinter.IntVar()
@@ -73,6 +76,16 @@ class App(tkinter.Toplevel):
     sexl = [[],[],[]]
     numlen = [0,0]
     numl = [[],[]]
+
+    def apply_theme_to_titlebar(self):
+        version = sys.getwindowsversion()
+
+        if version.major == 10 and version.build >= 22000:
+            pywinstyles.change_header_color(self, "#1c1c1c" if sv_ttk.get_theme() == "dark" else "#fafafa")
+        elif version.major == 10:
+            pywinstyles.apply_style(self, "dark" if sv_ttk.get_theme() == "dark" else "normal")
+            self.wm_attributes("-alpha", 0.99)
+            self.wm_attributes("-alpha", 1)
 
     def pick(self):
         global allowRepeat,showName

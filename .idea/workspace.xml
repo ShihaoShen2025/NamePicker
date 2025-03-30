@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完善日志功能，完成v1.1.1dev">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:开启v1.1.2dev">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -479,7 +482,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743241212472</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="feat:开启v1.1.2dev">
+      <option name="closed" value="true" />
+      <created>1743302732845</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1743302732845</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -509,7 +520,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:支持抽选多个" />
     <MESSAGE value="feat:修复若干文本错误，完成v1.0.2" />
     <MESSAGE value="feat:浮窗完成50%，起v1.0.3dev" />
     <MESSAGE value="feat:完成浮窗" />
@@ -534,6 +544,7 @@
     <MESSAGE value="feat:主界面可调节大小" />
     <MESSAGE value="feat:翻新配置界面" />
     <MESSAGE value="feat:完善日志功能，完成v1.1.1dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:完善日志功能，完成v1.1.1dev" />
+    <MESSAGE value="feat:开启v1.1.2dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:开启v1.1.2dev" />
   </component>
 </project>
