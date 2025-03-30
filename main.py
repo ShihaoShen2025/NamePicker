@@ -36,8 +36,8 @@ else:
     logging.basicConfig(filename='log.log', encoding="UTF-8", level=returnLevel(cc["logLevel"]), filemode='w')
 
 temp_dir = tempfile.gettempdir()
-VERSION = "1.1.1dev"
-VER_NO = 6
+VERSION = "1.1.2dev"
+VER_NO = 7
 CODENAME = "Sonetto"
 img = Image.open("NamePicker.png")
 img.resize((100,100))
