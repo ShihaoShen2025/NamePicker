@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:优化了配置页深色模式标题栏">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:修改工作流">
       <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -504,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743307874167</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="ci:修改工作流">
+      <option name="closed" value="true" />
+      <created>1743311847057</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1743311847057</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -534,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:完成浮窗" />
     <MESSAGE value="ci:修改workflow打包规则" />
     <MESSAGE value="ci:修改workflow打包规则2" />
     <MESSAGE value="ci:修改workflow打包规则3" />
@@ -559,6 +566,7 @@
     <MESSAGE value="feat:开启v1.1.2dev" />
     <MESSAGE value="feat:优化了深色模式标题栏" />
     <MESSAGE value="feat:优化了配置页深色模式标题栏" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:优化了配置页深色模式标题栏" />
+    <MESSAGE value="ci:修改工作流" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci:修改工作流" />
   </component>
 </project>

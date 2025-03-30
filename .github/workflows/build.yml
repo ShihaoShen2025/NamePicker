@@ -14,8 +14,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          python-version: '3.9'
+          architecture: 'x64'
           cache: 'pip'
           cache-dependency-path: |
             **/requirements*.txt
@@ -29,7 +29,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: standalone
+          mode: app
           enable-plugins: tk-inter
           windows-console-mode: attach
           windows-icon-from-ico: favicon.ico
@@ -38,12 +38,11 @@ jobs:
       - name: Pack
         run: |
           mkdir pub
-          copy ${{ github.workspace }}/build ${{ github.workspace }}/pub
+          copy ${{ github.workspace }}/build/main.exe ${{ github.workspace }}/pub
           copy ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
           copy ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
 
       - name: Upload Artifacts
-        if: ${{ matrix.os }} == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
           name: NamePicker-Action-${{ runner.os }}
@@ -61,8 +60,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          python-version: '3.9'
+          architecture: 'x64'
           cache: 'pip'
           cache-dependency-path: |
             **/requirements*.txt
@@ -76,22 +75,20 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: standalone
+          mode: app
           enable-plugins: tk-inter
           windows-console-mode: attach
           windows-icon-from-ico: favicon.ico
           linux-icon: favicon.ico
 
       - name: Pack
-        if: ${{ matrix.os }} == 'ubuntu-latest'
         run: |
           mkdir pub
-          mv ${{ github.workspace }}/build ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/build/main.bin ${{ github.workspace }}/pub
           mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
           mv ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
 
       - name: Upload Artifacts
-        if: ${{ matrix.os }} == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
           name: NamePicker-Action-${{ runner.os }}
