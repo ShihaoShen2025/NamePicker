@@ -4,6 +4,9 @@ import sv_ttk
 import darkdetect
 import json
 from tkinter.messagebox import *
+import os
+import sys
+import pywinstyles
 
 VERSION = "1.1.2dev"
 VER_NO = 7
@@ -17,6 +20,8 @@ class cfgpage(tkinter.Toplevel):
         sv_ttk.set_theme(darkdetect.theme())
         cfgvar = [tkinter.IntVar(), tkinter.IntVar(),tkinter.IntVar(),tkinter.StringVar(),tkinter.IntVar()]
         self.loadcfg()
+        if os.name == "nt":
+            self.apply_theme_to_titlebar()
         self.createWidget()
 
     def savecfg(self):
@@ -32,6 +37,16 @@ class cfgpage(tkinter.Toplevel):
         with open("config.json","w",encoding="utf-8") as f:
             f.write(conf)
         res = showinfo("完成","更改已保存，进行一次抽选以应用更改\n某些设置可能需要重启应用来应用")
+
+    def apply_theme_to_titlebar(self):
+        version = sys.getwindowsversion()
+
+        if version.major == 10 and version.build >= 22000:
+            pywinstyles.change_header_color(self, "#1c1c1c" if sv_ttk.get_theme() == "dark" else "#fafafa")
+        elif version.major == 10:
+            pywinstyles.apply_style(self, "dark" if sv_ttk.get_theme() == "dark" else "normal")
+            self.wm_attributes("-alpha", 0.99)
+            self.wm_attributes("-alpha", 1)
 
     def createWidget(self):
         pages = ttk.Notebook(self)

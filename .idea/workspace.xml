@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:开启v1.1.2dev">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:优化了深色模式标题栏">
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -490,7 +488,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743302732845</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="feat:优化了深色模式标题栏">
+      <option name="closed" value="true" />
+      <created>1743307688276</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1743307688276</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -520,7 +526,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:修复若干文本错误，完成v1.0.2" />
     <MESSAGE value="feat:浮窗完成50%，起v1.0.3dev" />
     <MESSAGE value="feat:完成浮窗" />
     <MESSAGE value="ci:修改workflow打包规则" />
@@ -545,6 +550,7 @@
     <MESSAGE value="feat:翻新配置界面" />
     <MESSAGE value="feat:完善日志功能，完成v1.1.1dev" />
     <MESSAGE value="feat:开启v1.1.2dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:开启v1.1.2dev" />
+    <MESSAGE value="feat:优化了深色模式标题栏" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:优化了深色模式标题栏" />
   </component>
 </project>
