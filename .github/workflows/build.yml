@@ -29,7 +29,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: app
+          mode: standalone
           enable-plugins: tk-inter
           windows-console-mode: attach
           windows-icon-from-ico: favicon.ico
@@ -38,7 +38,7 @@ jobs:
       - name: Pack
         run: |
           mkdir pub
-          copy ${{ github.workspace }}/build/main.exe ${{ github.workspace }}/pub
+          copy ${{ github.workspace }}/build ${{ github.workspace }}/pub
           copy ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
           copy ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
 
@@ -76,7 +76,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: app
+          mode: standalone
           enable-plugins: tk-inter
           windows-console-mode: attach
           windows-icon-from-ico: favicon.ico
@@ -86,7 +86,7 @@ jobs:
         if: ${{ matrix.os }} == 'ubuntu-latest'
         run: |
           mkdir pub
-          mv ${{ github.workspace }}/build/main.bin ${{ github.workspace }}/pub
+          mv ${{ github.workspace }}/build ${{ github.workspace }}/pub
           mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
           mv ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
 

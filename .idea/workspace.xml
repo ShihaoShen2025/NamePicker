@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:优化了深色模式标题栏">
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/configgui.py" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:优化了配置页深色模式标题栏">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -496,7 +496,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743307688276</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="feat:优化了配置页深色模式标题栏">
+      <option name="closed" value="true" />
+      <created>1743307874167</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1743307874167</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -526,7 +534,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:浮窗完成50%，起v1.0.3dev" />
     <MESSAGE value="feat:完成浮窗" />
     <MESSAGE value="ci:修改workflow打包规则" />
     <MESSAGE value="ci:修改workflow打包规则2" />
@@ -551,6 +558,7 @@
     <MESSAGE value="feat:完善日志功能，完成v1.1.1dev" />
     <MESSAGE value="feat:开启v1.1.2dev" />
     <MESSAGE value="feat:优化了深色模式标题栏" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:优化了深色模式标题栏" />
+    <MESSAGE value="feat:优化了配置页深色模式标题栏" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:优化了配置页深色模式标题栏" />
   </component>
 </project>
