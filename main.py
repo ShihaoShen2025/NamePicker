@@ -17,9 +17,27 @@ import traceback
 import pywinstyles
 import os
 
-with open("config.json", "r", encoding="utf-8") as f:
-    confc = f.read()
-cc = json.loads(confc)
+VERSION = "1.1.2dev"
+VER_NO = 7
+CODENAME = "Sonetto"
+
+try:
+    with open("config.json", "r", encoding="utf-8") as f:
+        confc = f.read()
+    cc = json.loads(confc)
+except FileNotFoundError:
+    cfg = {"VERSION": VERSION,
+           "VER_NO": VER_NO,
+           "CODENAME": CODENAME,
+           "allowRepeat": False,
+           "alwaysOnTop": True,
+           "SupportCW": False,
+           "logLevel": "Info",
+           "consoleOutput": False}
+    conf = json.dumps(cfg)
+    with open("config.json", "w", encoding="utf-8") as f:
+        f.write(conf)
+    logging.warning("没有找到config.json")
 
 def returnLevel(lev):
     if lev == "Debug":
@@ -37,9 +55,6 @@ else:
     logging.basicConfig(filename='log.log', encoding="UTF-8", level=returnLevel(cc["logLevel"]), filemode='w')
 
 temp_dir = tempfile.gettempdir()
-VERSION = "1.1.2dev"
-VER_NO = 7
-CODENAME = "Sonetto"
 img = Image.open("NamePicker.png")
 img.resize((100,100))
 

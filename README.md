@@ -12,6 +12,12 @@
 > 
 > 如果您需要在某处售卖NamePicker，或者需要提供有关NamePicker的付费服务，请参照[该指南](https://www.baidu.com/s?wd=家里人全死光了怎么办)
 
+> [!note]
+> 
+> 该分支（即legacy分支）用于维护NamePicker v1.x.x版本
+> 
+> v1.x.x版本仍然接受Bug修复，但是不会添加新功能
+
 ## 功能清单/大饼
 > 由于Tkinter过于原始，迁移至PyQt的计划将会提前
 
