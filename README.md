@@ -6,6 +6,12 @@
 
 [QQ群（群号2153027375）](https://qm.qq.com/q/fTjhKuAlCU)
 
+> [!note]
+> 
+> 从v2.0.0起，NamePicker本体将基于GNU GPLv3协议开源
+> 
+> GNU GPLv3具有Copyleft特性，也就是说，您可以修改NamePicker的源代码，但是**必须将修改版本同样以GNU GPLv3协议开源**
+
 > [!caution]
 > 
 > NamePicker是一款完全开源且免费的软件，官方也没有提供任何付费服务
