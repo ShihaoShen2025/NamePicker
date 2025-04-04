@@ -1,14 +1,17 @@
+import os
 import sys
 import pandas as pd
 import tempfile
 import random
+import traceback
+from loguru import logger
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon,QPainter,QPixmap
 from qfluentwidgets import *
 
 temp_dir = tempfile.gettempdir()
-VERSION = "2.0.0dev"
+VERSION = "v2.0.0rel"
 CODENAME = "Tribbie"
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
@@ -19,9 +22,23 @@ class Config(QConfig):
     allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
     supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
+    logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
 
 cfg = Config()
 qconfig.load('config.json', cfg)
+
+if os.path.exists("out.log"):
+    os.remove("out.log")
+logger.remove(0)
+logger.add("out.log")
+logger.add(sys.stderr, level=cfg.get(cfg.logLevel))
+
+logger.info("⌈缇宝，明天见⌋")
+
+def hookExceptions(exc_type, exc_value, exc_tb):
+    error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    logger.error(error_details)
+sys.excepthook = hookExceptions
 
 class Choose(QFrame):
 
@@ -87,6 +104,7 @@ class Choose(QFrame):
         self.hBoxLayout.addWidget(self.table,2)
         self.hBoxLayout.addWidget(self.opt,3,Qt.AlignCenter)
         self.setObjectName(text.replace(' ', 'Choose'))
+        logger.info("主界面初始化完成")
 
         if cfg.get(cfg.eco):
             InfoBar.success(
@@ -98,6 +116,7 @@ class Choose(QFrame):
                 duration=3000,
                 parent=self
             )
+            logger.info("NamePicker低碳模式将大幅降低碳排放，同时大幅增加设备寿命")
 
     def pick(self):
         global cfg
@@ -132,11 +151,13 @@ class Choose(QFrame):
                     while chs in self.chosen:
                         chs = random.randint(0, le - 1)
                 self.chosen.append(chs)
+                logger.debug(self.chosen)
             return [tar[chs], self.names[2][self.names[0].index(tar[chs])]]
         else:
             return ["尚未抽选", "尚未抽选"]
 
     def pickcb(self):
+        logger.debug("pickcb被调用")
         self.table.setRowCount(self.pickNum.value())
         namet = []
         namel = []
@@ -149,10 +170,12 @@ class Choose(QFrame):
                 for i in namet:
                     namel.append("%s（%s）" % (i[0], i[1]))
                 f.writelines(namel)
+            logger.info("文件存储完成")
         else:
             for i, t in enumerate(namet):
                 for j in range(2):
                     self.table.setItem(i, j, QTableWidgetItem(t[j]))
+            logger.debug("表格设置完成")
 
 
     def loadname(self):
@@ -181,7 +204,9 @@ class Choose(QFrame):
                     self.numl[1].append(i)
             self.numlen[0] = len(self.numl[0])
             self.numlen[1] = len(self.numl[1])
+            logger.info("名单加载完成")
         except FileNotFoundError:
+            logger.warning("没有找到名单文件")
             with open("names.csv","w",encoding="utf-8") as f:
                 st  = ["name,sex,no\n","example,0,1"]
                 f.writelines(st)
@@ -193,6 +218,9 @@ class Settings(QFrame):
         super().__init__(parent=parent)
         self.setObjectName(text.replace(' ', 'Settings'))
         self.df = QVBoxLayout(self)
+        self.scrollArea = ScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.optv =QWidget()
         self.opts = QVBoxLayout(self.optv)
         self.sets = [SubtitleLabel("常规"),
@@ -207,7 +235,15 @@ class Settings(QFrame):
             icon=FluentIcon.LINK,
             title="课表软件联动",
             content="启用后将在ClassIsland/Class Widgets上（而非主界面）显示抽选结果，需要安装对应插件"
-        ),
+        ),SubtitleLabel("调试"),
+        ComboBoxSettingCard(
+            configItem=cfg.logLevel,
+            icon=FluentIcon.DEVELOPER_TOOLS,
+            title="日志记录级别",
+            content="日志的详细程度",
+            texts=["DEBUG", "INFO", "WARNING","ERROR"]
+        ),PushButton(FluentIcon.DOCUMENT,"测试日志输出"),
+        PushButton(FluentIcon.CLOSE,"测试引发崩溃"),
         SubtitleLabel("欢愉（太有乐子了）"),
         SwitchSettingCard(
             configItem=cfg.eco,
@@ -216,15 +252,25 @@ class Settings(QFrame):
             content="NamePicker致力于减少碳排放"
         )]
         for i in self.sets:
-            self.opts.addWidget(i,1)
-
-        self.scrollArea = SingleDirectionScrollArea(orient=Qt.Vertical)
-        self.scrollArea.setWidget(self.optv)
+            self.opts.addWidget(i)
+        self.sets[5].clicked.connect(self.testLog)
+        self.sets[6].clicked.connect(self.testCrash)
         self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
+        self.scrollArea.setWidget(self.optv)
         self.optv.setStyleSheet("QWidget{background: transparent}")
-
         self.df.addWidget(TitleLabel("设置"))
-        self.df.addWidget(self.optv)
+        self.df.addWidget(self.scrollArea)
+
+        logger.info("设置界面初始化完成")
+
+    def testLog(self):
+        logger.debug("这是Debug日志")
+        logger.info("这是Info日志")
+        logger.warning("这是Warning日志")
+        logger.error("这是Error日志")
+
+    def testCrash(self):
+        raise Exception("NamePicker实际上没有任何问题，是你自己手贱引发的崩溃")
 
 class About(QFrame):
     def __init__(self, text: str, parent=None):
@@ -245,6 +291,7 @@ class About(QFrame):
         self.df.addWidget(self.author)
         self.df.addWidget(self.cpleft)
         self.df.addWidget(self.ghrepo)
+        logger.info("关于界面初始化")
 
 class App(FluentWindow):
     def __init__(self):
@@ -256,6 +303,7 @@ class App(FluentWindow):
         self.About = About("关于", self)
         self.initNavigation()
         self.initWindow()
+        logger.info("主界面初始化")
 
     def initNavigation(self):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")

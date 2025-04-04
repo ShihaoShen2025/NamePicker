@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:修正工作流3">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成关于页面">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,14 +122,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00013" summary="feat:我最喜欢改action了">
-      <option name="closed" value="true" />
-      <created>1742012794775</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1742012794775</updated>
     </task>
     <task id="LOCAL-00014" summary="feat:我最喜欢改action了111">
       <option name="closed" value="true" />
@@ -513,7 +507,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743746533442</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="feat:完成关于页面">
+      <option name="closed" value="true" />
+      <created>1743752408870</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1743752408870</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -543,7 +545,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ci:使用一种原始手段撤回对workflow的更改" />
     <MESSAGE value="fix:修复了抽选8-10个时部分名字无法显示的问题" />
     <MESSAGE value="feat:悬浮窗位置更加友好" />
     <MESSAGE value="feat:组件使用相对坐标" />
@@ -568,6 +569,7 @@
     <MESSAGE value="feat:增加托盘图标" />
     <MESSAGE value="feat:增加托盘图标" />
     <MESSAGE value="ci:修正工作流3" />
-    <option name="LAST_COMMIT_MESSAGE" value="ci:修正工作流3" />
+    <MESSAGE value="feat:完成关于页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:完成关于页面" />
   </component>
 </project>

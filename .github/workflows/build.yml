@@ -32,7 +32,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: standalone
+          mode: app
           enable-plugins: pyqt5
           include-data-files: LICENSE=LICENSE
           include-data-dir: assets=assets
@@ -44,7 +44,7 @@ jobs:
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.dist
+            ${{ github.workspace }}/build/main.exe
           include-hidden-files: true
 
   build_linux:
@@ -72,7 +72,7 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: standalone
+          mode: app
           enable-plugins: pyqt5
           include-data-files: LICENSE=LICENSE
           include-data-dir: assets=assets
@@ -84,5 +84,5 @@ jobs:
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.dist
+            ${{ github.workspace }}/build/main.bin
           include-hidden-files: true

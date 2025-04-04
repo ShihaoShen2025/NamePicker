@@ -4,7 +4,10 @@
         "supportCS": false
     },
     "Huanyu": {
-        "ecoMode": false
+        "ecoMode": true
+    },
+    "Debug": {
+        "logLevel": "DEBUG"
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",
