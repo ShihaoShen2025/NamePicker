@@ -1,97 +1,181 @@
-name: Bulid dev version
+name: Build
+
 on:
-  push:
   workflow_dispatch:
+  push:
+    branches:
+      - master
+      - dev
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
 
 jobs:
-  build_windows:
-    runs-on: windows-latest
-
+  builder_matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ x86, x64, arm64 ]
+        os: [ windows-latest, macos-13, macos-14 ]
+        exclude:
+          - os: macos-13
+            arch: x86
+          - os: macos-13
+            arch: arm64
+          - os: windows-latest
+            arch: arm64
+          - os: macos-14
+            arch: x86
+          - os: macos-14
+            arch: x64
+          - os: windows-latest
+            arch: x86
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Check-out repository
-        uses: actions/checkout@v4
-
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: '3.9'
-          architecture: 'x64'
+          architecture: ${{ matrix.arch }}
           cache: 'pip'
           cache-dependency-path: |
             **/requirements*.txt
 
-      - name: Install Dependencies
-        run: |
-          pip install -r requirements.txt
+      - name: Init zip folder
+        run: mkdir zip
 
-      - name: Python GUI With TkInter
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build (Windows)
+        if: ${{ startsWith(matrix.os, 'windows') }}
         uses: Nuitka/Nuitka-Action@main
         with:
-          nuitka-version: main
+          mode: standalone
           script-name: main.py
-          mode: app
-          enable-plugins: tk-inter
-          windows-console-mode: attach
-          windows-icon-from-ico: favicon.ico
-          linux-icon: favicon.ico
+          output-file: NamePicker
+          enable-plugins: pyqt5
+          include-data-files: LICENSE=LICENSE
+          include-data-dir: |
+            assets=assets
+          disable-console: true
+          product-name: NamePicker
+          file-version: 2.0.0
+          windows-icon-from-ico: ./assets/favicon.ico
 
-      - name: Pack
-        run: |
-          mkdir pub
-          copy ${{ github.workspace }}/build/main.exe ${{ github.workspace }}/pub
-          copy ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
-          copy ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Build (macOS)
+        if: ${{ startsWith(matrix.os, 'macos') }}
+        uses: Nuitka/Nuitka-Action@main
         with:
-          name: NamePicker-Action-${{ runner.os }}
-          path: |
-            ${{ github.workspace }}/pub
-          include-hidden-files: true
+          script-name: main.py
+          enable-plugins: pyqt5
+          output-file: NamePicker
+          include-data-files: LICENSE=LICENSE
+          include-data-dir: |
+            assets=assets
+          macos-app-icon: ./assets/favicon.icns
+          macos-signed-app-name: idk.lhgser.namepicker
+          macos-app-name: NamePicker
+          macos-app-version: 2.0.0
 
-  build_linux:
+
+      - name: Package (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          curl -o zip.exe -L http://www.stahlworks.com/dev/zip.exe
+          xcopy build\main.dist\* NamePicker\ /e/y
+          ./zip -r -q "./zip/NamePicker-Windows-${{ matrix.arch }}.zip" NamePicker
+
+      - name: Package (macOS)
+        if: ${{ startsWith(matrix.os, 'macos') }}
+        run: |
+          cp -R build/main.app Class\ Widgets.app
+          zip -r -q "./zip/NamePicker-macOS-${{ matrix.arch }}.zip" NamePicker.app
+
+      - name: Upload unsigned application
+        if: ${{ matrix.os != 'windows-latest'}}
+        uses: actions/upload-artifact@v4.4.2
+        with:
+          name: ${{ matrix.os }}-${{ matrix.arch }}
+          path: ./zip
+
+      - name: Upload unsigned single file
+        if: ${{ matrix.os == 'windows-latest'}}
+        id: upload-unsigned-artifact
+        uses: actions/upload-artifact@v4.4.2
+        with:
+          name: windows-${{ matrix.arch }}
+          path: ./NamePicker/NamePicker.exe
+
+  debian:
     runs-on: ubuntu-latest
-
+    needs: check_commit
+    if: ${{ needs.check_commit.outputs.has-new-commit == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/') }}
+    container:
+      image: debian:10
     steps:
-      - name: Check-out repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-          architecture: 'x64'
-          cache: 'pip'
-          cache-dependency-path: |
-            **/requirements*.txt
-
-      - name: Install Dependencies
+      - name: Install dependencies
+        shell: bash
         run: |
-          pip install -r requirements.txt
-
-      - name: Python GUI With TkInter
-        uses: Nuitka/Nuitka-Action@main
+          apt-get update
+          apt-get install -y ccache gcc wget zip binutils libglib2.0-dev libfreetype6 libxfixes3 libgssapi-krb5-2 libdbus-1-3 libxext6 libfontconfig1 libxrandr2 libnspr4 libx11-xcb1 libxrender1 libasound2 libxkbcommon0 libxtst6 libnss3 libxdamage1 libxcomposite1 libcups2 libwayland-client0 libwayland-cursor0 libcairo2 libcairo-gobject2 libpango-1.0-0 libgtk-3-0 libgdk-pixbuf2.0-0 libxkbcommon-x11-0 libwayland-egl1 libxcb-xinerama0 libxcb-render-util0 libxcb-randr0 libxcb-image0 libxcb-sync1 libxcb-keysyms1 libxcb-shape0 libxcb-xfixes0 libxcb-icccm4 libxcb-glx0 git patchelf
+          wget http://ftp.debian.org/debian/pool/main/x/xcb-util/libxcb-util1_0.4.0-1+b1_amd64.deb
+          dpkg -i libxcb-util1_0.4.0-1+b1_amd64.deb
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+      - name: Setup uv & python
+        uses: astral-sh/setup-uv@v4
         with:
-          nuitka-version: main
-          script-name: main.py
-          mode: app
-          enable-plugins: tk-inter
-          windows-console-mode: attach
-          windows-icon-from-ico: favicon.ico
-          linux-icon: favicon.ico
-
-      - name: Pack
+          python-version: 3.9
+      - name: Setup Environment Variables
+        shell: bash
         run: |
-          mkdir pub
-          mv ${{ github.workspace }}/build/main.bin ${{ github.workspace }}/pub
-          mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
-          mv ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+          echo "NUITKA_CACHE_DIR=${{ github.action_path }}/nuitka/cache" >> $GITHUB_ENV
+          echo "PYTHON_VERSION=3.9" >> $GITHUB_ENV
+      - name: Cache Nuitka cache directory
+        if: ${{ !inputs.disable-cache }}
+        uses: actions/cache@v4
         with:
-          name: NamePicker-Action-${{ runner.os }}
-          path: |
-            ${{ github.workspace }}/pub
-          include-hidden-files: true
+          path: ${{ env.NUITKA_CACHE_DIR }}
+          key: Debian-X64-python-${{ env.PYTHON_VERSION }}-nuitka-${{ github.sha }}
+          restore-keys: |
+            Debian-X64-python-${{ env.PYTHON_VERSION }}-
+            Debian-X64-python-
+            Debian-X64-
+      - name: Build
+        shell: bash
+        run: |
+          uv venv
+          source .venv/bin/activate
+          uv pip install -r requirements.txt
+          uv pip install nuitka==2.6.7
+          python -m nuitka main.py \
+            --enable-plugin=pyqt5 \
+            --mode=standalone \
+            -o"NamePicker" \
+            --include-data-dir=assets=assets \
+            --include-data-files=LICENSE=LICENSE \
+
+      - name: Package (Debian)
+        run: |
+          cp -R main.dist NamePicker
+          mkdir zip
+          zip -r -q zip/NamePicker-Debian10.zip NamePicker
+
+      - name: Upload
+        uses: actions/upload-artifact@v4.4.2
+        with:
+          name: debian10-x64
+          path: ./zip
+
+  release:
+    needs: [debian, builder_matrix]
+    uses: ./.github/workflows/release.yml
+    with:
+      run_id: ${{ github.run_id }}

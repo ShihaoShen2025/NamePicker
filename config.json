@@ -4,7 +4,7 @@
         "supportCS": false
     },
     "Huanyu": {
-        "ecoMode": false
+        "ecoMode": true
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",
