@@ -1,9 +1,10 @@
 {
     "General": {
-        "allowRepeat": false
+        "allowRepeat": false,
+        "supportCS": true
     },
     "Huanyu": {
-        "ecoMode": true
+        "ecoMode": false
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",

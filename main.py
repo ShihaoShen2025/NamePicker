@@ -17,6 +17,7 @@ QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
 class Config(QConfig):
     allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
+    supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
 
 cfg = Config()
@@ -138,11 +139,20 @@ class Choose(QFrame):
     def pickcb(self):
         self.table.setRowCount(self.pickNum.value())
         namet = []
+        namel = []
         for i in range(self.pickNum.value()):
             namet.append(self.pick())
-        for i, songInfo in enumerate(namet):
-            for j in range(2):
-                self.table.setItem(i, j, QTableWidgetItem(songInfo[j]))
+        if cfg.get(cfg.supportCS):
+            with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
+                f.write("111")
+            with open("%s\\res.txt" % temp_dir, "w", encoding="utf-8") as f:
+                for i in namet:
+                    namel.append("%s（%s）" % (i[0], i[1]))
+                f.writelines(namel)
+        else:
+            for i, t in enumerate(namet):
+                for j in range(2):
+                    self.table.setItem(i, j, QTableWidgetItem(t[j]))
 
 
     def loadname(self):
@@ -192,6 +202,12 @@ class Settings(QFrame):
             title="允许重复点名",
             content="允许点到重复名字"
         ),
+        SwitchSettingCard(
+            configItem=cfg.supportCS,
+            icon=FluentIcon.LINK,
+            title="课表软件联动",
+            content="启用后将在ClassIsland/Class Widgets上（而非主界面）显示抽选结果，需要安装对应插件"
+        ),
         SubtitleLabel("欢愉（太有乐子了）"),
         SwitchSettingCard(
             configItem=cfg.eco,
@@ -207,6 +223,7 @@ class Settings(QFrame):
         self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
         self.optv.setStyleSheet("QWidget{background: transparent}")
 
+        self.df.addWidget(TitleLabel("设置"))
         self.df.addWidget(self.optv)
 
 class App(FluentWindow):
