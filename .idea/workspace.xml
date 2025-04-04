@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成关于页面">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-    </list>
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,14 +116,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00014" summary="feat:我最喜欢改action了111">
-      <option name="closed" value="true" />
-      <created>1742014975713</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1742014975713</updated>
     </task>
     <task id="LOCAL-00015" summary="feat:添加CODENAME（开发代号字段），并使配置可以半热切换">
       <option name="closed" value="true" />
@@ -515,7 +501,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743752408870</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release">
+      <option name="closed" value="true" />
+      <created>1743757189200</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1743757189201</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -545,7 +539,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix:修复了抽选8-10个时部分名字无法显示的问题" />
     <MESSAGE value="feat:悬浮窗位置更加友好" />
     <MESSAGE value="feat:组件使用相对坐标" />
     <MESSAGE value="refactor:修改配置窗口主题逻辑" />
@@ -570,6 +563,7 @@
     <MESSAGE value="feat:增加托盘图标" />
     <MESSAGE value="ci:修正工作流3" />
     <MESSAGE value="feat:完成关于页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:完成关于页面" />
+    <MESSAGE value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
   </component>
 </project>
