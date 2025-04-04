@@ -8,13 +8,19 @@ from PyQt5.QtGui import QIcon
 from qfluentwidgets import *
 
 temp_dir = tempfile.gettempdir()
-VERSION = "1.1.2dev"
-VER_NO = 7
-CODENAME = "Sonetto"
+VERSION = "2.0.0dev"
+CODENAME = "Tribbie"
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
 QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+
+class Config(QConfig):
+    allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
+    eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
+
+cfg = Config()
+qconfig.load('config.json', cfg)
 
 class Choose(QFrame):
 
@@ -81,7 +87,19 @@ class Choose(QFrame):
         self.hBoxLayout.addWidget(self.opt,3,Qt.AlignCenter)
         self.setObjectName(text.replace(' ', 'Choose'))
 
+        if cfg.get(cfg.eco):
+            InfoBar.success(
+                title='环保模式已启用',
+                content="NamePicker低碳模式将大幅降低碳排放，同时大幅增加设备寿命",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+
     def pick(self):
+        global cfg
         if self.sexCombo.currentText() != "都抽":
             if self.sexCombo.currentText() == "只抽男":
                 le = self.sexlen[0]
@@ -105,7 +123,7 @@ class Choose(QFrame):
                 le = len(tar)
         if le != 0:
             chs = random.randint(0, le - 1)
-            if not False:
+            if not cfg.get(cfg.allowRepeat):
                 if len(self.chosen) >= le:
                     self.chosen = []
                     chs = random.randint(0, le - 1)
@@ -159,18 +177,51 @@ class Choose(QFrame):
                 f.writelines(st)
             sys.exit(114514)
 
+class Settings(QFrame):
+    def __init__(self, text: str, parent=None):
+        global cfg
+        super().__init__(parent=parent)
+        self.setObjectName(text.replace(' ', 'Settings'))
+        self.df = QVBoxLayout(self)
+        self.optv =QWidget()
+        self.opts = QVBoxLayout(self.optv)
+        self.sets = [SubtitleLabel("常规"),
+        SwitchSettingCard(
+            configItem=cfg.allowRepeat,
+            icon=FluentIcon.LIBRARY,
+            title="允许重复点名",
+            content="允许点到重复名字"
+        ),
+        SubtitleLabel("欢愉（太有乐子了）"),
+        SwitchSettingCard(
+            configItem=cfg.eco,
+            icon=FluentIcon.LEAF,
+            title="环保模式",
+            content="NamePicker致力于减少碳排放"
+        )]
+        for i in self.sets:
+            self.opts.addWidget(i,1)
+
+        self.scrollArea = SingleDirectionScrollArea(orient=Qt.Vertical)
+        self.scrollArea.setWidget(self.optv)
+        self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
+        self.optv.setStyleSheet("QWidget{background: transparent}")
+
+        self.df.addWidget(self.optv)
+
 class App(FluentWindow):
     def __init__(self):
         super().__init__()
         qconfig.theme = Theme.AUTO
         setTheme(Theme.AUTO)
         self.Choose = Choose("随机抽选",self)
-
+        self.Settings = Settings("设置",self)
         self.initNavigation()
         self.initWindow()
 
     def initNavigation(self):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
+        self.addSubInterface(self.Settings, FluentIcon.SETTING, '设置', NavigationItemPosition.BOTTOM)
 
     def initWindow(self):
         self.resize(700, 500)

@@ -1,1 +1,12 @@
-{"VERSION": "1.1.2dev", "VER_NO": 7, "CODENAME": "Sonetto", "allowRepeat": false, "alwaysOnTop": true, "SupportCW": false, "logLevel": "Warning", "consoleOutput": true}
+{
+    "General": {
+        "allowRepeat": false
+    },
+    "Huanyu": {
+        "ecoMode": true
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ff009faa",
+        "ThemeMode": "Auto"
+    }
+}
