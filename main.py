@@ -249,6 +249,20 @@ class App(FluentWindow):
         self.hide()
         event.ignore()
 
+class SystemTrayIcon(QSystemTrayIcon):
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        self.setIcon(parent.windowIcon())
+
+        self.menu = SystemTrayMenu(parent=parent)
+        self.menu.addActions([
+            Action('退出', triggered=self.esc)
+        ])
+        self.setContextMenu(self.menu)
+
+    def esc(self):
+        sys.exit(0)
+
 class TrayWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -257,7 +271,9 @@ class TrayWindow(QWidget):
         self.setFixedSize(100, 100)
         self.setWindowIcon(QIcon('assets/NamePickerCircle.png'))
         screen = QDesktopWidget().screenGeometry()
-        self.move(screen.width() - 320, screen.height() - 320)
+        self.move(int(screen.width()*0.7), int(screen.height()*0.7))
+        self.systemTrayIcon = SystemTrayIcon(self)
+        self.systemTrayIcon.show()
 
         self.drag_start_pos = None
         self.main_window = None
