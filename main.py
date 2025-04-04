@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 import tempfile
+import random
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
@@ -24,6 +25,7 @@ class Choose(QFrame):
         self.sexl = [[],[],[]]
         self.numlen = [0,0,0]
         self.numl = [[],[],[]]
+        self.chosen = []
         self.loadname()
 
         self.hBoxLayout = QHBoxLayout(self)
@@ -46,7 +48,7 @@ class Choose(QFrame):
         self.pnl = QHBoxLayout(self)
         self.pnLabel = SubtitleLabel("抽选数量", self)
         self.pickNum = SpinBox()
-        self.pickNum.setRange(1, len(self.names))
+        self.pickNum.setRange(1, len(self.names[0]))
         self.pnl.addWidget(self.pnLabel, 10)
         self.pnl.addWidget(self.pickNum, 5)
         self.pn.setLayout(self.pnl)
@@ -80,15 +82,48 @@ class Choose(QFrame):
         self.setObjectName(text.replace(' ', 'Choose'))
 
     def pick(self):
-        pass
+        if self.sexCombo.currentText() != "都抽":
+            if self.sexCombo.currentText() == "只抽男":
+                le = self.sexlen[0]
+                tar = self.sexl[0]
+            elif self.sexCombo.currentText() == "只抽女":
+                le = self.sexlen[1]
+                tar = self.sexl[1]
+            else:
+                le = self.sexlen[2]
+                tar = self.sexl[2]
+        else:
+            le = self.length
+            tar = self.names[0]
+
+        if self.numCombo.currentText() != "都抽":
+            if self.numCombo.currentText() == "只抽双数":
+                tar = list(set(tar) & set(self.numl[0]))
+                le = len(tar)
+            else:
+                tar = list(set(tar) & set(self.numl[1]))
+                le = len(tar)
+        if le != 0:
+            chs = random.randint(0, le - 1)
+            if not False:
+                if len(self.chosen) >= le:
+                    self.chosen = []
+                    chs = random.randint(0, le - 1)
+                else:
+                    while chs in self.chosen:
+                        chs = random.randint(0, le - 1)
+                self.chosen.append(chs)
+            return [tar[chs], self.names[2][self.names[0].index(tar[chs])]]
+        else:
+            return ["尚未抽选", "尚未抽选"]
 
     def pickcb(self):
         self.table.setRowCount(self.pickNum.value())
         namet = []
         for i in range(self.pickNum.value()):
-            pass
+            namet.append(self.pick())
         for i, songInfo in enumerate(namet):
-            for j in range(5):
+            for j in range(2):
                 self.table.setItem(i, j, QTableWidgetItem(songInfo[j]))
 
 
