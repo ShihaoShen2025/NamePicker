@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
