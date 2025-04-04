@@ -226,6 +226,26 @@ class Settings(QFrame):
         self.df.addWidget(TitleLabel("设置"))
         self.df.addWidget(self.optv)
 
+class About(QFrame):
+    def __init__(self, text: str, parent=None):
+        global cfg
+        super().__init__(parent=parent)
+        self.setObjectName(text.replace(' ', 'About'))
+        self.df = QVBoxLayout(self)
+        self.about = TitleLabel("关于")
+        self.image = ImageLabel("assets/NamePicker.png")
+        self.ver = SubtitleLabel("NamePicker %s - Codename %s"%(VERSION,CODENAME))
+        self.author = BodyLabel("By 灵魂歌手er（Github @LHGS-github）")
+        self.cpleft = BodyLabel("本软件基于GNU GPLv3获得授权")
+        self.ghrepo = HyperlinkButton(FluentIcon.GITHUB, "https://github.com/NamePickerOrg/NamePicker", 'GitHub Repo')
+
+        self.df.addWidget(self.about)
+        self.df.addWidget(self.image)
+        self.df.addWidget(self.ver)
+        self.df.addWidget(self.author)
+        self.df.addWidget(self.cpleft)
+        self.df.addWidget(self.ghrepo)
+
 class App(FluentWindow):
     def __init__(self):
         super().__init__()
@@ -233,12 +253,14 @@ class App(FluentWindow):
         setTheme(Theme.AUTO)
         self.Choose = Choose("随机抽选",self)
         self.Settings = Settings("设置",self)
+        self.About = About("关于", self)
         self.initNavigation()
         self.initWindow()
 
     def initNavigation(self):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
         self.addSubInterface(self.Settings, FluentIcon.SETTING, '设置', NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.About, FluentIcon.INFO, '关于', NavigationItemPosition.BOTTOM)
 
     def initWindow(self):
         self.resize(700, 500)
