@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:大！刀！阔！斧！">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:显示流畅窗口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NamePicker.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/NamePicker.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/assets/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,14 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00002" summary="支持从外部读取配置">
-      <option name="closed" value="true" />
-      <created>1740889074319</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1740889074319</updated>
     </task>
     <task id="LOCAL-00003" summary="main.py采用类封装，半完成gui配置界面">
       <option name="closed" value="true" />
@@ -514,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743722270114</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="feat:显示流畅窗口">
+      <option name="closed" value="true" />
+      <created>1743727387858</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1743727387858</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -544,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ci:修改workflow打包规则2" />
     <MESSAGE value="ci:修改workflow打包规则3" />
     <MESSAGE value="ci:修改workflow打包规则4" />
     <MESSAGE value="ci:修改workflow打包规则5" />
@@ -569,6 +566,7 @@
     <MESSAGE value="feat:优化了配置页深色模式标题栏" />
     <MESSAGE value="ci:修改工作流" />
     <MESSAGE value="feat:大！刀！阔！斧！" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:大！刀！阔！斧！" />
+    <MESSAGE value="feat:显示流畅窗口" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:显示流畅窗口" />
   </component>
 </project>

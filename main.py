@@ -11,6 +11,10 @@ VERSION = "1.1.2dev"
 VER_NO = 7
 CODENAME = "Sonetto"
 
+QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+
 class Choose(QFrame):
 
     def __init__(self, text: str, parent=None):
@@ -22,7 +26,6 @@ class Choose(QFrame):
         self.numl = [[],[],[]]
         self.loadname()
 
-        self.label = SubtitleLabel(text, self)
         self.hBoxLayout = QHBoxLayout(self)
         self.options = QVBoxLayout(self)
 
@@ -30,24 +33,64 @@ class Choose(QFrame):
         self.pickbn.clicked.connect(self.pickcb)
         self.pickbn.adjustSize()
         self.options.addWidget(self.pickbn,5)
+
+        self.table = TableWidget(self)
+        self.table.setBorderVisible(True)
+        self.table.setBorderRadius(8)
+        self.table.setWordWrap(False)
+        self.table.setRowCount(10)
+        self.table.setColumnCount(2)
+        self.table.setHorizontalHeaderLabels(["姓名","学号"])
+
+        self.pn = QWidget()
+        self.pnl = QHBoxLayout(self)
+        self.pnLabel = SubtitleLabel("抽选数量", self)
         self.pickNum = SpinBox()
         self.pickNum.setRange(1, len(self.names))
-        self.options.addWidget(self.pickNum, 5)
+        self.pnl.addWidget(self.pnLabel, 10)
+        self.pnl.addWidget(self.pickNum, 5)
+        self.pn.setLayout(self.pnl)
+        self.options.addWidget(self.pn,5)
+
+        self.sep = QWidget()
+        self.sepl = QHBoxLayout(self)
+        self.seLabel = SubtitleLabel("性别偏好", self)
+        self.sexCombo = ComboBox()
+        self.sexCombo.addItems(["都抽","只抽男","只抽女","只抽特殊性别"])
+        self.sepl.addWidget(self.seLabel, 10)
+        self.sepl.addWidget(self.sexCombo, 5)
+        self.sep.setLayout(self.sepl)
+        self.options.addWidget(self.sep, 5)
+
+        self.nup = QWidget()
+        self.nul = QHBoxLayout(self)
+        self.nuLabel = SubtitleLabel("学号偏好", self)
+        self.numCombo = ComboBox()
+        self.numCombo.addItems(["都抽", "只抽单数", "只抽双数"])
+        self.nul.addWidget(self.nuLabel, 10)
+        self.nul.addWidget(self.numCombo, 5)
+        self.nup.setLayout(self.nul)
+        self.options.addWidget(self.nup, 5)
 
         self.opt = QWidget()
         self.opt.setLayout(self.options)
 
-        setFont(self.label, 24)
-        self.label.setAlignment(Qt.AlignCenter)
-        self.hBoxLayout.addWidget(self.label, 1, Qt.AlignCenter)
-        self.hBoxLayout.addWidget(self.opt,1,Qt.AlignCenter)
+        self.hBoxLayout.addWidget(self.table,2)
+        self.hBoxLayout.addWidget(self.opt,3,Qt.AlignCenter)
         self.setObjectName(text.replace(' ', 'Choose'))
 
     def pick(self):
         pass
 
     def pickcb(self):
-        pass
+        self.table.setRowCount(self.pickNum.value())
+        namet = []
+        for i in range(self.pickNum.value()):
+            pass
+        for i, songInfo in enumerate(namet):
+            for j in range(5):
+                self.table.setItem(i, j, QTableWidgetItem(songInfo[j]))
+
 
     def loadname(self):
         try:
@@ -81,7 +124,7 @@ class Choose(QFrame):
                 f.writelines(st)
             sys.exit(114514)
 
-class App(SplitFluentWindow):
+class App(FluentWindow):
     def __init__(self):
         super().__init__()
         qconfig.theme = Theme.AUTO
@@ -95,7 +138,7 @@ class App(SplitFluentWindow):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
 
     def initWindow(self):
-        self.resize(900, 700)
+        self.resize(700, 500)
         self.setWindowIcon(QIcon('assets/NamePicker.png'))
         self.setWindowTitle('NamePicker')
 
