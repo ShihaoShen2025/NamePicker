@@ -1,74 +1,130 @@
-import os.path
+import os
 import sys
-import tkinter
-from tkinter import ttk
-from tkinter.messagebox import *
-import sv_ttk
-import darkdetect
-import random
-import json
-import configgui
 import pandas as pd
 import tempfile
-from PIL import Image,ImageTk
-import pystray
-import threading
-import logging
+import random
 import traceback
+from loguru import logger
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QIcon,QPainter,QPixmap
+from qfluentwidgets import *
 
-if os.path.exists("DEBUG"):
-    logging.basicConfig(filename='log.log',encoding="UTF-8",level=logging.DEBUG,filemode='w')
-elif os.path.exists("IDE"):
-    logging.basicConfig(level=logging.DEBUG)
-else:
-    logging.basicConfig(filename='log.log', encoding="UTF-8", level=logging.INFO, filemode='w')
 temp_dir = tempfile.gettempdir()
-VERSION = "1.1.0rel"
-VER_NO = 5
-CODENAME = "Firefly"
-img = Image.open("NamePicker.png")
-img.resize((100,100))
+VERSION = "v2.0.0rel"
+CODENAME = "Tribbie"
 
-logging.info("⌈飞萤扑火，向死而生⌋")
-class App(tkinter.Toplevel):
-    def __init__(self):
-        global allowRepeat,alwaysOnTop,showName,SupportCW,pref,pickNames,pns
-        allowRepeat = False
-        alwaysOnTop = True
-        showName = True
-        SupportCW = False
-        pickNames = 1
-        super().__init__()
-        self.geometry("450x200")
-        self.iconbitmap("favicon.ico")
-        self.wm_iconbitmap("favicon.ico")
-        self.loadcfg()
-        self.attributes('-topmost',alwaysOnTop)
-        self.title("NamePicker - 随机抽选")
-        self.resizable(False, False)
-        sv_ttk.set_theme(darkdetect.theme())
-        pref = [tkinter.StringVar(), tkinter.StringVar()]
-        pns = tkinter.IntVar()
-        pns.set(1)
+QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+
+class Config(QConfig):
+    allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
+    supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
+    eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
+    logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
+
+cfg = Config()
+qconfig.load('config.json', cfg)
+
+if os.path.exists("out.log"):
+    os.remove("out.log")
+logger.remove(0)
+logger.add("out.log")
+logger.add(sys.stderr, level=cfg.get(cfg.logLevel))
+
+logger.info("⌈缇宝，明天见⌋")
+
+def hookExceptions(exc_type, exc_value, exc_tb):
+    error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    logger.error(error_details)
+sys.excepthook = hookExceptions
+
+class Choose(QFrame):
+
+    def __init__(self, text: str, parent=None):
+        super().__init__(parent=parent)
+        self.names = []
+        self.sexlen = [0,0,0]
+        self.sexl = [[],[],[]]
+        self.numlen = [0,0,0]
+        self.numl = [[],[],[]]
+        self.chosen = []
         self.loadname()
-        self.createWidget()
-        self.report_callback_exception = self.handle_exception
-    names = []
-    chosen = []
-    length = 0
-    sexlen = [0,0,0]
-    sexl = [[],[],[]]
-    numlen = [0,0]
-    numl = [[],[]]
+
+        self.hBoxLayout = QHBoxLayout(self)
+        self.options = QVBoxLayout(self)
+
+        self.pickbn = PrimaryPushButton("点击抽选")
+        self.pickbn.clicked.connect(self.pickcb)
+        self.pickbn.adjustSize()
+        self.options.addWidget(self.pickbn,5)
+
+        self.table = TableWidget(self)
+        self.table.setBorderVisible(True)
+        self.table.setBorderRadius(8)
+        self.table.setWordWrap(False)
+        self.table.setRowCount(10)
+        self.table.setColumnCount(2)
+        self.table.setHorizontalHeaderLabels(["姓名","学号"])
+
+        self.pn = QWidget()
+        self.pnl = QHBoxLayout(self)
+        self.pnLabel = SubtitleLabel("抽选数量", self)
+        self.pickNum = SpinBox()
+        self.pickNum.setRange(1, len(self.names[0]))
+        self.pnl.addWidget(self.pnLabel, 10)
+        self.pnl.addWidget(self.pickNum, 5)
+        self.pn.setLayout(self.pnl)
+        self.options.addWidget(self.pn,5)
+
+        self.sep = QWidget()
+        self.sepl = QHBoxLayout(self)
+        self.seLabel = SubtitleLabel("性别偏好", self)
+        self.sexCombo = ComboBox()
+        self.sexCombo.addItems(["都抽","只抽男","只抽女","只抽特殊性别"])
+        self.sepl.addWidget(self.seLabel, 10)
+        self.sepl.addWidget(self.sexCombo, 5)
+        self.sep.setLayout(self.sepl)
+        self.options.addWidget(self.sep, 5)
+
+        self.nup = QWidget()
+        self.nul = QHBoxLayout(self)
+        self.nuLabel = SubtitleLabel("学号偏好", self)
+        self.numCombo = ComboBox()
+        self.numCombo.addItems(["都抽", "只抽单数", "只抽双数"])
+        self.nul.addWidget(self.nuLabel, 10)
+        self.nul.addWidget(self.numCombo, 5)
+        self.nup.setLayout(self.nul)
+        self.options.addWidget(self.nup, 5)
+
+        self.opt = QWidget()
+        self.opt.setLayout(self.options)
+
+        self.hBoxLayout.addWidget(self.table,2)
+        self.hBoxLayout.addWidget(self.opt,3,Qt.AlignCenter)
+        self.setObjectName(text.replace(' ', 'Choose'))
+        logger.info("主界面初始化完成")
+
+        if cfg.get(cfg.eco):
+            InfoBar.success(
+                title='环保模式已启用',
+                content="NamePicker低碳模式将大幅降低碳排放，同时大幅增加设备寿命",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+            logger.info("NamePicker低碳模式将大幅降低碳排放，同时大幅增加设备寿命")
 
     def pick(self):
-        global allowRepeat,showName
-        self.loadcfg()
-        if pref[0].get() != "男女都抽":
-            if pref[0].get() == "只抽男":
+        global cfg
+        if self.sexCombo.currentText() != "都抽":
+            if self.sexCombo.currentText() == "只抽男":
                 le = self.sexlen[0]
                 tar = self.sexl[0]
-            elif pref[0].get() == "只抽女":
+            elif self.sexCombo.currentText() == "只抽女":
                 le = self.sexlen[1]
                 tar = self.sexl[1]
             else:
@@ -78,96 +134,49 @@ class App(tkinter.Toplevel):
             le = self.length
             tar = self.names[0]
 
-        if pref[1].get() != "单双都抽":
-            if pref[1].get() == "只抽双数":
-                tar = list(set(tar)&set(self.numl[0]))
+        if self.numCombo.currentText() != "都抽":
+            if self.numCombo.currentText() == "只抽双数":
+                tar = list(set(tar) & set(self.numl[0]))
                 le = len(tar)
             else:
                 tar = list(set(tar) & set(self.numl[1]))
                 le = len(tar)
         if le != 0:
             chs = random.randint(0, le - 1)
-            if not allowRepeat:
-                if len(self.chosen)>=le:
-                    self.chosen=[]
-                    chs = random.randint(0, le-1)
+            if not cfg.get(cfg.allowRepeat):
+                if len(self.chosen) >= le:
+                    self.chosen = []
+                    chs = random.randint(0, le - 1)
                 else:
                     while chs in self.chosen:
-                        chs = random.randint(0, le-1)
+                        chs = random.randint(0, le - 1)
                 self.chosen.append(chs)
-                logging.debug(self.chosen)
-            logging.info("抽选完成")
-            return [tar[chs],self.names[2][self.names[0].index(tar[chs])]]
+                logger.debug(self.chosen)
+            return [tar[chs], self.names[2][self.names[0].index(tar[chs])]]
         else:
-            showwarning("警告","没有符合筛选条件的学生")
-            logging.warning("没有符合筛选条件的学生")
-            return ["尚未抽选","尚未抽选"]
+            return ["尚未抽选", "尚未抽选"]
 
     def pickcb(self):
-        global SupportCW,temp_dir,pickNames
-        name.delete(*name.get_children())
-        if pickNames == 1:
-            res = self.pick()
-            if SupportCW:
-                with open("%s\\unread"%temp_dir,"w",encoding="utf-8") as f:
-                    f.write("111")
-                with open("%s\\res.txt"%temp_dir,"w",encoding="utf-8") as f:
-                    f.write("%s（%s）"%(res[0],res[1]))
-                logging.info("写入名单完成")
-            else:
-                name.insert("","end", values=res)
-                logging.info("写入名单完成")
+        logger.debug("pickcb被调用")
+        self.table.setRowCount(self.pickNum.value())
+        namet = []
+        namel = []
+        for i in range(self.pickNum.value()):
+            namet.append(self.pick())
+        if cfg.get(cfg.supportCS):
+            with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
+                f.write("111")
+            with open("%s\\res.txt" % temp_dir, "w", encoding="utf-8") as f:
+                for i in namet:
+                    namel.append("%s（%s）" % (i[0], i[1]))
+                f.writelines(namel)
+            logger.info("文件存储完成")
         else:
-            res = []
-            for i in range(pickNames):
-                res.append(self.pick())
-            if SupportCW:
-                rese = []
-                for i in res:
-                    rese.append("%s（%s）" % (i[0], i[1]))
-                with open("%s\\unread"%temp_dir,"w",encoding="utf-8") as f:
-                    f.write("111")
-                with open("%s\\res.txt"%temp_dir,"w",encoding="utf-8") as f:
-                    f.write("，".join(rese))
-                logging.info("写入名单完成")
-            else:
-                for i in res:
-                    name.insert("", "end", values=i)
-                logging.info("写入名单完成")
+            for i, t in enumerate(namet):
+                for j in range(2):
+                    self.table.setItem(i, j, QTableWidgetItem(t[j]))
+            logger.debug("表格设置完成")
 
-
-    def opencfg(self):
-        cfg = configgui.cfgpage(darkdetect.theme())
-        cfg.mainloop()
-        logging.info("打开配置菜单")
-
-    def updatenames(self):
-        global pickNames,pns
-        pickNames = pns.get()
-        logging.debug("updatenames被调用")
-
-    def createWidget(self):
-        global name
-        scroll_v = ttk.Scrollbar(self)
-        scroll_v.pack(side="right",fill="y")
-        name = ttk.Treeview(self, height=10,columns=["姓名","学号"],show='headings',yscrollcommand=scroll_v.set)
-        name.heading('姓名', text='姓名')
-        name.heading('学号', text='学号')
-        name.column("姓名",width=75)
-        name.column("学号", width=75)
-        name.place(relx=0,rely=0,anchor="nw")
-        scroll_v.config(command=name.yview)
-        button = ttk.Button(self, text="点击以抽选", command=self.pickcb)
-        button.place(x=250, y=50, anchor="center")
-        pn = ttk.Spinbox(self,textvariable=pns,from_=1,to=len(self.names[2]),width=3,command=self.updatenames)
-        pn.place(x=370, y=50, anchor="center")
-        confb = ttk.Button(self, text="点击打开配置菜单", command=self.opencfg)
-        confb.place(x=300, y=150, anchor="center")
-        sexpref = ttk.OptionMenu(self,pref[0],"男女都抽","只抽男","只抽女","只抽非二元","男女都抽")
-        sexpref.place(x=250,y=100,anchor="center")
-        numpref = ttk.OptionMenu(self, pref[1], "单双都抽", "只抽单数", "只抽双数", "单双都抽")
-        numpref.place(x=370, y=100, anchor="center")
-        logging.info("组件设置完成")
 
     def loadname(self):
         try:
@@ -195,96 +204,189 @@ class App(tkinter.Toplevel):
                     self.numl[1].append(i)
             self.numlen[0] = len(self.numl[0])
             self.numlen[1] = len(self.numl[1])
-            logging.info("名单导入完成")
+            logger.info("名单加载完成")
         except FileNotFoundError:
+            logger.warning("没有找到名单文件")
             with open("names.csv","w",encoding="utf-8") as f:
                 st  = ["name,sex,no\n","example,0,1"]
                 f.writelines(st)
-            r = showwarning("警告","检测到names.csv不存在，已为您创建样板文件，请修改")
-            logging.warning("names.csv不存在")
             sys.exit(114514)
 
-    def loadcfg(self):
-        try:
-            global allowRepeat,alwaysOnTop,showName,SupportCW,pickNames
-            with open("config.json","r",encoding="utf-8") as f:
-                conf = f.read()
-            config = json.loads(conf)
-            allowRepeat = config["allowRepeat"]
-            alwaysOnTop = config["alwaysOnTop"]
-            SupportCW = config["SupportCW"]
-            if config["VER_NO"] < VER_NO:
-                r = showwarning("警告","当前配置文件版本较低，可能会出现一些玄学问题")
-                logging.warning("当前配置文件版本较低")
-            elif config["VER_NO"] > VER_NO:
-                r = showwarning("警告","当前配置文件版本较高，可能会出现一些玄学问题")
-                logging.warning("当前配置文件版本较高")
-            self.attributes('-topmost',alwaysOnTop)
-        except FileNotFoundError:
-            cfg = {"VERSION": VERSION,
-                   "VER_NO": VER_NO,
-                   "CODENAME": CODENAME,
-                   "allowRepeat": False,
-                   "alwaysOnTop": True,
-                   "SupportCW":False}
-            conf = json.dumps(cfg)
-            with open("config.json", "w", encoding="utf-8") as f:
-                f.write(conf)
-            logging.warning("没有找到config.json")
+class Settings(QFrame):
+    def __init__(self, text: str, parent=None):
+        global cfg
+        super().__init__(parent=parent)
+        self.setObjectName(text.replace(' ', 'Settings'))
+        self.df = QVBoxLayout(self)
+        self.scrollArea = ScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.optv =QWidget()
+        self.opts = QVBoxLayout(self.optv)
+        self.sets = [SubtitleLabel("常规"),
+        SwitchSettingCard(
+            configItem=cfg.allowRepeat,
+            icon=FluentIcon.LIBRARY,
+            title="允许重复点名",
+            content="允许点到重复名字"
+        ),
+        SwitchSettingCard(
+            configItem=cfg.supportCS,
+            icon=FluentIcon.LINK,
+            title="课表软件联动",
+            content="启用后将在ClassIsland/Class Widgets上（而非主界面）显示抽选结果，需要安装对应插件"
+        ),SubtitleLabel("调试"),
+        ComboBoxSettingCard(
+            configItem=cfg.logLevel,
+            icon=FluentIcon.DEVELOPER_TOOLS,
+            title="日志记录级别",
+            content="日志的详细程度",
+            texts=["DEBUG", "INFO", "WARNING","ERROR"]
+        ),PushButton(FluentIcon.DOCUMENT,"测试日志输出"),
+        PushButton(FluentIcon.CLOSE,"测试引发崩溃"),
+        SubtitleLabel("欢愉（太有乐子了）"),
+        SwitchSettingCard(
+            configItem=cfg.eco,
+            icon=FluentIcon.LEAF,
+            title="环保模式",
+            content="NamePicker致力于减少碳排放"
+        )]
+        for i in self.sets:
+            self.opts.addWidget(i)
+        self.sets[5].clicked.connect(self.testLog)
+        self.sets[6].clicked.connect(self.testCrash)
+        self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
+        self.scrollArea.setWidget(self.optv)
+        self.optv.setStyleSheet("QWidget{background: transparent}")
+        self.df.addWidget(TitleLabel("设置"))
+        self.df.addWidget(self.scrollArea)
 
-    def handle_exception(sel,exception, value, trace):
-        logging.error(traceback.format_exc())
+        logger.info("设置界面初始化完成")
 
-class Shortcut(tkinter.Tk):
+    def testLog(self):
+        logger.debug("这是Debug日志")
+        logger.info("这是Info日志")
+        logger.warning("这是Warning日志")
+        logger.error("这是Error日志")
+
+    def testCrash(self):
+        raise Exception("NamePicker实际上没有任何问题，是你自己手贱引发的崩溃")
+
+class About(QFrame):
+    def __init__(self, text: str, parent=None):
+        global cfg
+        super().__init__(parent=parent)
+        self.setObjectName(text.replace(' ', 'About'))
+        self.df = QVBoxLayout(self)
+        self.about = TitleLabel("关于")
+        self.image = ImageLabel("assets/NamePicker.png")
+        self.ver = SubtitleLabel("NamePicker %s - Codename %s"%(VERSION,CODENAME))
+        self.author = BodyLabel("By 灵魂歌手er（Github @LHGS-github）")
+        self.cpleft = BodyLabel("本软件基于GNU GPLv3获得授权")
+        self.ghrepo = HyperlinkButton(FluentIcon.GITHUB, "https://github.com/NamePickerOrg/NamePicker", 'GitHub Repo')
+
+        self.df.addWidget(self.about)
+        self.df.addWidget(self.image)
+        self.df.addWidget(self.ver)
+        self.df.addWidget(self.author)
+        self.df.addWidget(self.cpleft)
+        self.df.addWidget(self.ghrepo)
+        logger.info("关于界面初始化")
+
+class App(FluentWindow):
     def __init__(self):
         super().__init__()
-        self.geometry("100x100")
-        self.overrideredirect(True)
-        self.attributes('-topmost', True)
-        sv_ttk.set_theme(darkdetect.theme())
-        self.photo = None
-        self.dragging = False
-        self.pack_widgets()
-        self.report_callback_exception = self.handle_exception
-        logging.info("浮窗初始化完成")
+        qconfig.theme = Theme.AUTO
+        setTheme(Theme.AUTO)
+        self.Choose = Choose("随机抽选",self)
+        self.Settings = Settings("设置",self)
+        self.About = About("关于", self)
+        self.initNavigation()
+        self.initWindow()
+        logger.info("主界面初始化")
 
-    def handle_exception(sel,exception, value, trace):
-        logging.error(traceback.format_exc())
+    def initNavigation(self):
+        self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
+        self.addSubInterface(self.Settings, FluentIcon.SETTING, '设置', NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.About, FluentIcon.INFO, '关于', NavigationItemPosition.BOTTOM)
 
-    def pack_widgets(self):
-        global img
-        self.photo = ImageTk.PhotoImage(img)
-        frame = ttk.Frame(self,width=100,height=100)
-        frame.pack(anchor="center")
-        can = tkinter.Canvas(frame,width=100,height=100)
-        can.create_image(50,50,image=self.photo)
-        can.pack()
-        can.bind("<B1-Motion>", self.move_window)
-        can.bind("<ButtonRelease-1>", self.calls)
-        logging.info("浮窗组件绑定事件完成")
-        menu = (pystray.MenuItem(text='打开软件窗口', action=self.calls),
-                pystray.MenuItem(text='退出', action=self.quit_window)
-                )
-        icon = pystray.Icon("name", img, "NamePicker", menu)
-        threading.Thread(target=icon.run, daemon=True).start()
-        logging.info("浮窗组件设置完成")
+    def initWindow(self):
+        self.resize(700, 500)
+        self.setWindowIcon(QIcon('assets/NamePicker.png'))
+        self.setWindowTitle('NamePicker')
 
-    def move_window(self,event):
-        self.dragging = True
-        self.geometry("+{0}+{1}".format(event.x_root-50, event.y_root-50))
+    def closeEvent(self, event):
+        self.hide()
+        event.ignore()
 
-    def calls(self,event):
-        if self.dragging:
-            self.dragging = False
-            logging.debug("结束拖拽")
+class SystemTrayIcon(QSystemTrayIcon):
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        self.setIcon(parent.windowIcon())
+
+        self.menu = SystemTrayMenu(parent=parent)
+        self.menu.addActions([
+            Action('退出', triggered=self.esc)
+        ])
+        self.setContextMenu(self.menu)
+
+    def esc(self):
+        sys.exit(0)
+
+class TrayWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFixedSize(100, 100)
+        self.setWindowIcon(QIcon('assets/NamePickerCircle.png'))
+        screen = QDesktopWidget().screenGeometry()
+        self.move(int(screen.width()*0.7), int(screen.height()*0.7))
+        self.systemTrayIcon = SystemTrayIcon(self)
+        self.systemTrayIcon.show()
+
+        self.drag_start_pos = None
+        self.main_window = None
+        self.drag = False
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.drag_start_pos = event.globalPos()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if self.drag_start_pos is not None and event.buttons() == Qt.LeftButton:
+            self.drag = True
+            delta = event.globalPos() - self.drag_start_pos
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.drag_start_pos = event.globalPos()
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton and self.drag_start_pos:
+            if not self.drag:
+                self.show_main_window()
+            else:
+                self.drag = False
+            self.drag_start_pos = None
+            event.accept()
+
+    def show_main_window(self):
+        if not self.main_window:
+            self.main_window = App()
+            self.main_window.show()
         else:
-            logging.debug("点击回调函数")
-            app = App()
-            app.mainloop()
+            self.main_window.show()
+            self.main_window.activateWindow()
 
-    def quit_window(self):
-        self.destroy()
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        pixmap = QPixmap('assets/NamePickerCircle.png')
+        painter.drawPixmap(self.rect(), pixmap)
+        painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
 
 if __name__ == "__main__":
-    sh = Shortcut()
-    sh.mainloop()
+    app = QApplication(sys.argv)
+    tray = TrayWindow()
+    tray.show()
+    sys.exit(app.exec_())

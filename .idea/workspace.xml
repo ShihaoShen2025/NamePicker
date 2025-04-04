@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:欸艹忘记加requirements.txt了，火速补上">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-    </list>
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -37,7 +34,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/NamePickerOrg/NamePicker.git&quot;,
-    &quot;accountId&quot;: &quot;0feb3c8d-1e46-4025-a315-326d1e4446d5&quot;
+    &quot;accountId&quot;: &quot;553756c2-dbd4-4a6c-8ff3-29bfed7ff291&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -52,19 +49,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.configgui.executor": "Run",
-    "Python.configui.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/ClassWidgets/plugins",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/NamePicker/main.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="NamePicker" is-module-sdk="true">
@@ -75,9 +72,34 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\NamePicker" />
       <recent name="D:\NamePicker\assets" />
+      <recent name="D:\NamePicker" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="NamePicker" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (NamePicker)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="true" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -94,118 +116,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00001" summary="一个勉强能用的版本">
-      <option name="closed" value="true" />
-      <created>1740888296493</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1740888296493</updated>
-    </task>
-    <task id="LOCAL-00002" summary="支持从外部读取配置">
-      <option name="closed" value="true" />
-      <created>1740889074319</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1740889074319</updated>
-    </task>
-    <task id="LOCAL-00003" summary="main.py采用类封装，半完成gui配置界面">
-      <option name="closed" value="true" />
-      <created>1740895493892</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1740895493892</updated>
-    </task>
-    <task id="LOCAL-00004" summary="完成配置gui界面，写readme">
-      <option name="closed" value="true" />
-      <created>1740897746196</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1740897746196</updated>
-    </task>
-    <task id="LOCAL-00005" summary="最终完成v0.0.1">
-      <option name="closed" value="true" />
-      <created>1740902358359</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1740902358359</updated>
-    </task>
-    <task id="LOCAL-00006" summary="v0.0.1-patch1">
-      <option name="closed" value="true" />
-      <created>1740909532350</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1740909532350</updated>
-    </task>
-    <task id="LOCAL-00007" summary="v0.0.1-patch1 补充requirements.txt，修改readme">
-      <option name="closed" value="true" />
-      <created>1740909752163</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1740909752163</updated>
-    </task>
-    <task id="LOCAL-00008" summary="v0.0.1-patch1 补充requirements.txt，修改readme">
-      <option name="closed" value="true" />
-      <created>1740909820180</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1740909820180</updated>
-    </task>
-    <task id="LOCAL-00009" summary="v0.0.1-patch2 画大饼，没更新任何实际功能">
-      <option name="closed" value="true" />
-      <created>1740911462780</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1740911462780</updated>
-    </task>
-    <task id="LOCAL-00010" summary="fix:修复了配置界面和主界面风格不同的问题，更新到1.0.0 Release(v1.0.0rel)">
-      <option name="closed" value="true" />
-      <created>1741508110553</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1741508110553</updated>
-    </task>
-    <task id="LOCAL-00011" summary="feat:开启1.0.1dev">
-      <option name="closed" value="true" />
-      <created>1741516603850</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1741516603850</updated>
-    </task>
-    <task id="LOCAL-00012" summary="feat:改action">
-      <option name="closed" value="true" />
-      <created>1741529181165</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1741529181165</updated>
-    </task>
-    <task id="LOCAL-00013" summary="feat:我最喜欢改action了">
-      <option name="closed" value="true" />
-      <created>1742012794775</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1742012794775</updated>
-    </task>
-    <task id="LOCAL-00014" summary="feat:我最喜欢改action了111">
-      <option name="closed" value="true" />
-      <created>1742014975713</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1742014975713</updated>
     </task>
     <task id="LOCAL-00015" summary="feat:添加CODENAME（开发代号字段），并使配置可以半热切换">
       <option name="closed" value="true" />
@@ -343,7 +253,263 @@
       <option name="project" value="LOCAL" />
       <updated>1742635817764</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="ci:修正workflow">
+      <option name="closed" value="true" />
+      <created>1742637838612</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1742637838612</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat:开启1.1.1dev，代号Sonetto">
+      <option name="closed" value="true" />
+      <created>1742692521139</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1742692521139</updated>
+    </task>
+    <task id="LOCAL-00034" summary="doc:修改issue模板">
+      <option name="closed" value="true" />
+      <created>1742692764090</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1742692764090</updated>
+    </task>
+    <task id="LOCAL-00035" summary="feat&amp;ci:调整目录结构，调整workflow">
+      <option name="closed" value="true" />
+      <created>1742693160765</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1742693160765</updated>
+    </task>
+    <task id="LOCAL-00036" summary="ci:调整workflow">
+      <option name="closed" value="true" />
+      <created>1742693853953</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1742693853953</updated>
+    </task>
+    <task id="LOCAL-00037" summary="ci:继续调整workflow">
+      <option name="closed" value="true" />
+      <created>1742695881505</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1742695881505</updated>
+    </task>
+    <task id="LOCAL-00038" summary="ci:使用一种原始手段撤回对workflow的更改">
+      <option name="closed" value="true" />
+      <created>1742703637464</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1742703637464</updated>
+    </task>
+    <task id="LOCAL-00039" summary="fix:修复了抽选8-10个时部分名字无法显示的问题">
+      <option name="closed" value="true" />
+      <created>1742712933661</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1742712933661</updated>
+    </task>
+    <task id="LOCAL-00040" summary="feat:悬浮窗位置更加友好">
+      <option name="closed" value="true" />
+      <created>1742713493467</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1742713493467</updated>
+    </task>
+    <task id="LOCAL-00041" summary="feat:组件使用相对坐标">
+      <option name="closed" value="true" />
+      <created>1742715025723</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1742715025723</updated>
+    </task>
+    <task id="LOCAL-00042" summary="refactor:修改配置窗口主题逻辑">
+      <option name="closed" value="true" />
+      <created>1743223482058</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1743223482058</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feat:主界面可调节大小">
+      <option name="closed" value="true" />
+      <created>1743234857679</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1743234857679</updated>
+    </task>
+    <task id="LOCAL-00044" summary="feat:翻新配置界面">
+      <option name="closed" value="true" />
+      <created>1743237333750</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1743237333750</updated>
+    </task>
+    <task id="LOCAL-00045" summary="feat:完善日志功能，完成v1.1.1dev">
+      <option name="closed" value="true" />
+      <created>1743241212472</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1743241212472</updated>
+    </task>
+    <task id="LOCAL-00046" summary="feat:开启v1.1.2dev">
+      <option name="closed" value="true" />
+      <created>1743302732845</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1743302732845</updated>
+    </task>
+    <task id="LOCAL-00047" summary="feat:优化了深色模式标题栏">
+      <option name="closed" value="true" />
+      <created>1743307688276</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1743307688276</updated>
+    </task>
+    <task id="LOCAL-00048" summary="feat:优化了配置页深色模式标题栏">
+      <option name="closed" value="true" />
+      <created>1743307874167</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1743307874167</updated>
+    </task>
+    <task id="LOCAL-00049" summary="ci:修改工作流">
+      <option name="closed" value="true" />
+      <created>1743311847057</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1743311847057</updated>
+    </task>
+    <task id="LOCAL-00050" summary="feat:大！刀！阔！斧！">
+      <option name="closed" value="true" />
+      <created>1743722270114</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1743722270114</updated>
+    </task>
+    <task id="LOCAL-00051" summary="feat:显示流畅窗口">
+      <option name="closed" value="true" />
+      <created>1743727387858</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1743727387858</updated>
+    </task>
+    <task id="LOCAL-00052" summary="feat:完成主页框架">
+      <option name="closed" value="true" />
+      <created>1743733124622</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1743733124622</updated>
+    </task>
+    <task id="LOCAL-00053" summary="feat:完成主页功能">
+      <option name="closed" value="true" />
+      <created>1743733681665</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1743733681665</updated>
+    </task>
+    <task id="LOCAL-00054" summary="feat:完成设置页">
+      <option name="closed" value="true" />
+      <created>1743735819558</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1743735819559</updated>
+    </task>
+    <task id="LOCAL-00055" summary="feat:完成CI/CW联动">
+      <option name="closed" value="true" />
+      <created>1743736329696</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1743736329696</updated>
+    </task>
+    <task id="LOCAL-00056" summary="feat:完成浮窗">
+      <option name="closed" value="true" />
+      <created>1743738525874</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1743738525874</updated>
+    </task>
+    <task id="LOCAL-00057" summary="docs&amp;ci:调整工作流">
+      <option name="closed" value="true" />
+      <created>1743741301178</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1743741301178</updated>
+    </task>
+    <task id="LOCAL-00058" summary="ci:调整工作流">
+      <option name="closed" value="true" />
+      <created>1743741461406</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1743741461406</updated>
+    </task>
+    <task id="LOCAL-00059" summary="ci:调整工作流2">
+      <option name="closed" value="true" />
+      <created>1743741838282</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1743741838282</updated>
+    </task>
+    <task id="LOCAL-00060" summary="feat:增加浮窗功能">
+      <option name="closed" value="true" />
+      <created>1743742406209</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1743742406209</updated>
+    </task>
+    <task id="LOCAL-00061" summary="ci:修正工作流3">
+      <option name="closed" value="true" />
+      <created>1743746533441</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1743746533442</updated>
+    </task>
+    <task id="LOCAL-00062" summary="feat:完成关于页面">
+      <option name="closed" value="true" />
+      <created>1743752408870</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1743752408870</updated>
+    </task>
+    <task id="LOCAL-00063" summary="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release">
+      <option name="closed" value="true" />
+      <created>1743757189200</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1743757189201</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -373,31 +539,31 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.0.1-patch1 补充requirements.txt，修改readme" />
-    <MESSAGE value="v0.0.1-patch2 画大饼，没更新任何实际功能" />
-    <MESSAGE value="fix:修复了配置界面和主界面风格不同的问题，更新到1.0.0 Release(v1.0.0rel)" />
-    <MESSAGE value="feat:开启1.0.1dev" />
-    <MESSAGE value="feat:在配置界面可以查看版本号，顺带测试Action自动构建" />
-    <MESSAGE value="feat:改action" />
-    <MESSAGE value="feat:我最喜欢改action了" />
-    <MESSAGE value="feat:我最喜欢改action了111" />
-    <MESSAGE value="feat:添加CODENAME（开发代号字段），并使配置可以半热切换" />
-    <MESSAGE value="feat:添加抽选非二元功能" />
-    <MESSAGE value="feat:完成与Class Widgets联动功能" />
-    <MESSAGE value="feat:完成与Class Widgets联动功能，完成1.0.1dev" />
-    <MESSAGE value="feat:开v1.0.2dev，改README" />
-    <MESSAGE value="feat:完成ClassIsland联动" />
-    <MESSAGE value="feat:支持抽选多个" />
-    <MESSAGE value="feat:修复若干文本错误，完成v1.0.2" />
-    <MESSAGE value="feat:浮窗完成50%，起v1.0.3dev" />
+    <MESSAGE value="feat:悬浮窗位置更加友好" />
+    <MESSAGE value="feat:组件使用相对坐标" />
+    <MESSAGE value="refactor:修改配置窗口主题逻辑" />
+    <MESSAGE value="feat:主界面可调节大小" />
+    <MESSAGE value="feat:翻新配置界面" />
+    <MESSAGE value="feat:完善日志功能，完成v1.1.1dev" />
+    <MESSAGE value="feat:开启v1.1.2dev" />
+    <MESSAGE value="feat:优化了深色模式标题栏" />
+    <MESSAGE value="feat:优化了配置页深色模式标题栏" />
+    <MESSAGE value="ci:修改工作流" />
+    <MESSAGE value="feat:大！刀！阔！斧！" />
+    <MESSAGE value="feat:显示流畅窗口" />
+    <MESSAGE value="feat:完成主页框架" />
+    <MESSAGE value="feat:完成主页功能" />
+    <MESSAGE value="feat:完成设置页" />
+    <MESSAGE value="feat:完成CI/CW联动" />
     <MESSAGE value="feat:完成浮窗" />
-    <MESSAGE value="ci:修改workflow打包规则" />
-    <MESSAGE value="ci:修改workflow打包规则2" />
-    <MESSAGE value="ci:修改workflow打包规则3" />
-    <MESSAGE value="ci:修改workflow打包规则4" />
-    <MESSAGE value="ci:修改workflow打包规则5" />
-    <MESSAGE value="feat:完成v1.1.0 Release" />
-    <MESSAGE value="feat:欸艹忘记加requirements.txt了，火速补上" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:欸艹忘记加requirements.txt了，火速补上" />
+    <MESSAGE value="docs&amp;ci:调整工作流" />
+    <MESSAGE value="ci:调整工作流" />
+    <MESSAGE value="ci:调整工作流2" />
+    <MESSAGE value="feat:增加托盘图标" />
+    <MESSAGE value="feat:增加托盘图标" />
+    <MESSAGE value="ci:修正工作流3" />
+    <MESSAGE value="feat:完成关于页面" />
+    <MESSAGE value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
   </component>
 </project>

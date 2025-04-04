@@ -1,1 +1,16 @@
-{"VERSION": "1.1.0rel", "VER_NO": 5, "CODENAME": "Firefly", "allowRepeat": false, "alwaysOnTop": true, "SupportCW": false}
+{
+    "General": {
+        "allowRepeat": false,
+        "supportCS": false
+    },
+    "Huanyu": {
+        "ecoMode": true
+    },
+    "Debug": {
+        "logLevel": "DEBUG"
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ff009faa",
+        "ThemeMode": "Auto"
+    }
+}
