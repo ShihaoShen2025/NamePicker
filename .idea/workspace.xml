@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="docs&amp;ci:调整工作流">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:调整工作流">
       <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,14 +118,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00009" summary="v0.0.1-patch2 画大饼，没更新任何实际功能">
-      <option name="closed" value="true" />
-      <created>1740911462780</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1740911462780</updated>
     </task>
     <task id="LOCAL-00010" summary="fix:修复了配置界面和主界面风格不同的问题，更新到1.0.0 Release(v1.0.0rel)">
       <option name="closed" value="true" />
@@ -512,7 +503,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743741301178</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="ci:调整工作流">
+      <option name="closed" value="true" />
+      <created>1743741461406</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1743741461406</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +541,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:开启1.1.1dev，代号Sonetto" />
     <MESSAGE value="doc:修改issue模板" />
     <MESSAGE value="feat&amp;ci:调整目录结构，调整workflow" />
     <MESSAGE value="ci:调整workflow" />
@@ -567,6 +565,7 @@
     <MESSAGE value="feat:完成CI/CW联动" />
     <MESSAGE value="feat:完成浮窗" />
     <MESSAGE value="docs&amp;ci:调整工作流" />
-    <option name="LAST_COMMIT_MESSAGE" value="docs&amp;ci:调整工作流" />
+    <MESSAGE value="ci:调整工作流" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci:调整工作流" />
   </component>
 </project>
