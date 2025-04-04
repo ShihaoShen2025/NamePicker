@@ -4,7 +4,7 @@ import tempfile
 import random
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon,QPainter,QPixmap
 from qfluentwidgets import *
 
 temp_dir = tempfile.gettempdir()
@@ -245,9 +245,62 @@ class App(FluentWindow):
         self.setWindowIcon(QIcon('assets/NamePicker.png'))
         self.setWindowTitle('NamePicker')
 
+    def closeEvent(self, event):
+        self.hide()
+        event.ignore()
+
+class TrayWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFixedSize(100, 100)
+        self.setWindowIcon(QIcon('assets/NamePickerCircle.png'))
+        screen = QDesktopWidget().screenGeometry()
+        self.move(screen.width() - 320, screen.height() - 320)
+
+        self.drag_start_pos = None
+        self.main_window = None
+        self.drag = False
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.drag_start_pos = event.globalPos()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if self.drag_start_pos is not None and event.buttons() == Qt.LeftButton:
+            self.drag = True
+            delta = event.globalPos() - self.drag_start_pos
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.drag_start_pos = event.globalPos()
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton and self.drag_start_pos:
+            if not self.drag:
+                self.show_main_window()
+            else:
+                self.drag = False
+            self.drag_start_pos = None
+            event.accept()
+
+    def show_main_window(self):
+        if not self.main_window:
+            self.main_window = App()
+            self.main_window.show()
+        else:
+            self.main_window.show()
+            self.main_window.activateWindow()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        pixmap = QPixmap('assets/NamePickerCircle.png')
+        painter.drawPixmap(self.rect(), pixmap)
+        painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    w = App()
-    w.show()
-    app.exec()
+    tray = TrayWindow()
+    tray.show()
+    sys.exit(app.exec_())

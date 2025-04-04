@@ -1,7 +1,7 @@
 {
     "General": {
         "allowRepeat": false,
-        "supportCS": true
+        "supportCS": false
     },
     "Huanyu": {
         "ecoMode": false
