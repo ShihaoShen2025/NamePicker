@@ -67,7 +67,6 @@ class Choose(QFrame):
         self.table.setRowCount(10)
         self.table.setColumnCount(2)
         self.table.setHorizontalHeaderLabels(["姓名","学号"])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.pn = QWidget()
         self.pnl = QHBoxLayout(self)
