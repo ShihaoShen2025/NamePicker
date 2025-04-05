@@ -411,7 +411,7 @@ class App(FluentWindow):
 
     def initNavigation(self):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
-        self.addSubInterface(self.NameEdit, FluentIcon.EDIT, "随机抽选")
+        self.addSubInterface(self.NameEdit, FluentIcon.EDIT, "名单编辑")
         self.addSubInterface(self.Settings, FluentIcon.SETTING, '设置', NavigationItemPosition.BOTTOM)
         self.addSubInterface(self.About, FluentIcon.INFO, '关于', NavigationItemPosition.BOTTOM)
 
