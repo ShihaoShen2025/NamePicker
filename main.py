@@ -11,8 +11,8 @@ from PyQt5.QtGui import QIcon,QPainter,QPixmap
 from qfluentwidgets import *
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.0.0rel"
-CODENAME = "Tribbie"
+VERSION = "v2.0.1dev"
+CODENAME = "Cola"
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
