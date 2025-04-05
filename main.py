@@ -33,7 +33,7 @@ logger.remove(0)
 logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get(cfg.logLevel))
 
-logger.info("⌈缇宝，明天见⌋")
+logger.info("⌈百事可乐还是可口可乐？⌋")
 
 def hookExceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
@@ -67,6 +67,7 @@ class Choose(QFrame):
         self.table.setRowCount(10)
         self.table.setColumnCount(2)
         self.table.setHorizontalHeaderLabels(["姓名","学号"])
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.pn = QWidget()
         self.pnl = QHBoxLayout(self)
@@ -177,7 +178,6 @@ class Choose(QFrame):
                     self.table.setItem(i, j, QTableWidgetItem(t[j]))
             logger.debug("表格设置完成")
 
-
     def loadname(self):
         try:
             name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
@@ -210,7 +210,111 @@ class Choose(QFrame):
             with open("names.csv","w",encoding="utf-8") as f:
                 st  = ["name,sex,no\n","example,0,1"]
                 f.writelines(st)
-            sys.exit(114514)
+            w = Dialog("没有找到名单文件", "没有找到名单文件，已为您创建默认名单，请自行编辑", self)
+            w.exec()
+            self.loadname()
+
+class NameEdit(QFrame):
+    def __init__(self, text: str, parent=None):
+        super().__init__(parent=parent)
+        self.names = []
+        self.nametable = []
+        self.loadname()
+        self.editing = 0
+
+        self.vbox = QVBoxLayout(self)
+        self.title = TitleLabel("名单编辑")
+        self.vbox.addWidget(self.title)
+
+        self.expl = BodyLabel("所有更改都将自动保存至文件，可以直接编辑表格内容")
+        self.vbox.addWidget(self.expl)
+
+        self.table = TableWidget(self)
+        self.table.setBorderVisible(True)
+        self.table.setBorderRadius(8)
+        self.table.setWordWrap(False)
+        self.table.setRowCount(len(self.nametable))
+        self.table.setColumnCount(3)
+        self.table.adjustSize()
+        self.table.setHorizontalHeaderLabels(["姓名", "性别", "学号"])
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.opv = QWidget()
+        self.option = QHBoxLayout(self.opv)
+        self.add = PushButton(FluentIcon.ADD,"添加一行")
+        self.rem = PushButton(FluentIcon.DELETE,"删除选中行")
+        self.add.clicked.connect(self.addrow)
+        self.rem.clicked.connect(self.delrow)
+        self.option.addWidget(self.add)
+        self.option.addWidget(self.rem)
+        self.vbox.addWidget(self.opv)
+
+        self.refresh()
+        self.vbox.addWidget(self.table)
+        self.table.clicked.connect(self.select)
+        self.table.itemChanged.connect(self.savename)
+        self.selected_items = self.table.selectedItems()
+        self.selected_data = [item.text() for item in self.selected_items]
+
+        self.setObjectName(text.replace(' ', 'NameEdit'))
+
+    def refresh(self):
+        self.table.setRowCount(len(self.nametable))
+        for i, t in enumerate(self.nametable):
+            for j in range(3):
+                self.table.setItem(i, j, QTableWidgetItem(t[j]))
+
+    def addrow(self):
+        self.nametable.append(["example","男","0"])
+        self.refresh()
+
+    def delrow(self):
+        del self.nametable[self.editing]
+        self.editing = 0
+        self.refresh()
+
+    def select(self):
+        self.selected_items = self.table.selectedItems()
+        self.selected_data = [item.text() for item in self.selected_items]
+        self.editing = self.nametable.index(self.selected_data)
+        logger.debug(self.selected_data)
+        logger.debug(self.editing)
+
+    def savename(self):
+        self.selected_items = self.table.selectedItems()
+        self.selected_data = [item.text() for item in self.selected_items]
+        self.nametable[self.editing] = self.selected_data
+        logger.debug(self.nametable)
+        with open("names.csv","w",encoding="utf-8") as f:
+            namewrite = ["name,sex,no\n"]
+            t = 0
+            for i in range(len(self.nametable)):
+                logger.debug(self.nametable[i])
+                if self.nametable[i][1] == "男" or self.nametable[i][1] == "0":
+                    t = 0
+                elif self.nametable[i][1] == "女" or self.nametable[i][1] == "1":
+                    t = 1
+                else:
+                    t = 2
+                namewrite.append(",".join([self.nametable[i][0],str(t),str(self.nametable[i][2])])+"\n")
+            f.writelines(namewrite)
+
+    def loadname(self):
+        name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
+        name = name.to_dict()
+        self.names.append(list(name["name"].values()))
+        self.names.append(list(name["sex"].values()))
+        self.names.append(list(name["no"].values()))
+        for i in range(len(self.names[0])):
+            if self.names[1][i] == 0:
+                t = "男"
+            elif self.names[1][i] == 1:
+                t = "女"
+            else:
+                t = "其他"
+            self.nametable.append([self.names[0][i],t,str(self.names[2][i])])
+        logger.debug(self.nametable)
+        logger.info("名单加载完成")
 
 class Settings(QFrame):
     def __init__(self, text: str, parent=None):
@@ -299,6 +403,7 @@ class App(FluentWindow):
         qconfig.theme = Theme.AUTO
         setTheme(Theme.AUTO)
         self.Choose = Choose("随机抽选",self)
+        self.NameEdit = NameEdit("名单编辑", self)
         self.Settings = Settings("设置",self)
         self.About = About("关于", self)
         self.initNavigation()
@@ -307,6 +412,7 @@ class App(FluentWindow):
 
     def initNavigation(self):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
+        self.addSubInterface(self.NameEdit, FluentIcon.EDIT, "随机抽选")
         self.addSubInterface(self.Settings, FluentIcon.SETTING, '设置', NavigationItemPosition.BOTTOM)
         self.addSubInterface(self.About, FluentIcon.INFO, '关于', NavigationItemPosition.BOTTOM)
 
