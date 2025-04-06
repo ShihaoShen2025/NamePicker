@@ -22,6 +22,7 @@ class Config(QConfig):
     allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
     supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
+    justice = ConfigItem("Huanyu", "justice", False, BoolValidator())
     logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
 
 cfg = Config()
@@ -54,6 +55,10 @@ class Choose(QFrame):
 
         self.hBoxLayout = QHBoxLayout(self)
         self.options = QVBoxLayout(self)
+
+        if cfg.get(cfg.justice):
+            self.just = StrongBodyLabel("NamePicker绝对没有暗改概率功能")
+            self.options.addWidget(self.just)
 
         self.pickbn = PrimaryPushButton("点击抽选")
         self.pickbn.clicked.connect(self.pickcb)
@@ -353,6 +358,11 @@ class Settings(QFrame):
             icon=FluentIcon.LEAF,
             title="环保模式",
             content="NamePicker致力于减少碳排放"
+        ),SwitchSettingCard(
+            configItem=cfg.justice,
+            icon=FluentIcon.SPEED_MEDIUM,
+            title="绝对公平模式",
+            content="启用后，将在主页显示一条提示"
         )]
         for i in self.sets:
             self.opts.addWidget(i)

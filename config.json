@@ -4,7 +4,8 @@
         "supportCS": false
     },
     "Huanyu": {
-        "ecoMode": true
+        "ecoMode": false,
+        "justice": false
     },
     "Debug": {
         "logLevel": "DEBUG"
