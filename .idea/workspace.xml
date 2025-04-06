@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="docs:修正文档">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:增加绝对公平模式">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,14 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00022" summary="feat:修复若干文本错误，完成v1.0.2">
-      <option name="closed" value="true" />
-      <created>1742125001893</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1742125001893</updated>
     </task>
     <task id="LOCAL-00023" summary="feat:浮窗完成50%，起v1.0.3dev">
       <option name="closed" value="true" />
@@ -513,7 +505,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743919376133</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="feat:增加绝对公平模式">
+      <option name="closed" value="true" />
+      <created>1743924170839</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1743924170839</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -543,7 +543,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:优化了深色模式标题栏" />
     <MESSAGE value="feat:优化了配置页深色模式标题栏" />
     <MESSAGE value="ci:修改工作流" />
     <MESSAGE value="feat:大！刀！阔！斧！" />
@@ -568,6 +567,7 @@
     <MESSAGE value="chore:修正菜单栏文本错误" />
     <MESSAGE value="chore:更改开发代号" />
     <MESSAGE value="docs:修正文档" />
-    <option name="LAST_COMMIT_MESSAGE" value="docs:修正文档" />
+    <MESSAGE value="feat:增加绝对公平模式" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:增加绝对公平模式" />
   </component>
 </project>

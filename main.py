@@ -396,14 +396,20 @@ class About(QFrame):
         self.ver = SubtitleLabel("NamePicker %s - Codename %s"%(VERSION,CODENAME))
         self.author = BodyLabel("By 灵魂歌手er（Github @LHGS-github）")
         self.cpleft = BodyLabel("本软件基于GNU GPLv3获得授权")
+
+        self.linkv = QWidget()
+        self.links = QHBoxLayout(self.linkv)
         self.ghrepo = HyperlinkButton(FluentIcon.GITHUB, "https://github.com/NamePickerOrg/NamePicker", 'GitHub Repo')
+        self.docsite = HyperlinkButton(FluentIcon.DOCUMENT,"https://namepicker-docs.netlify.app/","官方文档")
+        self.links.addWidget(self.ghrepo)
+        self.links.addWidget(self.docsite)
 
         self.df.addWidget(self.about)
         self.df.addWidget(self.image)
         self.df.addWidget(self.ver)
         self.df.addWidget(self.author)
         self.df.addWidget(self.cpleft)
-        self.df.addWidget(self.ghrepo)
+        self.df.addWidget(self.linkv)
         logger.info("关于界面初始化")
 
 class App(FluentWindow):

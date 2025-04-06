@@ -6,6 +6,8 @@
 
 [QQ群（群号2153027375）](https://qm.qq.com/q/fTjhKuAlCU)
 
+[NamePicker文档](https://namepicker-docs.netlify.app/)
+
 > [!note]
 > 
 > 从v2.0.0起，NamePicker本体将基于GNU GPLv3协议开源
