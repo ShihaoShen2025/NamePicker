@@ -12,7 +12,7 @@ from qfluentwidgets import *
 
 temp_dir = tempfile.gettempdir()
 VERSION = "v2.0.1dev"
-CODENAME = "Cola"
+CODENAME = "Robin"
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -33,7 +33,7 @@ logger.remove(0)
 logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get(cfg.logLevel))
 
-logger.info("⌈百事可乐还是可口可乐？⌋")
+logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
 
 def hookExceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
