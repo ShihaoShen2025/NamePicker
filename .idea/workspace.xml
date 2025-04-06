@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="chore:修正菜单栏文本错误">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="chore:更改开发代号">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.bat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,14 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00020" summary="feat:完成ClassIsland联动">
-      <option name="closed" value="true" />
-      <created>1742108256361</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1742108256361</updated>
     </task>
     <task id="LOCAL-00021" summary="feat:支持抽选多个">
       <option name="closed" value="true" />
@@ -512,7 +505,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743832415624</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="chore:更改开发代号">
+      <option name="closed" value="true" />
+      <created>1743917238939</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1743917238939</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +543,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:完善日志功能，完成v1.1.1dev" />
     <MESSAGE value="feat:开启v1.1.2dev" />
     <MESSAGE value="feat:优化了深色模式标题栏" />
     <MESSAGE value="feat:优化了配置页深色模式标题栏" />
@@ -567,6 +567,7 @@
     <MESSAGE value="feat:完成软件内名单编辑" />
     <MESSAGE value="fix:修正主页表格" />
     <MESSAGE value="chore:修正菜单栏文本错误" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore:修正菜单栏文本错误" />
+    <MESSAGE value="chore:更改开发代号" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore:更改开发代号" />
   </component>
 </project>
