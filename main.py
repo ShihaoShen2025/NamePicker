@@ -469,7 +469,8 @@ class TrayWindow(QWidget):
         self.systemTrayIcon.show()
 
         self.drag_start_pos = None
-        self.main_window = None
+        self.main_window = App()
+        self.main_window.hide()
         self.drag = False
 
     def mousePressEvent(self, event):
@@ -488,19 +489,18 @@ class TrayWindow(QWidget):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton and self.drag_start_pos:
             if not self.drag:
-                self.show_main_window()
+                if not cfg.get(cfg.supportCS):
+                    self.show_main_window()
+                else:
+                    self.main_window.Choose.pickcb()
             else:
                 self.drag = False
             self.drag_start_pos = None
             event.accept()
 
     def show_main_window(self):
-        if not self.main_window:
-            self.main_window = App()
-            self.main_window.show()
-        else:
-            self.main_window.show()
-            self.main_window.activateWindow()
+        self.main_window.show()
+        self.main_window.activateWindow()
 
     def paintEvent(self, event):
         painter = QPainter(self)
