@@ -21,6 +21,7 @@ QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 class Config(QConfig):
     allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
     supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
+    chooseKey = ConfigItem("General","chooseKey","ctrl+w")
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
     justice = ConfigItem("Huanyu", "justice", False, BoolValidator())
     logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
@@ -62,6 +63,7 @@ class Choose(QFrame):
 
         self.pickbn = PrimaryPushButton("点击抽选")
         self.pickbn.clicked.connect(self.pickcb)
+        self.pickbn.setShortcut(cfg.get(cfg.chooseKey))
         self.pickbn.adjustSize()
         self.options.addWidget(self.pickbn,5)
 
@@ -331,6 +333,22 @@ class Settings(QFrame):
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.optv =QWidget()
         self.opts = QVBoxLayout(self.optv)
+        self.tlog = PushButton(FluentIcon.DOCUMENT,"测试日志输出")
+        self.tcrash = PushButton(FluentIcon.CLOSE,"测试引发崩溃")
+        self.tlog.clicked.connect(self.testLog)
+        self.tcrash.clicked.connect(self.testCrash)
+        self.cKey=SettingCard(
+            icon=FluentIcon.FONT,
+            title="抽选快捷键",
+            content="设置抽选的快捷键（不区分大小写，使用英文加号(+)串联多个按键），重启生效"
+        )
+        self.cKeyInput = LineEdit()
+        self.cKeyInput.setPlaceholderText("输入快捷键")
+        self.cKeyInput.setText(cfg.get(cfg.chooseKey))
+        self.cKey.hBoxLayout.addStretch(20)
+        self.cKey.hBoxLayout.addWidget(self.cKeyInput)
+        self.cKey.hBoxLayout.addStretch(1)
+        self.cKeyInput.textChanged.connect(lambda :cfg.set(cfg.chooseKey,self.cKeyInput.text()))
         self.sets = [SubtitleLabel("常规"),
         SwitchSettingCard(
             configItem=cfg.allowRepeat,
@@ -344,14 +362,15 @@ class Settings(QFrame):
             title="课表软件联动",
             content="启用后将在ClassIsland/Class Widgets上（而非主界面）显示抽选结果，需要安装对应插件"
         ),SubtitleLabel("调试"),
+        self.cKey,
         ComboBoxSettingCard(
             configItem=cfg.logLevel,
             icon=FluentIcon.DEVELOPER_TOOLS,
             title="日志记录级别",
             content="日志的详细程度（重启以应用更改）",
             texts=["DEBUG", "INFO", "WARNING","ERROR"]
-        ),PushButton(FluentIcon.DOCUMENT,"测试日志输出"),
-        PushButton(FluentIcon.CLOSE,"测试引发崩溃"),
+        ),self.tlog,
+        self.tcrash,
         SubtitleLabel("欢愉（太有乐子了）"),
         SwitchSettingCard(
             configItem=cfg.eco,
@@ -366,8 +385,6 @@ class Settings(QFrame):
         )]
         for i in self.sets:
             self.opts.addWidget(i)
-        self.sets[5].clicked.connect(self.testLog)
-        self.sets[6].clicked.connect(self.testCrash)
         self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
         self.scrollArea.setWidget(self.optv)
         self.optv.setStyleSheet("QWidget{background: transparent}")

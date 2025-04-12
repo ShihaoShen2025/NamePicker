@@ -1,7 +1,8 @@
 {
     "General": {
         "allowRepeat": false,
-        "supportCS": true
+        "chooseKey": "ctrl+w",
+        "supportCS": false
     },
     "Huanyu": {
         "ecoMode": false,
