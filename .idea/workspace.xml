@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat&amp;docs:增加文档站链接">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:设置页触摸屏适配">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,14 +118,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00024" summary="feat:完成浮窗">
-      <option name="closed" value="true" />
-      <created>1742626006135</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1742626006135</updated>
     </task>
     <task id="LOCAL-00025" summary="ci:修改workflow打包规则">
       <option name="closed" value="true" />
@@ -512,7 +503,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743931259295</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="feat:设置页触摸屏适配">
+      <option name="closed" value="true" />
+      <created>1744463231342</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1744463231342</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +541,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ci:修改工作流" />
     <MESSAGE value="feat:大！刀！阔！斧！" />
     <MESSAGE value="feat:显示流畅窗口" />
     <MESSAGE value="feat:完成主页框架" />
@@ -567,6 +565,7 @@
     <MESSAGE value="docs:修正文档" />
     <MESSAGE value="feat:增加绝对公平模式" />
     <MESSAGE value="feat&amp;docs:增加文档站链接" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat&amp;docs:增加文档站链接" />
+    <MESSAGE value="feat:设置页触摸屏适配" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:设置页触摸屏适配" />
   </component>
 </project>

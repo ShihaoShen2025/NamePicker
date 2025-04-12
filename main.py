@@ -448,6 +448,7 @@ class SystemTrayIcon(QSystemTrayIcon):
 
         self.menu = SystemTrayMenu(parent=parent)
         self.menu.addActions([
+            Action("打开主界面",triggered=parent.show_main_window),
             Action('退出', triggered=self.esc)
         ])
         self.setContextMenu(self.menu)
