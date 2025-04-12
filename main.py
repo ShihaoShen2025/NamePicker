@@ -466,12 +466,11 @@ class SystemTrayIcon(QSystemTrayIcon):
         self.menu = SystemTrayMenu(parent=parent)
         self.menu.addActions([
             Action("打开主界面",triggered=parent.show_main_window),
-            Action('退出', triggered=self.esc)
+            Action("重启",triggered=lambda:os.execl(sys.executable, sys.executable, *sys.argv)),
+            Action('退出', triggered=lambda:sys.exit(0))
         ])
         self.setContextMenu(self.menu)
 
-    def esc(self):
-        sys.exit(0)
 
 class TrayWindow(QWidget):
     def __init__(self):
