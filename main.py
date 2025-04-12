@@ -348,7 +348,7 @@ class Settings(QFrame):
             configItem=cfg.logLevel,
             icon=FluentIcon.DEVELOPER_TOOLS,
             title="日志记录级别",
-            content="日志的详细程度",
+            content="日志的详细程度（重启以应用更改）",
             texts=["DEBUG", "INFO", "WARNING","ERROR"]
         ),PushButton(FluentIcon.DOCUMENT,"测试日志输出"),
         PushButton(FluentIcon.CLOSE,"测试引发崩溃"),
@@ -373,6 +373,7 @@ class Settings(QFrame):
         self.optv.setStyleSheet("QWidget{background: transparent}")
         self.df.addWidget(TitleLabel("设置"))
         self.df.addWidget(self.scrollArea)
+        QScroller.grabGesture(self.scrollArea.viewport(), QScroller.LeftMouseButtonGesture)
 
         logger.info("设置界面初始化完成")
 
