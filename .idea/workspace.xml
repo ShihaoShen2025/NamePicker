@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:增加抽选快捷键">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:也许做好了重启">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,14 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00028" summary="ci:修改workflow打包规则4">
-      <option name="closed" value="true" />
-      <created>1742628146206</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1742628146206</updated>
     </task>
     <task id="LOCAL-00029" summary="ci:修改workflow打包规则5">
       <option name="closed" value="true" />
@@ -513,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744501369564</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="feat:也许做好了重启">
+      <option name="closed" value="true" />
+      <created>1744502129507</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1744502129507</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -543,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:完成主页功能" />
     <MESSAGE value="feat:完成设置页" />
     <MESSAGE value="feat:完成CI/CW联动" />
     <MESSAGE value="feat:完成浮窗" />
@@ -568,6 +566,7 @@
     <MESSAGE value="feat:托盘菜单打开主界面" />
     <MESSAGE value="feat:启用课表软件联动后可以直接点击悬浮窗点名" />
     <MESSAGE value="feat:增加抽选快捷键" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:增加抽选快捷键" />
+    <MESSAGE value="feat:也许做好了重启" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:也许做好了重启" />
   </component>
 </project>

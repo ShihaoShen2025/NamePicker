@@ -9,6 +9,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon,QPainter,QPixmap
 from qfluentwidgets import *
+if os.name == 'nt':
+    from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
 VERSION = "v2.0.1dev"
@@ -22,6 +24,7 @@ class Config(QConfig):
     allowRepeat = ConfigItem("General","allowRepeat",False,BoolValidator())
     supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
     chooseKey = ConfigItem("General","chooseKey","ctrl+w")
+    autoStartup = ConfigItem("General","autoStartup",False,BoolValidator())
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
     justice = ConfigItem("Huanyu", "justice", False, BoolValidator())
     logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
@@ -361,8 +364,15 @@ class Settings(QFrame):
             icon=FluentIcon.LINK,
             title="课表软件联动",
             content="启用后将在ClassIsland/Class Widgets上（而非主界面）显示抽选结果，需要安装对应插件"
-        ),SubtitleLabel("调试"),
+        ),
+        SwitchSettingCard(
+            configItem=cfg.autoStartup,
+            icon=FluentIcon.POWER_BUTTON,
+            title="开机自启",
+            content="开机时自动启动（对于非Windows系统无效）"
+        ),
         self.cKey,
+        SubtitleLabel("调试"),
         ComboBoxSettingCard(
             configItem=cfg.logLevel,
             icon=FluentIcon.DEVELOPER_TOOLS,
@@ -391,8 +401,37 @@ class Settings(QFrame):
         self.df.addWidget(TitleLabel("设置"))
         self.df.addWidget(self.scrollArea)
         QScroller.grabGesture(self.scrollArea.viewport(), QScroller.LeftMouseButtonGesture)
-
+        cfg.autoStartup.valueChanged.connect(self.startupChange)
         logger.info("设置界面初始化完成")
+
+    def startupChange(self):
+        if cfg.get(cfg.autoStartup):
+            self.setStartup()
+        else:
+            self.removeStartup()
+
+    def setStartup(self):
+        if os.name != 'nt':
+            return
+        file_path='%s/main.exe'%os.path.dirname(os.path.abspath(__file__))
+        icon_path = 'assets/favicon.ico'
+        startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
+        name = os.path.splitext(os.path.basename(file_path))[0]  # 使用文件名作为快捷方式名称
+        shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
+        shell = Dispatch('WScript.Shell')
+        shortcut = shell.CreateShortCut(shortcut_path)
+        shortcut.Targetpath = file_path
+        shortcut.WorkingDirectory = os.path.dirname(file_path)
+        shortcut.IconLocation = icon_path  # 设置图标路径
+        shortcut.save()
+
+    def removeStartup(self):
+        file_path = '%s/main.exe' % os.path.dirname(os.path.abspath(__file__))
+        name = os.path.splitext(os.path.basename(file_path))[0]
+        startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
+        shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
+        if os.path.exists(shortcut_path):
+            os.remove(shortcut_path)
 
     def testLog(self):
         logger.debug("这是Debug日志")

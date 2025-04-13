@@ -1,6 +1,7 @@
 {
     "General": {
         "allowRepeat": false,
+        "autoStartup": false,
         "chooseKey": "ctrl+t",
         "supportCS": false
     },
