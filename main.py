@@ -7,7 +7,7 @@ import traceback
 from loguru import logger
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIcon,QPainter,QPixmap
+from PyQt5.QtGui import QIcon,QPainter,QPixmap,QDesktopServices
 from qfluentwidgets import *
 if os.name == 'nt':
     from win32com.client import Dispatch
@@ -15,6 +15,7 @@ if os.name == 'nt':
 temp_dir = tempfile.gettempdir()
 VERSION = "v2.0.1dev"
 CODENAME = "Robin"
+error_dialog = None
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -43,7 +44,97 @@ logger.info("「她将自己的生活形容为一首歌，而那首歌的开始�
 def hookExceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
     logger.error(error_details)
+    if not error_dialog:
+        w = ErrorDialog(error_details)
+        w.exec()
 sys.excepthook = hookExceptions
+
+class ErrorDialog(Dialog):  # 重大错误提示框
+    def __init__(self, error_details='Traceback (most recent call last):', parent=None):
+        # KeyboardInterrupt 直接 exit
+        if error_details.endswith('KeyboardInterrupt') or error_details.endswith('KeyboardInterrupt\n'):
+            sys.exit()
+
+        super().__init__(
+            'NamePicker 崩溃报告',
+            '抱歉！NamePicker 发生了严重的错误从而无法正常运行。您可以保存下方的错误信息并向他人求助。'
+            '若您认为这是程序的Bug，请点击“报告此问题”或联系开发者。',
+            parent
+        )
+        global error_dialog
+        error_dialog = True
+
+        self.is_dragging = False
+        self.drag_position = QPoint()
+        self.title_bar_height = 30
+        self.title_layout = QHBoxLayout()
+
+        self.error_log = PlainTextEdit()
+        self.ignore_error_btn = PushButton(FluentIcon.INFO, '忽略错误')
+        self.report_problem = PushButton(FluentIcon.FEEDBACK, '报告此问题')
+        self.copy_log_btn = PushButton(FluentIcon.COPY, '复制日志')
+        self.restart_btn = PrimaryPushButton(FluentIcon.SYNC, '重新启动')
+
+        self.titleLabel.setText('出错了（；´д｀）ゞ')
+        self.titleLabel.setStyleSheet("font-family: Microsoft YaHei UI; font-size: 25px; font-weight: 500;")
+        self.error_log.setReadOnly(True)
+        self.error_log.setPlainText(error_details)
+        self.error_log.setFixedHeight(200)
+        self.restart_btn.setFixedWidth(150)
+        self.yesButton.hide()
+        self.cancelButton.hide()  # 隐藏取消按钮
+        self.title_layout.setSpacing(12)
+
+        # 按钮事件
+        self.report_problem.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl(
+                'https://github.com/NamePickerOrg/NamePicker/issues/'))
+        )
+        self.copy_log_btn.clicked.connect(self.copy_log)
+        self.restart_btn.clicked.connect(lambda:os.execl(sys.executable, sys.executable, *sys.argv))
+        self.ignore_error_btn.clicked.connect(lambda:self.close())
+
+        self.title_layout.addWidget(self.titleLabel)
+        self.textLayout.insertLayout(0, self.title_layout)  # 页面
+        self.textLayout.addWidget(self.error_log)
+        self.buttonLayout.insertStretch(0, 1)  # 按钮布局
+        self.buttonLayout.insertWidget(0, self.copy_log_btn)
+        self.buttonLayout.insertWidget(1, self.report_problem)
+        self.buttonLayout.insertWidget(2, self.ignore_error_btn)
+        self.buttonLayout.insertStretch(1)
+        self.buttonLayout.insertWidget(5, self.restart_btn)
+
+    def copy_log(self):  # 复制日志
+        QApplication.clipboard().setText(self.error_log.toPlainText())
+        Flyout.create(
+            icon=InfoBarIcon.SUCCESS,
+            title='复制成功！ヾ(^▽^*)))',
+            content="日志已成功复制到剪贴板。",
+            target=self.copy_log_btn,
+            parent=self,
+            isClosable=True,
+            aniType=FlyoutAnimationType.PULL_UP
+        )
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton and event.y() <= self.title_bar_height:
+            self.is_dragging = True
+            self.drag_position = event.globalPos() - self.frameGeometry().topLeft()
+
+    def mouseMoveEvent(self, event):
+        if self.is_dragging:
+            self.move(event.globalPos() - self.drag_position)
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.is_dragging = False
+
+    def closeEvent(self, event):
+        global error_dialog
+        error_dialog = False
+        event.ignore()
+        self.hide()
+        self.deleteLater()
 
 class Choose(QFrame):
 
