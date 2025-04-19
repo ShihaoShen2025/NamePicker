@@ -521,6 +521,8 @@ class Settings(QFrame):
         self.df.addWidget(self.scrollArea)
         QScroller.grabGesture(self.scrollArea.viewport(), QScroller.LeftMouseButtonGesture)
         cfg.autoStartup.valueChanged.connect(self.startupChange)
+        cfg.lockNameEdit.valueChanged.connect(self.checkLock)
+        cfg.lockConfigEdit.valueChanged.connect(self.checkLock)
         logger.info("设置界面初始化完成")
 
     def startupChange(self):
@@ -560,6 +562,9 @@ class Settings(QFrame):
 
     def testCrash(self):
         raise Exception("NamePicker实际上没有任何问题，是你自己手贱引发的崩溃")
+
+    def checkLock(self):
+        pass
 
 class About(QFrame):
     def __init__(self, text: str, parent=None):
@@ -623,9 +628,9 @@ class SystemTrayIcon(QSystemTrayIcon):
 
         self.menu = SystemTrayMenu(parent=parent)
         self.menu.addActions([
-            Action("打开主界面",triggered=parent.show_main_window),
-            Action("重启",triggered=self.restart),
-            Action('退出', triggered=lambda:sys.exit(0))
+            Action(FluentIcon.HOME,"打开主界面",triggered=parent.show_main_window),
+            Action(FluentIcon.SYNC,"重启",triggered=self.restart),
+            Action(FluentIcon.CLOSE,'退出', triggered=lambda:sys.exit(0))
         ])
         self.setContextMenu(self.menu)
 
