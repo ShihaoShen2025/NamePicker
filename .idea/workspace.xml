@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="fix:修复无法显示学号的问题">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/NamePicker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NamePicker.iml" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="refactor:重构学号读取逻辑">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/names.csv" beforeDir="false" afterPath="$PROJECT_DIR$/names.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,22 +118,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00039" summary="fix:修复了抽选8-10个时部分名字无法显示的问题">
-      <option name="closed" value="true" />
-      <created>1742712933661</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1742712933661</updated>
-    </task>
-    <task id="LOCAL-00040" summary="feat:悬浮窗位置更加友好">
-      <option name="closed" value="true" />
-      <created>1742713493467</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1742713493467</updated>
     </task>
     <task id="LOCAL-00041" summary="feat:组件使用相对坐标">
       <option name="closed" value="true" />
@@ -512,7 +495,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745053105768</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="feat&amp;refactor:插件加载，重构名单读取逻辑">
+      <option name="closed" value="true" />
+      <created>1745055031368</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1745055031368</updated>
+    </task>
+    <task id="LOCAL-00089" summary="refactor:重构学号读取逻辑">
+      <option name="closed" value="true" />
+      <created>1745055143459</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1745055143459</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -547,8 +546,6 @@
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
     </ignored-roots>
-    <MESSAGE value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
-    <MESSAGE value="ci:修正工作流" />
     <MESSAGE value="feat:v2.0.1dev启动" />
     <MESSAGE value="feat:完成软件内名单编辑" />
     <MESSAGE value="fix:修正主页表格" />
@@ -572,6 +569,8 @@
     <MESSAGE value="feat:完成回锁功能" />
     <MESSAGE value="fix:修复未选中文件崩溃的问题" />
     <MESSAGE value="fix:修复无法显示学号的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix:修复无法显示学号的问题" />
+    <MESSAGE value="feat&amp;refactor:插件加载，重构名单读取逻辑" />
+    <MESSAGE value="refactor:重构学号读取逻辑" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor:重构学号读取逻辑" />
   </component>
 </project>

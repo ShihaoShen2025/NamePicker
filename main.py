@@ -25,6 +25,9 @@ unlocked = [False,False]
 plugin = {}
 plugin_info = {}
 plugin_settings = {}
+plugin_customkey = []
+plugin_customkey_title = []
+plugin_filters = []
 def load_plugins():
     for i in os.listdir("plugins"):
         if not (os.path.exists("plugins/%s/info.json"%i) and os.path.exists("plugins/%s/icon.png"%i) and os.path.exists("plugins/%s/main.py"%i)):
@@ -40,7 +43,32 @@ def load_plugins():
                 plugin_settings[js["id"]] = pgin.Settings()
             if hasattr(pgin,"Plugin"):
                 plugin[js["id"]] = pgin.Plugin()
+                for i in plugin[js["id"]].customKey:
+                    plugin_customkey.append(i)
+                for i in plugin[js["id"]].customKeyTitle:
+                    plugin_customkey_title.append(i)
+                for i in plugin[js["id"]].filters:
+                    plugin_filters.append(i)
             logger.info("加载插件：%s成功"%js["id"])
+
+def apply_customkey():
+    with open("names.csv", "r", encoding="utf-8") as f:
+        namesread = f.readlines()
+        for i in range(len(namesread)):
+            namesread[i] = namesread[i].strip("\n")
+        for i in range(len(plugin_customkey)):
+            if plugin_customkey[i] not in namesread[0]:
+                namesread[0] += ",%s"%plugin_customkey[i]
+                for j in range(len(namesread)):
+                    if j == 0:
+                        continue
+                    namesread[j] += ",Nope"
+
+    with open("names.csv","w",encoding="utf-8") as f:
+        namewrite = []
+        for i in range(len(namesread)):
+            namewrite.append(namesread[i]+"\n")
+        f.writelines(namewrite)
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -291,7 +319,7 @@ class Choose(QFrame):
                 logger.debug(self.chosen)
             return [tar[chs], str(self.names["no"][self.names["name"].index(tar[chs])])]
         else:
-            return ["尚未抽选", "尚未抽选"]
+            return "尚未抽选"
 
     def pickcb(self):
         logger.debug("pickcb被调用")
@@ -301,7 +329,20 @@ class Choose(QFrame):
         namet = []
         namel = []
         for i in range(self.pickNum.value()):
-            namet.append(self.pick())
+            n = self.pick()
+            if n != "尚未抽选":
+                namet.append(n)
+            else:
+                InfoBar.error(
+                    title='错误',
+                    content="没有符合筛选条件的学生",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM,
+                    duration=3000,
+                    parent=self
+                )
+
         if cfg.get(cfg.supportCS):
             with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
                 f.write("111")
@@ -323,22 +364,25 @@ class Choose(QFrame):
             self.names["name"] = list(name["name"].values())
             self.names["sex"] = list(name["sex"].values())
             self.names["no"] = list(name["no"].values())
-            for i in range(len(self.names["no"])):
-                self.names["no"][i] = int(self.names["no"][i])
+            for i in plugin_customkey:
+                self.names[i] = list(name[i].values())
+            for k in self.names.keys():
+                for i in range(len(self.names[k])):
+                    self.names[k][i] = str(self.names[k][i])
             self.length =len(name["name"])
-            self.sexlen[0] = self.names["sex"].count(0)
-            self.sexlen[1] = self.names["sex"].count(1)
-            self.sexlen[2] = self.names["sex"].count(2)
+            self.sexlen[0] = self.names["sex"].count("0")
+            self.sexlen[1] = self.names["sex"].count("1")
+            self.sexlen[2] = self.names["sex"].count("2")
             for i in self.names["name"]:
-                if self.names["sex"][self.names["name"].index(i)] == 0:
+                if int(self.names["sex"][self.names["name"].index(i)]) == 0:
                     self.sexl[0].append(i)
-                elif self.names["sex"][self.names["name"].index(i)] == 1:
+                elif int(self.names["sex"][self.names["name"].index(i)]) == 1:
                     self.sexl[1].append(i)
                 else:
                     self.sexl[2].append(i)
 
             for i in self.names["name"]:
-                if self.names["no"][self.names["name"].index(i)]%2==0:
+                if int(self.names["no"][self.names["name"].index(i)])%2==0:
                     self.numl[0].append(i)
                 else:
                     self.numl[1].append(i)
@@ -374,9 +418,12 @@ class NameEdit(QFrame):
         self.table.setBorderRadius(8)
         self.table.setWordWrap(False)
         self.table.setRowCount(len(self.nametable))
-        self.table.setColumnCount(3)
+        self.table.setColumnCount(3+len(plugin_customkey_title))
         self.table.adjustSize()
-        self.table.setHorizontalHeaderLabels(["姓名", "性别", "学号"])
+        htmp = ["姓名", "性别", "学号"]
+        for i in plugin_customkey_title:
+            htmp.append(i)
+        self.table.setHorizontalHeaderLabels(htmp)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.opv = QWidget()
@@ -401,11 +448,14 @@ class NameEdit(QFrame):
     def refresh(self):
         self.table.setRowCount(len(self.nametable))
         for i, t in enumerate(self.nametable):
-            for j in range(3):
-                self.table.setItem(i, j, QTableWidgetItem(t[j]))
+            for j in range(len(self.names.keys())):
+                self.table.setItem(i, j, QTableWidgetItem(str(t[j])))
 
     def addrow(self):
-        self.nametable.append(["example","男","0"])
+        tmp = ["example","男","0"]
+        for t in range(len(self.names.keys())-3):
+            tmp.append("None")
+        self.nametable.append(tmp)
         self.refresh()
 
     def delrow(self):
@@ -426,17 +476,18 @@ class NameEdit(QFrame):
         self.nametable[self.editing] = self.selected_data
         logger.debug(self.nametable)
         with open("names.csv","w",encoding="utf-8") as f:
-            namewrite = ["name,sex,no\n"]
+            namewrite = [",".join(list(self.names.keys()))+"\n"]
             t = 0
             for i in range(len(self.nametable)):
-                logger.debug(self.nametable[i])
                 if self.nametable[i][1] == "男" or self.nametable[i][1] == "0":
                     t = 0
                 elif self.nametable[i][1] == "女" or self.nametable[i][1] == "1":
                     t = 1
                 else:
                     t = 2
-                namewrite.append(",".join([self.nametable[i][0],str(t),str(self.nametable[i][2])])+"\n")
+                self.nametable[i][1] = str(t)
+                namewrite.append(",".join(self.nametable[i])+"\n")
+            logger.debug(namewrite)
             f.writelines(namewrite)
 
     def loadname(self):
@@ -445,16 +496,22 @@ class NameEdit(QFrame):
         self.names["name"] = list(name["name"].values())
         self.names["sex"] = list(name["sex"].values())
         self.names["no"] = list(name["no"].values())
-        for i in range(len(self.names["no"])):
-            self.names["no"][i] = int(self.names["no"][i])
+        for i in plugin_customkey:
+            self.names[i] = list(name[i].values())
+        for k in self.names.keys():
+            for i in range(len(self.names[k])):
+                self.names[k][i] = str(self.names[k][i])
         for i in range(len(self.names["name"])):
-            if self.names["sex"][i] == 0:
+            if int(self.names["sex"][i]) == 0:
                 t = "男"
-            elif self.names["sex"][i] == 1:
+            elif int(self.names["sex"][i]) == 1:
                 t = "女"
             else:
                 t = "其他"
-            self.nametable.append([self.names["name"][i],t,str(self.names["no"][i])])
+            tmp = []
+            for t in self.names.keys():
+                tmp.append(self.names[t][i])
+            self.nametable.append(tmp)
         logger.debug(self.nametable)
         logger.info("名单加载完成")
 
@@ -829,6 +886,8 @@ class TrayWindow(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     load_plugins()
+    if plugin_customkey:
+        apply_customkey()
     for i in plugin.keys():
         plugin[i].onStartup()
     tray = TrayWindow()
