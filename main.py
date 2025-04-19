@@ -26,6 +26,8 @@ class Config(QConfig):
     supportCS = ConfigItem("General", "supportCS", False, BoolValidator())
     chooseKey = ConfigItem("General","chooseKey","ctrl+w")
     autoStartup = ConfigItem("General","autoStartup",False,BoolValidator())
+    lockNameEdit = ConfigItem("Secure","lockNameEdit",False,BoolValidator())
+    lockConfigEdit = ConfigItem("Secure","lockConfigItem",False,BoolValidator())
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
     justice = ConfigItem("Huanyu", "justice", False, BoolValidator())
     logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
@@ -463,6 +465,26 @@ class Settings(QFrame):
             content="开机时自动启动（对于非Windows系统无效）"
         ),
         self.cKey,
+        SubtitleLabel("安全设置"),
+        HyperlinkCard(
+            icon=FluentIcon.INFO,
+            title="使用前必读",
+            content="以下设置项在初次打开时会为您生成密钥文件，请妥善保管\n您需要凭密钥文件解锁限制，如果丢失请参照文档执行操作",
+            url="https://namepicker-docs.netlify.app/guide/quickstart/lock.html",
+            text="点击查看文档"
+        ),
+        SwitchSettingCard(
+            configItem=cfg.lockNameEdit,
+            icon= FluentIcon.HIDE,
+            title="禁用名单编辑",
+            content="启用后，将无法进行软件内名单编辑，重启生效"
+        ),
+        SwitchSettingCard(
+         configItem=cfg.lockConfigEdit,
+         icon=FluentIcon.HIDE,
+         title="禁用设置编辑",
+         content="启用后，将无法进行软件内设置编辑，重启生效"
+        ),
         SubtitleLabel("调试"),
         ComboBoxSettingCard(
             configItem=cfg.logLevel,
