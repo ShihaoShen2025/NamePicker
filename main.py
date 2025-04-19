@@ -16,6 +16,7 @@ temp_dir = tempfile.gettempdir()
 VERSION = "v2.0.2dev"
 CODENAME = "Robin"
 error_dialog = None
+tray = None
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -93,7 +94,7 @@ class ErrorDialog(Dialog):  # 重大错误提示框
                 'https://github.com/NamePickerOrg/NamePicker/issues/'))
         )
         self.copy_log_btn.clicked.connect(self.copy_log)
-        self.restart_btn.clicked.connect(lambda:os.execl(sys.executable, sys.executable, *sys.argv))
+        self.restart_btn.clicked.connect(self.restart)
         self.ignore_error_btn.clicked.connect(lambda:self.close())
 
         self.title_layout.addWidget(self.titleLabel)
@@ -105,6 +106,11 @@ class ErrorDialog(Dialog):  # 重大错误提示框
         self.buttonLayout.insertWidget(2, self.ignore_error_btn)
         self.buttonLayout.insertStretch(1)
         self.buttonLayout.insertWidget(5, self.restart_btn)
+
+    def restart(self):
+        if tray:
+            tray.systemTrayIcon.hide()
+        os.execl(sys.executable, sys.executable, *sys.argv)
 
     def copy_log(self):  # 复制日志
         QApplication.clipboard().setText(self.error_log.toPlainText())
@@ -618,11 +624,14 @@ class SystemTrayIcon(QSystemTrayIcon):
         self.menu = SystemTrayMenu(parent=parent)
         self.menu.addActions([
             Action("打开主界面",triggered=parent.show_main_window),
-            Action("重启",triggered=lambda:os.execl(sys.executable, sys.executable, *sys.argv)),
+            Action("重启",triggered=self.restart),
             Action('退出', triggered=lambda:sys.exit(0))
         ])
         self.setContextMenu(self.menu)
 
+    def restart(self):
+        self.hide()
+        os.execl(sys.executable, sys.executable, *sys.argv)
 
 class TrayWindow(QWidget):
     def __init__(self):
