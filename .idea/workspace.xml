@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成加密功能">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:完成回锁功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -116,14 +116,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00036" summary="ci:调整workflow">
-      <option name="closed" value="true" />
-      <created>1742693853953</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1742693853953</updated>
     </task>
     <task id="LOCAL-00037" summary="ci:继续调整workflow">
       <option name="closed" value="true" />
@@ -509,7 +501,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745043936580</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="feat:完成回锁功能">
+      <option name="closed" value="true" />
+      <created>1745046173168</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1745046173168</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -539,7 +539,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:增加托盘图标" />
     <MESSAGE value="ci:修正工作流3" />
     <MESSAGE value="feat:完成关于页面" />
     <MESSAGE value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
@@ -564,6 +563,7 @@
     <MESSAGE value="feat:也许修好了重启" />
     <MESSAGE value="feat:托盘添加图标" />
     <MESSAGE value="feat:完成加密功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:完成加密功能" />
+    <MESSAGE value="feat:完成回锁功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:完成回锁功能" />
   </component>
 </project>

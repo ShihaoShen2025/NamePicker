@@ -644,35 +644,46 @@ class KeyMsg(MessageBoxBase):
         file_filter = "All Files (*)"
         fn = QFileDialog.getOpenFileNames(self, "选择KEY文件", "", file_filter, options=options)
         logger.debug(fn)
-        with open(fn[0][0],"r",encoding="utf-8") as f:
-            key = str(f.read()).encode("utf-8")
-            logger.debug(key)
-            keymd5 = hashlib.md5(key).hexdigest()
-            logger.debug(keymd5)
-            if keymd5 == cfg.get(cfg.keyChecksum):
-                if self.check == "NameEdit":
-                    unlocked[0] = True
+        if fn[0]:
+            with open(fn[0][0],"r",encoding="utf-8") as f:
+                key = str(f.read()).encode("utf-8")
+                logger.debug(key)
+                keymd5 = hashlib.md5(key).hexdigest()
+                logger.debug(keymd5)
+                if keymd5 == cfg.get(cfg.keyChecksum):
+                    if self.check == "NameEdit":
+                        unlocked[0] = True
+                    else:
+                        unlocked[1] = True
+                    InfoBar.success(
+                        title='校验成功',
+                        content="您已完成校验，现在应该可以使用对应功能",
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.BOTTOM,
+                        duration=3000,
+                        parent=self
+                    )
                 else:
-                    unlocked[1] = True
-                InfoBar.success(
-                    title='校验成功',
-                    content="您已完成校验，现在应该可以使用对应功能",
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.BOTTOM,
-                    duration=3000,
-                    parent=self
-                )
-            else:
-                InfoBar.error(
-                    title='校验失败',
-                    content="未能成功验证，请确认是否选择了正确的文件",
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.BOTTOM,
-                    duration=3000,
-                    parent=self
-                )
+                    InfoBar.error(
+                        title='校验失败',
+                        content="未能成功验证，请确认是否选择了正确的文件",
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.BOTTOM,
+                        duration=3000,
+                        parent=self
+                    )
+        else:
+            InfoBar.error(
+                title='校验失败',
+                content="请选择文件",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.BOTTOM,
+                duration=3000,
+                parent=self
+            )
 
 class App(FluentWindow):
     def __init__(self):
