@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:功能锁定设置项">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:托盘添加图标">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,22 +117,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00033" summary="feat:开启1.1.1dev，代号Sonetto">
-      <option name="closed" value="true" />
-      <created>1742692521139</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1742692521139</updated>
-    </task>
-    <task id="LOCAL-00034" summary="doc:修改issue模板">
-      <option name="closed" value="true" />
-      <created>1742692764090</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1742692764090</updated>
     </task>
     <task id="LOCAL-00035" summary="feat&amp;ci:调整目录结构，调整workflow">
       <option name="closed" value="true" />
@@ -509,7 +494,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745038482081</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="feat:也许修好了重启">
+      <option name="closed" value="true" />
+      <created>1745039614540</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1745039614540</updated>
+    </task>
+    <task id="LOCAL-00083" summary="feat:托盘添加图标">
+      <option name="closed" value="true" />
+      <created>1745039760912</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1745039760912</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -539,8 +540,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ci:调整工作流" />
-    <MESSAGE value="ci:调整工作流2" />
     <MESSAGE value="feat:增加托盘图标" />
     <MESSAGE value="feat:增加托盘图标" />
     <MESSAGE value="ci:修正工作流3" />
@@ -564,6 +563,8 @@
     <MESSAGE value="feat:崩溃提示，完成v2.0.1dev" />
     <MESSAGE value="feat:启动v2.0.2dev" />
     <MESSAGE value="feat:功能锁定设置项" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:功能锁定设置项" />
+    <MESSAGE value="feat:也许修好了重启" />
+    <MESSAGE value="feat:托盘添加图标" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:托盘添加图标" />
   </component>
 </project>

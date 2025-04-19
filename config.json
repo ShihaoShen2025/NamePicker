@@ -9,6 +9,11 @@
         "ecoMode": false,
         "justice": false
     },
+    "Secure": {
+        "keyChecksum": "0",
+        "lockConfigItem": false,
+        "lockNameEdit": false
+    },
     "Debug": {
         "logLevel": "DEBUG"
     },

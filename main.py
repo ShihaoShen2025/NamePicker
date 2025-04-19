@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+import hashlib
 import pandas as pd
 import tempfile
 import random
@@ -17,6 +19,7 @@ VERSION = "v2.0.2dev"
 CODENAME = "Robin"
 error_dialog = None
 tray = None
+unlocked = [False,False]
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -29,6 +32,7 @@ class Config(QConfig):
     autoStartup = ConfigItem("General","autoStartup",False,BoolValidator())
     lockNameEdit = ConfigItem("Secure","lockNameEdit",False,BoolValidator())
     lockConfigEdit = ConfigItem("Secure","lockConfigItem",False,BoolValidator())
+    keyChecksum = ConfigItem("Secure","keyChecksum","0")
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
     justice = ConfigItem("Huanyu", "justice", False, BoolValidator())
     logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
@@ -46,6 +50,8 @@ logger.info("「她将自己的生活形容为一首歌，而那首歌的开始�
 
 def hookExceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    if "TypeError: disconnect() of all signals failed" in error_details:
+        return
     logger.error(error_details)
     if not error_dialog:
         w = ErrorDialog(error_details)
@@ -475,7 +481,7 @@ class Settings(QFrame):
         HyperlinkCard(
             icon=FluentIcon.INFO,
             title="使用前必读",
-            content="以下设置项在初次打开时会为您生成密钥文件，请妥善保管\n您需要凭密钥文件解锁限制，如果丢失请参照文档执行操作",
+            content="以下设置项在初次打开时会为您生成密钥，请妥善保管\n您需要凭密钥解锁限制，如果丢失请参照文档执行操作",
             url="https://namepicker-docs.netlify.app/guide/quickstart/lock.html",
             text="点击查看文档"
         ),
@@ -564,7 +570,16 @@ class Settings(QFrame):
         raise Exception("NamePicker实际上没有任何问题，是你自己手贱引发的崩溃")
 
     def checkLock(self):
-        pass
+        if cfg.get(cfg.keyChecksum) == "0" and (cfg.get(cfg.lockNameEdit) or cfg.get(cfg.lockConfigEdit)):
+            kd = str(time.time())
+            key = bytes(kd.encode("utf-8"))
+            keymd5 = hashlib.md5(key).hexdigest()
+            cfg.set(cfg.keyChecksum,keymd5)
+            logger.info("生成密钥md5")
+            with open("KEY","w",encoding="utf-8") as f:
+                f.write(kd)
+            w = Dialog("生成完成", "由于您是初次启用安全设置，已为您在软件目录生成密钥文件（文件名：KEY），请妥善保管该文件，您将来会需要凭该文件解锁限制", self)
+            w.exec()
 
 class About(QFrame):
     def __init__(self, text: str, parent=None):
@@ -593,6 +608,57 @@ class About(QFrame):
         self.df.addWidget(self.linkv)
         logger.info("关于界面初始化")
 
+class KeyMsg(MessageBoxBase):
+    def __init__(self, parent=None,check="NameEdit"):
+        global unlocked
+        super().__init__(parent)
+        self.check = check
+        self.titleLabel = SubtitleLabel('选择KEY文件')
+        self.explain = BodyLabel("选择KEY文件以解锁该功能")
+
+        self.selectButton = PrimaryPushButton("点击选择文件")
+        self.selectButton.clicked.connect(self.checkFile)
+        self.viewLayout.addWidget(self.titleLabel)
+        self.viewLayout.addWidget(self.explain)
+        self.viewLayout.addWidget(self.selectButton)
+
+    def checkFile(self):
+        global unlocked
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_filter = "All Files (*)"
+        fn = QFileDialog.getOpenFileNames(self, "选择KEY文件", "", file_filter, options=options)
+        logger.debug(fn)
+        with open(fn[0][0],"r",encoding="utf-8") as f:
+            key = str(f.read()).encode("utf-8")
+            logger.debug(key)
+            keymd5 = hashlib.md5(key).hexdigest()
+            logger.debug(keymd5)
+            if keymd5 == cfg.get(cfg.keyChecksum):
+                if self.check == "NameEdit":
+                    unlocked[0] = True
+                else:
+                    unlocked[1] = True
+                InfoBar.success(
+                    title='校验成功',
+                    content="您已完成校验，现在应该可以使用对应功能",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM,
+                    duration=3000,
+                    parent=self
+                )
+            else:
+                InfoBar.error(
+                    title='校验失败',
+                    content="未能成功验证，请确认是否选择了正确的文件",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM,
+                    duration=3000,
+                    parent=self
+                )
+
 class App(FluentWindow):
     def __init__(self):
         super().__init__()
@@ -604,7 +670,23 @@ class App(FluentWindow):
         self.About = About("关于", self)
         self.initNavigation()
         self.initWindow()
+        self.stackedWidget.currentChanged.connect(self.checkLocker)
         logger.info("主界面初始化")
+
+    def checkLocker(self):
+        global unlocked
+        current = self.stackedWidget.currentWidget()
+        logger.debug(current)
+        if current == self.NameEdit and cfg.get(cfg.lockNameEdit) and not unlocked[0]:
+            w = KeyMsg(self,check="NameEdit")
+            w.exec()
+            if not unlocked[0]:
+                self.switchTo(self.Choose)
+        if current == self.Settings and cfg.get(cfg.lockConfigEdit) and not unlocked[1]:
+            w = KeyMsg(self, "Settings")
+            w.exec()
+            if not unlocked[1]:
+                self.switchTo(self.Choose)
 
     def initNavigation(self):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
