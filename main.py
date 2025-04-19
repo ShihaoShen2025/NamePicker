@@ -36,6 +36,7 @@ class Config(QConfig):
     eco = ConfigItem("Huanyu", "ecoMode", False, BoolValidator())
     justice = ConfigItem("Huanyu", "justice", False, BoolValidator())
     logLevel = OptionsConfigItem("Debug", "logLevel", "INFO", OptionsValidator(["DEBUG", "INFO", "WARNING","ERROR"]), restart=True)
+    apiver = ConfigItem("Version", "apiver", 1)
 
 cfg = Config()
 qconfig.load('config.json', cfg)
@@ -267,7 +268,7 @@ class Choose(QFrame):
                         chs = random.randint(0, le - 1)
                 self.chosen.append(chs)
                 logger.debug(self.chosen)
-            return [tar[chs], self.names[2][self.names[0].index(tar[chs])]]
+            return [tar[chs], str(self.names[2][self.names[0].index(tar[chs])])]
         else:
             return ["尚未抽选", "尚未抽选"]
 
@@ -287,9 +288,9 @@ class Choose(QFrame):
                 f.writelines(namel)
             logger.info("文件存储完成")
         else:
-            for i, t in enumerate(namet):
+            for i in range(len(namet)):
                 for j in range(2):
-                    self.table.setItem(i, j, QTableWidgetItem(t[j]))
+                    self.table.setItem(i, j, QTableWidgetItem(namet[i][j]))
             logger.debug("表格设置完成")
 
     def loadname(self):
