@@ -457,6 +457,13 @@ class Settings(QFrame):
         self.cKey.hBoxLayout.addWidget(self.cKeyInput)
         self.cKey.hBoxLayout.addStretch(1)
         self.cKeyInput.textChanged.connect(lambda :cfg.set(cfg.chooseKey,self.cKeyInput.text()))
+        self.lock = PushSettingCard(
+            icon=FluentIcon.CLOSE,
+            title="锁定功能",
+            content="重新锁定已经解锁的功能",
+            text="锁定"
+        )
+        self.lock.clicked.connect(self.relock)
         self.sets = [SubtitleLabel("常规"),
         SwitchSettingCard(
             configItem=cfg.allowRepeat,
@@ -485,6 +492,7 @@ class Settings(QFrame):
             url="https://namepicker-docs.netlify.app/guide/quickstart/lock.html",
             text="点击查看文档"
         ),
+        self.lock,
         SwitchSettingCard(
             configItem=cfg.lockNameEdit,
             icon= FluentIcon.HIDE,
@@ -570,6 +578,7 @@ class Settings(QFrame):
         raise Exception("NamePicker实际上没有任何问题，是你自己手贱引发的崩溃")
 
     def checkLock(self):
+        global unlocked
         if cfg.get(cfg.keyChecksum) == "0" and (cfg.get(cfg.lockNameEdit) or cfg.get(cfg.lockConfigEdit)):
             kd = str(time.time())
             key = bytes(kd.encode("utf-8"))
@@ -580,6 +589,14 @@ class Settings(QFrame):
                 f.write(kd)
             w = Dialog("生成完成", "由于您是初次启用安全设置，已为您在软件目录生成密钥文件（文件名：KEY），请妥善保管该文件，您将来会需要凭该文件解锁限制", self)
             w.exec()
+            if cfg.get(cfg.lockNameEdit):
+                unlocked[0] = True
+            elif cfg.get(cfg.lockConfigEdit):
+                unlocked[1] = True
+
+    def relock(self):
+        global unlocked
+        unlocked = [False, False]
 
 class About(QFrame):
     def __init__(self, text: str, parent=None):
@@ -610,12 +627,10 @@ class About(QFrame):
 
 class KeyMsg(MessageBoxBase):
     def __init__(self, parent=None,check="NameEdit"):
-        global unlocked
         super().__init__(parent)
         self.check = check
         self.titleLabel = SubtitleLabel('选择KEY文件')
         self.explain = BodyLabel("选择KEY文件以解锁该功能")
-
         self.selectButton = PrimaryPushButton("点击选择文件")
         self.selectButton.clicked.connect(self.checkFile)
         self.viewLayout.addWidget(self.titleLabel)
