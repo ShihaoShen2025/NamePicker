@@ -1,3 +1,5 @@
+import json
+import importlib
 import os
 import sys
 import time
@@ -20,6 +22,25 @@ CODENAME = "Robin"
 error_dialog = None
 tray = None
 unlocked = [False,False]
+plugin = {}
+plugin_info = {}
+plugin_settings = {}
+def load_plugins():
+    for i in os.listdir("plugins"):
+        if not (os.path.exists("plugins/%s/info.json"%i) and os.path.exists("plugins/%s/icon.png"%i) and os.path.exists("plugins/%s/main.py"%i)):
+            logger.warning("目录%s没有有效插件")
+            continue
+        else:
+            with open("plugins/%s/info.json"%i,"r",encoding="utf-8") as f:
+                ct = f.read()
+                js = json.loads(ct)
+                plugin_info[js["id"]] = js
+            pgin = importlib.import_module("plugins.%s.main"%i)
+            if hasattr(pgin,"Settings"):
+                plugin_settings[js["id"]] = pgin.Settings()
+            if hasattr(pgin,"Plugin"):
+                plugin[js["id"]] = pgin.Plugin()
+            logger.info("加载插件：%s成功"%js["id"])
 
 QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -155,7 +176,7 @@ class Choose(QFrame):
 
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.names = []
+        self.names = {}
         self.sexlen = [0,0,0]
         self.sexl = [[],[],[]]
         self.numlen = [0,0,0]
@@ -188,7 +209,7 @@ class Choose(QFrame):
         self.pnl = QHBoxLayout(self)
         self.pnLabel = SubtitleLabel("抽选数量", self)
         self.pickNum = SpinBox()
-        self.pickNum.setRange(1, len(self.names[0]))
+        self.pickNum.setRange(1, len(self.names["name"]))
         self.pnl.addWidget(self.pnLabel, 10)
         self.pnl.addWidget(self.pickNum, 5)
         self.pn.setLayout(self.pnl)
@@ -248,7 +269,7 @@ class Choose(QFrame):
                 tar = self.sexl[2]
         else:
             le = self.length
-            tar = self.names[0]
+            tar = self.names["name"]
 
         if self.numCombo.currentText() != "都抽":
             if self.numCombo.currentText() == "只抽双数":
@@ -268,12 +289,14 @@ class Choose(QFrame):
                         chs = random.randint(0, le - 1)
                 self.chosen.append(chs)
                 logger.debug(self.chosen)
-            return [tar[chs], str(self.names[2][self.names[0].index(tar[chs])])]
+            return [tar[chs], str(self.names["no"][self.names["name"].index(tar[chs])])]
         else:
             return ["尚未抽选", "尚未抽选"]
 
     def pickcb(self):
         logger.debug("pickcb被调用")
+        for i in plugin.keys():
+            plugin[i].beforePick()
         self.table.setRowCount(self.pickNum.value())
         namet = []
         namel = []
@@ -297,23 +320,23 @@ class Choose(QFrame):
         try:
             name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
             name = name.to_dict()
-            self.names.append(list(name["name"].values()))
-            self.names.append(list(name["sex"].values()))
-            self.names.append(list(name["no"].values()))
+            self.names["name"] = list(name["name"].values())
+            self.names["sex"] = list(name["sex"].values())
+            self.names["no"] = list(name["no"].values())
             self.length =len(name["name"])
-            self.sexlen[0] = self.names[1].count(0)
-            self.sexlen[1] = self.names[1].count(1)
-            self.sexlen[2] = self.names[1].count(2)
-            for i in self.names[0]:
-                if self.names[1][self.names[0].index(i)] == 0:
+            self.sexlen[0] = self.names["sex"].count(0)
+            self.sexlen[1] = self.names["sex"].count(1)
+            self.sexlen[2] = self.names["sex"].count(2)
+            for i in self.names["name"]:
+                if self.names["sex"][self.names["name"].index(i)] == 0:
                     self.sexl[0].append(i)
-                elif self.names[1][self.names[0].index(i)] == 1:
+                elif self.names["sex"][self.names["name"].index(i)] == 1:
                     self.sexl[1].append(i)
                 else:
                     self.sexl[2].append(i)
 
-            for i in self.names[0]:
-                if self.names[2][self.names[0].index(i)]%2==0:
+            for i in self.names["name"]:
+                if self.names["no"][self.names["name"].index(i)]%2==0:
                     self.numl[0].append(i)
                 else:
                     self.numl[1].append(i)
@@ -332,7 +355,7 @@ class Choose(QFrame):
 class NameEdit(QFrame):
     def __init__(self, text: str, parent=None):
         super().__init__(parent=parent)
-        self.names = []
+        self.names = {}
         self.nametable = []
         self.loadname()
         self.editing = 0
@@ -415,19 +438,19 @@ class NameEdit(QFrame):
             f.writelines(namewrite)
 
     def loadname(self):
-        name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
+        name = pd.read_csv("names.csv", sep=",", header=0, dtype={'name': str, 'sex': int, "no": int})
         name = name.to_dict()
-        self.names.append(list(name["name"].values()))
-        self.names.append(list(name["sex"].values()))
-        self.names.append(list(name["no"].values()))
-        for i in range(len(self.names[0])):
-            if self.names[1][i] == 0:
+        self.names["name"] = list(name["name"].values())
+        self.names["sex"] = list(name["sex"].values())
+        self.names["no"] = list(name["no"].values())
+        for i in range(len(self.names["name"])):
+            if self.names["sex"][i] == 0:
                 t = "男"
-            elif self.names[1][i] == 1:
+            elif self.names["sex"][i] == 1:
                 t = "女"
             else:
                 t = "其他"
-            self.nametable.append([self.names[0][i],t,str(self.names[2][i])])
+            self.nametable.append([self.names["name"][i],t,str(self.names["no"][i])])
         logger.debug(self.nametable)
         logger.info("名单加载完成")
 
@@ -801,6 +824,9 @@ class TrayWindow(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    load_plugins()
+    for i in plugin.keys():
+        plugin[i].onStartup()
     tray = TrayWindow()
     tray.show()
     sys.exit(app.exec_())

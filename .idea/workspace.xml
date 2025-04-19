@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="fix:修复未选中文件崩溃的问题">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="fix:修复无法显示学号的问题">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/NamePicker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NamePicker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +29,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -51,19 +55,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/NamePicker/main.py&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.platform.ide.impl.presentationAssistant.PresentationAssistantConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.configgui.executor": "Run",
+    "Python.configui.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/NamePicker/plugins/lhgser.Example",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
-}</component>
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="NamePicker" is-module-sdk="true">
@@ -115,14 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00038" summary="ci:使用一种原始手段撤回对workflow的更改">
-      <option name="closed" value="true" />
-      <created>1742703637464</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1742703637464</updated>
     </task>
     <task id="LOCAL-00039" summary="fix:修复了抽选8-10个时部分名字无法显示的问题">
       <option name="closed" value="true" />
@@ -508,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745046353512</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="fix:修复无法显示学号的问题">
+      <option name="closed" value="true" />
+      <created>1745053105768</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1745053105768</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -538,7 +542,11 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat:完成关于页面" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/plugins" />
+      <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
+      <path value="$PROJECT_DIR$/plugins/Example" />
+    </ignored-roots>
     <MESSAGE value="feat&amp;ci:调整工作流，添加日志功能，设置界面添加滚动条，完成v2.0.0 Release" />
     <MESSAGE value="ci:修正工作流" />
     <MESSAGE value="feat:v2.0.1dev启动" />
@@ -563,6 +571,7 @@
     <MESSAGE value="feat:完成加密功能" />
     <MESSAGE value="feat:完成回锁功能" />
     <MESSAGE value="fix:修复未选中文件崩溃的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix:修复未选中文件崩溃的问题" />
+    <MESSAGE value="fix:修复无法显示学号的问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix:修复无法显示学号的问题" />
   </component>
 </project>
