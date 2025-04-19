@@ -318,11 +318,13 @@ class Choose(QFrame):
 
     def loadname(self):
         try:
-            name = pd.read_csv("names.csv",sep=",",header=0,dtype={'name': str, 'sex': int, "no":int})
+            name = pd.read_csv("names.csv", sep=",", header=0)
             name = name.to_dict()
             self.names["name"] = list(name["name"].values())
             self.names["sex"] = list(name["sex"].values())
             self.names["no"] = list(name["no"].values())
+            for i in range(len(self.names["no"])):
+                self.names["no"][i] = int(self.names["no"][i])
             self.length =len(name["name"])
             self.sexlen[0] = self.names["sex"].count(0)
             self.sexlen[1] = self.names["sex"].count(1)
@@ -438,11 +440,13 @@ class NameEdit(QFrame):
             f.writelines(namewrite)
 
     def loadname(self):
-        name = pd.read_csv("names.csv", sep=",", header=0, dtype={'name': str, 'sex': int, "no": int})
+        name = pd.read_csv("names.csv", sep=",", header=0)
         name = name.to_dict()
         self.names["name"] = list(name["name"].values())
         self.names["sex"] = list(name["sex"].values())
         self.names["no"] = list(name["no"].values())
+        for i in range(len(self.names["no"])):
+            self.names["no"][i] = int(self.names["no"][i])
         for i in range(len(self.names["name"])):
             if self.names["sex"][i] == 0:
                 t = "男"
