@@ -266,6 +266,32 @@ class Choose(QFrame):
         self.nup.setLayout(self.nul)
         self.options.addWidget(self.nup, 5)
 
+        self.scrollArea = ScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        if plugin_filters:
+            self.fil = QWidget()
+            self.fill = QVBoxLayout(self)
+            self.fillist = []
+            self.fillwidgets = []
+            self.filswitch = []
+            for i in range(len(plugin_filters_name)):
+                self.fillist.append(QHBoxLayout())
+                self.fillist[i].addWidget(BodyLabel(plugin_filters_name[i]))
+                self.filswitch.append(SwitchButton())
+                self.fillist[i].addWidget(self.filswitch[i])
+                self.fillwidgets.append(QWidget())
+                self.fillwidgets[i].setLayout(self.fillist[i])
+            for i in self.fillwidgets:
+                self.fill.addWidget(i)
+            self.fil.setLayout(self.fill)
+            self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
+            self.scrollArea.setWidget(self.fil)
+            self.fil.setStyleSheet("QWidget{background: transparent}")
+            self.options.addWidget(self.scrollArea)
+            QScroller.grabGesture(self.scrollArea.viewport(), QScroller.LeftMouseButtonGesture)
+
         self.opt = QWidget()
         self.opt.setLayout(self.options)
 
