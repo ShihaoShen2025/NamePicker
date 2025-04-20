@@ -19,6 +19,7 @@ if os.name == 'nt':
 temp_dir = tempfile.gettempdir()
 VERSION = "v2.0.2dev"
 CODENAME = "Robin"
+APIVER = 1
 error_dialog = None
 tray = None
 unlocked = [False,False]
@@ -107,6 +108,7 @@ class Config(QConfig):
 
 cfg = Config()
 qconfig.load('config.json', cfg)
+cfg.set(cfg.apiver,APIVER)
 
 if os.path.exists("out.log"):
     os.remove("out.log")
@@ -994,8 +996,11 @@ class App(FluentWindow):
         self.setWindowTitle('NamePicker')
 
     def closeEvent(self, event):
-        self.hide()
-        event.ignore()
+        if "noshortcut" in sys.argv:
+            sys.exit(0)
+        else:
+            self.hide()
+            event.ignore()
 
 class SystemTrayIcon(QSystemTrayIcon):
     def __init__(self, parent):
@@ -1073,6 +1078,10 @@ if __name__ == "__main__":
         apply_customkey()
     for i in plugin.keys():
         plugin[i].onStartup()
-    tray = TrayWindow()
-    tray.show()
+    if "noshortcut" in sys.argv:
+        main = App()
+        main.show()
+    else:
+        tray = TrayWindow()
+        tray.show()
     sys.exit(app.exec_())
