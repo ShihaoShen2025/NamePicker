@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:启动参数，完成v2.0.2dev">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:调整工作流">
+      <change afterPath="$PROJECT_DIR$/plugins/111.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,14 +148,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
       <workItem from="1745117543241" duration="135000" />
-    </task>
-    <task id="LOCAL-00048" summary="feat:优化了配置页深色模式标题栏">
-      <option name="closed" value="true" />
-      <created>1743307874167</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1743307874167</updated>
     </task>
     <task id="LOCAL-00049" summary="ci:修改工作流">
       <option name="closed" value="true" />
@@ -541,7 +533,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745121407108</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="ci:调整工作流">
+      <option name="closed" value="true" />
+      <created>1745121561120</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1745121561121</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -579,7 +579,6 @@
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
     </ignored-roots>
-    <MESSAGE value="feat:设置页触摸屏适配" />
     <MESSAGE value="feat:托盘菜单打开主界面" />
     <MESSAGE value="feat:启用课表软件联动后可以直接点击悬浮窗点名" />
     <MESSAGE value="feat:增加抽选快捷键" />
@@ -604,7 +603,8 @@
     <MESSAGE value="feat:插件设置页" />
     <MESSAGE value="feat:插件禁用与删除" />
     <MESSAGE value="feat:启动参数，完成v2.0.2dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:启动参数，完成v2.0.2dev" />
+    <MESSAGE value="ci:调整工作流" />
+    <option name="LAST_COMMIT_MESSAGE" value="ci:调整工作流" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
