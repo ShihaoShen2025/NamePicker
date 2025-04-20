@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:插件禁用与删除">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:启动参数，完成v2.0.2dev">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,21 +52,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.configgui.executor": "Run",
-    "Python.configui.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/NamePicker/plugins/lhgser.Example",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.带浮窗启动.executor&quot;: &quot;Run&quot;,
+    &quot;Python.无浮窗启动.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/NamePicker/plugins/lhgser.Example&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="NamePicker" is-module-sdk="true">
@@ -82,7 +83,7 @@
       <recent name="D:\NamePicker" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.无浮窗启动">
+  <component name="RunManager">
     <configuration name="无浮窗启动" type="PythonConfigurationType" factoryName="Python">
       <module name="NamePicker" />
       <option name="ENV_FILES" value="" />
@@ -130,10 +131,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Python.无浮窗启动" />
-      <item itemvalue="Python.带浮窗启动" />
-    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -151,14 +148,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
       <workItem from="1745117543241" duration="135000" />
-    </task>
-    <task id="LOCAL-00047" summary="feat:优化了深色模式标题栏">
-      <option name="closed" value="true" />
-      <created>1743307688276</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1743307688276</updated>
     </task>
     <task id="LOCAL-00048" summary="feat:优化了配置页深色模式标题栏">
       <option name="closed" value="true" />
@@ -544,7 +533,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745115085560</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="feat:启动参数，完成v2.0.2dev">
+      <option name="closed" value="true" />
+      <created>1745121407107</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1745121407108</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -582,7 +579,6 @@
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
     </ignored-roots>
-    <MESSAGE value="feat&amp;docs:增加文档站链接" />
     <MESSAGE value="feat:设置页触摸屏适配" />
     <MESSAGE value="feat:托盘菜单打开主界面" />
     <MESSAGE value="feat:启用课表软件联动后可以直接点击悬浮窗点名" />
@@ -607,7 +603,8 @@
     <MESSAGE value="feat:插件自定义筛选规则GUI功能" />
     <MESSAGE value="feat:插件设置页" />
     <MESSAGE value="feat:插件禁用与删除" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:插件禁用与删除" />
+    <MESSAGE value="feat:启动参数，完成v2.0.2dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:启动参数，完成v2.0.2dev" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

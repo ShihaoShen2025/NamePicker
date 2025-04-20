@@ -35,7 +35,9 @@ jobs:
           mode: standalone
           enable-plugins: pyqt5
           include-data-files: LICENSE=LICENSE
-          include-data-dir: assets=assets
+          include-data-dir: |
+            assets=assets
+            plugins=plugins
           windows-console-mode: attach
           windows-icon-from-ico: ./assets/favicon.ico
 
