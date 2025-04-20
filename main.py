@@ -365,8 +365,11 @@ class Choose(QFrame):
         for i in range(self.pickNum.value()):
             n = self.pick()
             if n != "尚未抽选":
-                for j in plugin_filters:
-                    if j(n):
+                for j in range(len(plugin_filters)):
+                    if self.filswitch[j].isChecked():
+                        if plugin_filters[j](n):
+                            namet.append(n)
+                    else:
                         namet.append(n)
                 if len(namet) == 0:
                     InfoBar.error(

@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:插件自定义筛选规则">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:插件自定义筛选规则GUI">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,14 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00043" summary="feat:主界面可调节大小">
-      <option name="closed" value="true" />
-      <created>1743234857679</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1743234857679</updated>
     </task>
     <task id="LOCAL-00044" summary="feat:翻新配置界面">
       <option name="closed" value="true" />
@@ -513,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745107912352</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="feat:插件自定义筛选规则GUI">
+      <option name="closed" value="true" />
+      <created>1745108819732</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1745108819732</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -548,7 +547,6 @@
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
     </ignored-roots>
-    <MESSAGE value="chore:修正菜单栏文本错误" />
     <MESSAGE value="chore:更改开发代号" />
     <MESSAGE value="docs:修正文档" />
     <MESSAGE value="feat:增加绝对公平模式" />
@@ -573,6 +571,7 @@
     <MESSAGE value="feat:插件自定义字段" />
     <MESSAGE value="feat:插件自定义字段" />
     <MESSAGE value="feat:插件自定义筛选规则" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:插件自定义筛选规则" />
+    <MESSAGE value="feat:插件自定义筛选规则GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:插件自定义筛选规则GUI" />
   </component>
 </project>
