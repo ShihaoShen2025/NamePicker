@@ -29,29 +29,44 @@ plugin_customkey = []
 plugin_customkey_title = []
 plugin_filters = []
 plugin_filters_name = []
+plugin_icon = {}
+plugin_path = {}
 def load_plugins():
     for i in os.listdir("plugins"):
         if not (os.path.exists("plugins/%s/info.json"%i) and os.path.exists("plugins/%s/icon.png"%i) and os.path.exists("plugins/%s/main.py"%i)):
-            logger.warning("目录%s没有有效插件")
+            logger.warning("目录%s没有有效插件"%i)
+            continue
+        elif os.path.exists("plugins/%s/DEL"%i):
+            os.remove("plugins/%s"%i)
+            logger.info("插件被成功移除")
             continue
         else:
             with open("plugins/%s/info.json"%i,"r",encoding="utf-8") as f:
                 ct = f.read()
                 js = json.loads(ct)
+                if js["api"] > cfg.get(cfg.apiver):
+                    logger.warning("当前插件API版本过高，拒绝加载")
+                    continue
                 plugin_info[js["id"]] = js
             pgin = importlib.import_module("plugins.%s.main"%i)
-            if hasattr(pgin,"Settings"):
+            plugin_icon[js["id"]] = "plugins/%s/icon.png"%i
+            plugin_path[js["id"]] = "plugins/%s" % i
+            if hasattr(pgin,"Settings") and not os.path.exists("plugins/%s/DISABLED"%i):
                 plugin_settings[js["id"]] = pgin.Settings()
             if hasattr(pgin,"Plugin"):
-                plugin[js["id"]] = pgin.Plugin()
-                for i in plugin[js["id"]].customKey:
-                    plugin_customkey.append(i)
-                for i in plugin[js["id"]].customKeyTitle:
-                    plugin_customkey_title.append(i)
-                for i in plugin[js["id"]].filters:
-                    plugin_filters.append(i)
-                for i in plugin[js["id"]].filtersName:
-                    plugin_filters_name.append(i)
+                if not os.path.exists("plugins/%s/DISABLED"%i):
+                    plugin[js["id"]] = pgin.Plugin()
+                    for i in plugin[js["id"]].customKey:
+                        plugin_customkey.append(i)
+                    for i in plugin[js["id"]].customKeyTitle:
+                        plugin_customkey_title.append(i)
+                    for i in plugin[js["id"]].filters:
+                        plugin_filters.append(i)
+                    for i in plugin[js["id"]].filtersName:
+                        plugin_filters_name.append(i)
+                else:
+                    logger.warning("插件%s已被禁用" % js["id"])
+                    continue
             logger.info("加载插件：%s成功"%js["id"])
 
 def apply_customkey():
@@ -202,6 +217,107 @@ class ErrorDialog(Dialog):  # 重大错误提示框
         event.ignore()
         self.hide()
         self.deleteLater()
+
+class PluginCard(CardWidget):
+    def __init__(self, icon, title, content, path, parent=None):
+        super().__init__(parent)
+        self.path = path
+        self.iconWidget = IconWidget(icon)
+        self.titleLabel = BodyLabel(title, self)
+        self.contentLabel = CaptionLabel(content, self)
+        self.openSwitch = SwitchButton(self)
+        self.deleteButton = TransparentToolButton(FluentIcon.DELETE, self)
+
+        if not os.path.exists("%s/DISABLED"%self.path):
+            self.openSwitch.setChecked(True)
+        self.openSwitch.checkedChanged.connect(self.disable)
+        self.deleteButton.clicked.connect(self.delete)
+
+        self.hBoxLayout = QHBoxLayout(self)
+        self.vBoxLayout = QVBoxLayout()
+
+        self.setFixedHeight(73)
+        self.iconWidget.setFixedSize(48, 48)
+        self.contentLabel.setTextColor("#606060", "#d2d2d2")
+
+        self.hBoxLayout.setContentsMargins(20, 11, 11, 11)
+        self.hBoxLayout.setSpacing(15)
+        self.hBoxLayout.addWidget(self.iconWidget)
+
+        self.vBoxLayout.setContentsMargins(0, 0, 0, 0)
+        self.vBoxLayout.setSpacing(0)
+        self.vBoxLayout.addWidget(self.titleLabel, 0, Qt.AlignVCenter)
+        self.vBoxLayout.addWidget(self.contentLabel, 0, Qt.AlignVCenter)
+        self.vBoxLayout.setAlignment(Qt.AlignVCenter)
+        self.hBoxLayout.addLayout(self.vBoxLayout)
+
+        self.hBoxLayout.addStretch(1)
+        self.hBoxLayout.addWidget(self.openSwitch, 0, Qt.AlignRight)
+        self.hBoxLayout.addWidget(self.deleteButton, 0, Qt.AlignRight)
+
+    def disable(self):
+        if not self.openSwitch.isChecked():
+            with open("%s/DISABLED"%self.path,"w",encoding="utf-8") as f:
+                f.write("disabled")
+            InfoBar.success(
+                title='禁用成功',
+                content="被禁用的插件在下次启动时不会被加载",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=3000,
+                parent=self
+            )
+        else:
+            if os.path.exists("%s/DISABLED"%self.path):
+                os.remove("%s/DISABLED"%self.path)
+                InfoBar.success(
+                    title='启用成功',
+                    content="该插件在下次启动时会被加载",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=3000,
+                    parent=self
+                )
+
+    def delete(self):
+        with open("%s/DEL", "w", encoding="utf-8") as f:
+            f.write("delete later")
+        InfoBar.success(
+            title='设置成功',
+            content="该插件在下次启动时会被删除",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=3000,
+            parent=self
+        )
+
+class PluginSettings(QFrame):
+    def __init__(self, text: str, parent=None):
+        global cfg
+        super().__init__(parent=parent)
+        self.setObjectName(text.replace(' ', 'PluginSettings'))
+        self.df = QVBoxLayout(self)
+        self.scrollArea = ScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.optv =QWidget()
+        self.opts = QVBoxLayout(self.optv)
+        self.sets = []
+        for i in plugin_info.keys():
+            des = "%s - By %s - Version %s"%(plugin_info[i]["description"],plugin_info[i]["author"],plugin_info[i]["version"])
+            self.sets.append(PluginCard(plugin_icon[i],plugin_info[i]["name"],des,plugin_path[i]))
+        for i in self.sets:
+            self.opts.addWidget(i)
+        self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
+        self.scrollArea.setWidget(self.optv)
+        self.optv.setStyleSheet("QWidget{background: transparent}")
+        self.df.addWidget(TitleLabel("插件管理"))
+        QScroller.grabGesture(self.scrollArea.viewport(), QScroller.LeftMouseButtonGesture)
+        self.df.addWidget(self.optv)
+        logger.info("插件设置界面初始化完成")
 
 class Choose(QFrame):
 
@@ -843,6 +959,7 @@ class App(FluentWindow):
         self.Choose = Choose("随机抽选",self)
         self.NameEdit = NameEdit("名单编辑", self)
         self.Settings = Settings("设置",self)
+        self.PluginSettings = PluginSettings("插件管理",self)
         self.About = About("关于", self)
         self.initNavigation()
         self.initWindow()
@@ -868,6 +985,7 @@ class App(FluentWindow):
         self.addSubInterface(self.Choose, FluentIcon.HOME, "随机抽选")
         self.addSubInterface(self.NameEdit, FluentIcon.EDIT, "名单编辑")
         self.addSubInterface(self.Settings, FluentIcon.SETTING, '设置', NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.PluginSettings, FluentIcon.APPLICATION, '插件管理', NavigationItemPosition.BOTTOM)
         self.addSubInterface(self.About, FluentIcon.INFO, '关于', NavigationItemPosition.BOTTOM)
 
     def initWindow(self):

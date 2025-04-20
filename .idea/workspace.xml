@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:插件自定义筛选规则GUI功能">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:插件设置页">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,14 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00045" summary="feat:完善日志功能，完成v1.1.1dev">
-      <option name="closed" value="true" />
-      <created>1743241212472</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1743241212472</updated>
     </task>
     <task id="LOCAL-00046" summary="feat:开启v1.1.2dev">
       <option name="closed" value="true" />
@@ -514,7 +505,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745109363075</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="feat:插件设置页">
+      <option name="closed" value="true" />
+      <created>1745112605502</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1745112605502</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -549,7 +548,6 @@
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
     </ignored-roots>
-    <MESSAGE value="docs:修正文档" />
     <MESSAGE value="feat:增加绝对公平模式" />
     <MESSAGE value="feat&amp;docs:增加文档站链接" />
     <MESSAGE value="feat:设置页触摸屏适配" />
@@ -574,6 +572,7 @@
     <MESSAGE value="feat:插件自定义筛选规则" />
     <MESSAGE value="feat:插件自定义筛选规则GUI" />
     <MESSAGE value="feat:插件自定义筛选规则GUI功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:插件自定义筛选规则GUI功能" />
+    <MESSAGE value="feat:插件设置页" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:插件设置页" />
   </component>
 </project>
