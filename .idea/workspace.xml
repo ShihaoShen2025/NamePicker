@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="refactor:重构学号读取逻辑">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:插件自定义字段">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/names.csv" beforeDir="false" afterPath="$PROJECT_DIR$/names.csv" afterDir="false" />
@@ -54,19 +54,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.configgui.executor": "Run",
-    "Python.configui.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/NamePicker/plugins/lhgser.Example",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/NamePicker/plugins/lhgser.Example&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="NamePicker" is-module-sdk="true">
@@ -87,6 +87,9 @@
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="SDK_NAME" value="Python 3.13 (NamePicker)" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -118,14 +121,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
-    </task>
-    <task id="LOCAL-00041" summary="feat:组件使用相对坐标">
-      <option name="closed" value="true" />
-      <created>1742715025723</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1742715025723</updated>
     </task>
     <task id="LOCAL-00042" summary="refactor:修改配置窗口主题逻辑">
       <option name="closed" value="true" />
@@ -511,7 +506,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745055143459</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="feat:插件自定义表头">
+      <option name="closed" value="true" />
+      <created>1745060100589</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1745060100589</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -546,8 +549,6 @@
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
     </ignored-roots>
-    <MESSAGE value="feat:v2.0.1dev启动" />
-    <MESSAGE value="feat:完成软件内名单编辑" />
     <MESSAGE value="fix:修正主页表格" />
     <MESSAGE value="chore:修正菜单栏文本错误" />
     <MESSAGE value="chore:更改开发代号" />
@@ -571,6 +572,8 @@
     <MESSAGE value="fix:修复无法显示学号的问题" />
     <MESSAGE value="feat&amp;refactor:插件加载，重构名单读取逻辑" />
     <MESSAGE value="refactor:重构学号读取逻辑" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor:重构学号读取逻辑" />
+    <MESSAGE value="feat:插件自定义字段" />
+    <MESSAGE value="feat:插件自定义字段" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:插件自定义字段" />
   </component>
 </project>

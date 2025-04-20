@@ -28,6 +28,7 @@ plugin_settings = {}
 plugin_customkey = []
 plugin_customkey_title = []
 plugin_filters = []
+plugin_filters_name = []
 def load_plugins():
     for i in os.listdir("plugins"):
         if not (os.path.exists("plugins/%s/info.json"%i) and os.path.exists("plugins/%s/icon.png"%i) and os.path.exists("plugins/%s/main.py"%i)):
@@ -49,6 +50,8 @@ def load_plugins():
                     plugin_customkey_title.append(i)
                 for i in plugin[js["id"]].filters:
                     plugin_filters.append(i)
+                for i in plugin[js["id"]].filtersName:
+                    plugin_filters_name.append(i)
             logger.info("加载插件：%s成功"%js["id"])
 
 def apply_customkey():
@@ -317,7 +320,12 @@ class Choose(QFrame):
                         chs = random.randint(0, le - 1)
                 self.chosen.append(chs)
                 logger.debug(self.chosen)
-            return [tar[chs], str(self.names["no"][self.names["name"].index(tar[chs])])]
+            tmp = {"name":tar[chs],"no":str(self.names["no"][self.names["name"].index(tar[chs])])}
+            for i in self.names.keys():
+                if i == "name" or i == "no":
+                    continue
+                tmp[i] = str(self.names[i][self.names["name"].index(tar[chs])])
+            return tmp
         else:
             return "尚未抽选"
 
@@ -331,7 +339,19 @@ class Choose(QFrame):
         for i in range(self.pickNum.value()):
             n = self.pick()
             if n != "尚未抽选":
-                namet.append(n)
+                for j in plugin_filters:
+                    if j(n):
+                        namet.append(n)
+                if len(namet) == 0:
+                    InfoBar.error(
+                        title='错误',
+                        content="没有符合筛选条件的学生",
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.BOTTOM,
+                        duration=3000,
+                        parent=self
+                    )
             else:
                 InfoBar.error(
                     title='错误',
@@ -353,9 +373,11 @@ class Choose(QFrame):
             logger.info("文件存储完成")
         else:
             for i in range(len(namet)):
-                for j in range(2):
-                    self.table.setItem(i, j, QTableWidgetItem(namet[i][j]))
+                self.table.setItem(i, 0, QTableWidgetItem(namet[i]["name"]))
+                self.table.setItem(i, 1, QTableWidgetItem(namet[i]["no"]))
             logger.debug("表格设置完成")
+        for i in plugin.keys():
+            plugin[i].afterPick(namet)
 
     def loadname(self):
         try:
