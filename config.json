@@ -1,21 +1,6 @@
 {
     "General": {
-        "allowRepeat": false,
-        "autoStartup": false,
-        "chooseKey": "ctrl+t",
-        "supportCS": false
-    },
-    "Huanyu": {
-        "ecoMode": false,
-        "justice": false
-    },
-    "Secure": {
-        "keyChecksum": "0",
-        "lockConfigItem": false,
-        "lockNameEdit": false
-    },
-    "Debug": {
-        "logLevel": "DEBUG"
+        "test": true
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",

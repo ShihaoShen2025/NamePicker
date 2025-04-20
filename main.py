@@ -571,6 +571,8 @@ class Settings(QFrame):
         global cfg
         super().__init__(parent=parent)
         self.setObjectName(text.replace(' ', 'Settings'))
+        self.stack = QStackedWidget(self)
+        self.pivot = Pivot(self)
         self.df = QVBoxLayout(self)
         self.scrollArea = ScrollArea()
         self.scrollArea.setWidgetResizable(True)
@@ -668,12 +670,24 @@ class Settings(QFrame):
         self.scrollArea.setWidget(self.optv)
         self.optv.setStyleSheet("QWidget{background: transparent}")
         self.df.addWidget(TitleLabel("设置"))
-        self.df.addWidget(self.scrollArea)
         QScroller.grabGesture(self.scrollArea.viewport(), QScroller.LeftMouseButtonGesture)
+        self.df.addWidget(self.pivot)
+        self.addSubInterface(self.scrollArea,"Settings","本体设置")
+        for i in plugin_settings.keys():
+            self.addSubInterface(plugin_settings[i], "%s"%i, "插件设置 - %s"%plugin_info[i]["name"])
+        self.df.addWidget(self.stack)
         cfg.autoStartup.valueChanged.connect(self.startupChange)
         cfg.lockNameEdit.valueChanged.connect(self.checkLock)
         cfg.lockConfigEdit.valueChanged.connect(self.checkLock)
         logger.info("设置界面初始化完成")
+
+    def addSubInterface(self, widget: QLabel, objectName: str, text: str):
+        self.stack.addWidget(widget)
+        self.pivot.addItem(
+            routeKey=objectName,
+            text=text,
+            onClick=lambda: self.stack.setCurrentWidget(widget)
+        )
 
     def startupChange(self):
         if cfg.get(cfg.autoStartup):
