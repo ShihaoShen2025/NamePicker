@@ -32,10 +32,12 @@ jobs:
         with:
           nuitka-version: main
           script-name: main.py
-          mode: app
+          mode: standalone
           enable-plugins: pyqt5
           include-data-files: LICENSE=LICENSE
-          include-data-dir: assets=assets
+          include-data-dir: |
+            assets=assets
+            plugins=plugins
           windows-console-mode: attach
           windows-icon-from-ico: ./assets/favicon.ico
 
@@ -44,7 +46,7 @@ jobs:
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.exe
+            ${{ github.workspace }}/build/main.dist
           include-hidden-files: true
 
   build_linux:
@@ -67,12 +69,12 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Python GUI With TkInter
+      - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
           script-name: main.py
-          mode: app
+          mode: standalone
           enable-plugins: pyqt5
           include-data-files: LICENSE=LICENSE
           include-data-dir: assets=assets
@@ -84,5 +86,5 @@ jobs:
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.bin
+            ${{ github.workspace }}/build/main.dist
           include-hidden-files: true
