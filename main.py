@@ -17,7 +17,7 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.0.2dev"
+VERSION = "v2.0.2d1dev"
 CODENAME = "Robin"
 APIVER = 1
 error_dialog = None
@@ -1004,8 +1004,13 @@ class SystemTrayIcon(QSystemTrayIcon):
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.setIcon(parent.windowIcon())
-
         self.menu = SystemTrayMenu(parent=parent)
+        self.menu.addActions([
+            Action(icon=QIcon("assets/NamePicker.png"),text="NamePicker"),
+            Action(FluentIcon.HELP,"帮助",triggered=lambda: QDesktopServices.openUrl(QUrl(
+                'https://namepicker-docs.netlify.app')))
+        ])
+        self.menu.addSeparator()
         self.menu.addActions([
             Action(FluentIcon.HOME,"打开主界面",triggered=parent.show_main_window),
             Action(FluentIcon.SYNC,"重启",triggered=self.restart),
