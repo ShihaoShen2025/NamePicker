@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="ci:调整工作流">
-      <change afterPath="$PROJECT_DIR$/plugins/111.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,23 +52,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.带浮窗启动.executor&quot;: &quot;Run&quot;,
-    &quot;Python.无浮窗启动.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/NamePicker/plugins/lhgser.Example&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.configgui.executor": "Run",
+    "Python.configui.executor": "Run",
+    "Python.main.bullshit.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.带浮窗启动.executor": "Run",
+    "Python.无浮窗启动.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/NamePicker",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="NamePicker" is-module-sdk="true">
@@ -78,6 +79,9 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\NamePicker" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\NamePicker\assets" />
       <recent name="D:\NamePicker" />
@@ -131,6 +135,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="带浮窗启动" type="PythonConfigurationType" factoryName="Python">
+      <module name="NamePicker" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (NamePicker)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -148,14 +175,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
       <workItem from="1745117543241" duration="135000" />
-    </task>
-    <task id="LOCAL-00049" summary="ci:修改工作流">
-      <option name="closed" value="true" />
-      <created>1743311847057</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1743311847057</updated>
     </task>
     <task id="LOCAL-00050" summary="feat:大！刀！阔！斧！">
       <option name="closed" value="true" />
@@ -541,7 +560,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745121561121</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="ci:调整工作流">
+      <option name="closed" value="true" />
+      <created>1745121963754</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1745121963754</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -578,6 +605,7 @@
       <path value="$PROJECT_DIR$/plugins" />
       <path value="$PROJECT_DIR$/plugins/lhgser.Example" />
       <path value="$PROJECT_DIR$/plugins/Example" />
+      <path value="$PROJECT_DIR$/pluginrrr/Example" />
     </ignored-roots>
     <MESSAGE value="feat:托盘菜单打开主界面" />
     <MESSAGE value="feat:启用课表软件联动后可以直接点击悬浮窗点名" />

@@ -308,11 +308,14 @@ class PluginSettings(QFrame):
         self.optv =QWidget()
         self.opts = QVBoxLayout(self.optv)
         self.sets = []
-        for i in plugin_info.keys():
-            des = "%s - By %s - Version %s"%(plugin_info[i]["description"],plugin_info[i]["author"],plugin_info[i]["version"])
-            self.sets.append(PluginCard(plugin_icon[i],plugin_info[i]["name"],des,plugin_path[i]))
-        for i in self.sets:
-            self.opts.addWidget(i)
+        if plugin:
+            for i in plugin_info.keys():
+                des = "%s - By %s - Version %s"%(plugin_info[i]["description"],plugin_info[i]["author"],plugin_info[i]["version"])
+                self.sets.append(PluginCard(plugin_icon[i],plugin_info[i]["name"],des,plugin_path[i]))
+            for i in self.sets:
+                self.opts.addWidget(i)
+        else:
+            self.opts.addWidget(SubtitleLabel("没有安装插件"))
         self.scrollArea.setStyleSheet("QScrollArea{background: transparent; border: none}")
         self.scrollArea.setWidget(self.optv)
         self.optv.setStyleSheet("QWidget{background: transparent}")
@@ -453,6 +456,12 @@ class Choose(QFrame):
             else:
                 tar = list(set(tar) & set(self.numl[1]))
                 le = len(tar)
+        if plugin_filters:
+            for i in range(len(tar)):
+                for j in range(len(plugin_filters)):
+                    if not plugin_filters[j](tar[i]):
+                        tar.remove(tar[i])
+        le = len(tar)
         if le != 0:
             chs = random.randint(0, le - 1)
             if not cfg.get(cfg.allowRepeat):
@@ -483,32 +492,9 @@ class Choose(QFrame):
         for i in range(self.pickNum.value()):
             n = self.pick()
             if n != "尚未抽选":
-                for j in range(len(plugin_filters)):
-                    if self.filswitch[j].isChecked():
-                        if plugin_filters[j](n):
-                            namet.append(n)
-                    else:
-                        namet.append(n)
-                if len(namet) == 0:
-                    InfoBar.error(
-                        title='错误',
-                        content="没有符合筛选条件的学生",
-                        orient=Qt.Horizontal,
-                        isClosable=True,
-                        position=InfoBarPosition.BOTTOM,
-                        duration=3000,
-                        parent=self
-                    )
+                namet.append(n)
             else:
-                InfoBar.error(
-                    title='错误',
-                    content="没有符合筛选条件的学生",
-                    orient=Qt.Horizontal,
-                    isClosable=True,
-                    position=InfoBarPosition.BOTTOM,
-                    duration=3000,
-                    parent=self
-                )
+                self.nost()
 
         if cfg.get(cfg.supportCS):
             with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
@@ -525,6 +511,17 @@ class Choose(QFrame):
             logger.debug("表格设置完成")
         for i in plugin.keys():
             plugin[i].afterPick(namet)
+
+    def nost(self):
+        InfoBar.error(
+            title='错误',
+            content="没有符合筛选条件的学生",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.BOTTOM,
+            duration=3000,
+            parent=self
+        )
 
     def loadname(self):
         try:
@@ -793,6 +790,7 @@ class Settings(QFrame):
         self.addSubInterface(self.scrollArea,"Settings","本体设置")
         for i in plugin_settings.keys():
             self.addSubInterface(plugin_settings[i], "%s"%i, "插件设置 - %s"%plugin_info[i]["name"])
+        self.pivot.setCurrentItem("Settings")
         self.df.addWidget(self.stack)
         cfg.autoStartup.valueChanged.connect(self.startupChange)
         cfg.lockNameEdit.valueChanged.connect(self.checkLock)
