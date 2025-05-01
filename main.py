@@ -17,7 +17,7 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.0.2d1dev"
+VERSION = "v2.0.3dev"
 CODENAME = "Robin"
 APIVER = 1
 error_dialog = None
