@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="chore:启动v2.0.3dev">
-      <change afterPath="$PROJECT_DIR$/version.json" afterDir="false" />
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="chore:更新requirements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,24 +52,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.configgui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.configui.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.bullshit.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.带浮窗启动.executor&quot;: &quot;Run&quot;,
-    &quot;Python.无浮窗启动.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/NamePicker&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.configgui.executor": "Run",
+    "Python.configui.executor": "Run",
+    "Python.main.bullshit.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.network.executor": "Run",
+    "Python.带浮窗启动.executor": "Run",
+    "Python.无浮窗启动.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/NamePicker",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="NamePicker" is-module-sdk="true">
@@ -200,14 +199,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
       <workItem from="1745117543241" duration="135000" />
-    </task>
-    <task id="LOCAL-00053" summary="feat:完成主页功能">
-      <option name="closed" value="true" />
-      <created>1743733681665</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1743733681665</updated>
     </task>
     <task id="LOCAL-00054" summary="feat:完成设置页">
       <option name="closed" value="true" />
@@ -593,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746080768888</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="chore:更新requirements">
+      <option name="closed" value="true" />
+      <created>1746081351044</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1746081351044</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -639,7 +638,6 @@
       <path value="$PROJECT_DIR$/plugins/Example" />
       <path value="$PROJECT_DIR$/pluginrrr/Example" />
     </ignored-roots>
-    <MESSAGE value="feat:也许做好了重启" />
     <MESSAGE value="feat:开机自启" />
     <MESSAGE value="feat:崩溃提示，完成v2.0.1dev" />
     <MESSAGE value="feat:启动v2.0.2dev" />
@@ -664,7 +662,8 @@
     <MESSAGE value="fix&amp;refactor:修复始终显示没有符合条件的错误" />
     <MESSAGE value="ci:11111" />
     <MESSAGE value="chore:启动v2.0.3dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore:启动v2.0.3dev" />
+    <MESSAGE value="chore:更新requirements" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore:更新requirements" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NamePicker$main.coverage" NAME="main 覆盖结果" MODIFIED="1745117633957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
