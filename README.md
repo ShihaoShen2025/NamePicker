@@ -8,6 +8,12 @@
 
 [NamePicker文档](https://namepicker-docs.netlify.app/)
 
+> [!caution]
+> 
+> 该分支为NamePicker的[RinUI](https://ui.rinlit.cn/zh)的重构版本，**绝对不推荐**在生产环境下使用
+> 
+> 该重构版本**不会**考虑向下兼容配置和密钥文件，但已有的名单文件/插件（也许）仍然可以正常使用
+
 > [!note]
 > 
 > 从v2.0.0起，NamePicker本体将基于GNU GPLv3协议开源
@@ -56,6 +62,11 @@
 0. （可选）创建虚拟环境
 1. 安装依赖项
 `pip install -r requirements.txt`
+> [!note]
+> 
+> 由于RinUI尚未上架PyPi，请使用以下指令手动安装
+> 
+> `pip install -i https://test.pypi.org/simple/ RinUI --no-deps`
 2. 在虚拟环境中运行
 `nuitka --standalone --enable-plugin=pyqt5 --windows-console-mode=attach --include-data-dir=assets=assets --include-data-files=LICENSE=LICENSE --windows-icon-from-ico=./assets/favicon.ico main.py`
 3. **_必须将main.exe置于main.dist文件夹中运行，分发构建时必须分发整个main.dist文件夹_**

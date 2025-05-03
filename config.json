@@ -3,7 +3,7 @@
         "allowRepeat": false,
         "autoStartup": false,
         "chooseKey": "ctrl+w",
-        "supportCS": false
+        "supportCS": true
     },
     "Version": {
         "apiver": 1

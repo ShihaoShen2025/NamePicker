@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="chore:更新requirements">
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:获取release url逻辑">
+      <change beforePath="$PROJECT_DIR$/.idea/NamePicker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NamePicker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,11 +67,11 @@
     "Python.无浮窗启动.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "rinui",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/NamePicker",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -88,31 +92,7 @@
       <recent name="D:\NamePicker" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="无浮窗启动" type="PythonConfigurationType" factoryName="Python">
-      <module name="NamePicker" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13 (NamePicker)" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="noshortcut" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.带浮窗启动">
     <configuration name="带浮窗启动" type="PythonConfigurationType" factoryName="Python">
       <module name="NamePicker" />
       <option name="ENV_FILES" value="" />
@@ -182,6 +162,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.无浮窗启动" />
+      <item itemvalue="Python.带浮窗启动" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -199,14 +183,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
       <workItem from="1745117543241" duration="135000" />
-    </task>
-    <task id="LOCAL-00054" summary="feat:完成设置页">
-      <option name="closed" value="true" />
-      <created>1743735819558</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1743735819559</updated>
     </task>
     <task id="LOCAL-00055" summary="feat:完成CI/CW联动">
       <option name="closed" value="true" />
@@ -592,7 +568,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746081351044</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="feat:获取release url逻辑">
+      <option name="closed" value="true" />
+      <created>1746083692977</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1746083692977</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -638,7 +622,6 @@
       <path value="$PROJECT_DIR$/plugins/Example" />
       <path value="$PROJECT_DIR$/pluginrrr/Example" />
     </ignored-roots>
-    <MESSAGE value="feat:开机自启" />
     <MESSAGE value="feat:崩溃提示，完成v2.0.1dev" />
     <MESSAGE value="feat:启动v2.0.2dev" />
     <MESSAGE value="feat:功能锁定设置项" />
@@ -663,7 +646,8 @@
     <MESSAGE value="ci:11111" />
     <MESSAGE value="chore:启动v2.0.3dev" />
     <MESSAGE value="chore:更新requirements" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore:更新requirements" />
+    <MESSAGE value="feat:获取release url逻辑" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:获取release url逻辑" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NamePicker$main.coverage" NAME="main 覆盖结果" MODIFIED="1745117633957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
