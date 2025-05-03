@@ -2,3 +2,10 @@ main.spec
 main.exe
 .idea
 /plugins/Example/
+.vscode
+.venv
+.venv_rin
+KEY
+nuitka-crash-report.xml
+out.log
+__pycache__

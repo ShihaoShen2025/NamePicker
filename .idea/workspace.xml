@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="refactor:大刀阔斧！">
-      <change afterPath="$PROJECT_DIR$/pages/About.qml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/Choose.qml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/Settings.qml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/main.qml" afterDir="false" />
-    </list>
+    <list default="true" id="750be606-5999-4e28-9544-73132d3e305c" name="更改" comment="feat:架子要有" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +64,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/NamePicker",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -181,14 +176,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740884492240</updated>
       <workItem from="1745117543241" duration="135000" />
-    </task>
-    <task id="LOCAL-00056" summary="feat:完成浮窗">
-      <option name="closed" value="true" />
-      <created>1743738525874</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1743738525874</updated>
     </task>
     <task id="LOCAL-00057" summary="docs&amp;ci:调整工作流">
       <option name="closed" value="true" />
@@ -574,7 +561,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746257773178</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="feat:架子要有">
+      <option name="closed" value="true" />
+      <created>1746258619750</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1746258619750</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -620,7 +615,6 @@
       <path value="$PROJECT_DIR$/plugins/Example" />
       <path value="$PROJECT_DIR$/pluginrrr/Example" />
     </ignored-roots>
-    <MESSAGE value="feat:启动v2.0.2dev" />
     <MESSAGE value="feat:功能锁定设置项" />
     <MESSAGE value="feat:也许修好了重启" />
     <MESSAGE value="feat:托盘添加图标" />
@@ -645,7 +639,8 @@
     <MESSAGE value="chore:更新requirements" />
     <MESSAGE value="feat:获取release url逻辑" />
     <MESSAGE value="refactor:大刀阔斧！" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor:大刀阔斧！" />
+    <MESSAGE value="feat:架子要有" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:架子要有" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NamePicker$main.coverage" NAME="main 覆盖结果" MODIFIED="1745117633957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
