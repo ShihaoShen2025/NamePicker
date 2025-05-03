@@ -2,13 +2,15 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import RinUI
+import Qt5Compat.GraphicalEffects
 
 FluentPage {
-    title: "关于NamePicker"
+    horizontalPadding: 0
+    wrapperWidth: width - 42*2
 
     contentHeader: Item {
         width: parent.width
-        height: Math.max(window.height * 0.35, 200)
+        height: Math.max(window.height * 0.4, 200)
 
         Image {
             id: banner
@@ -30,67 +32,67 @@ FluentPage {
             }
         }
     }
-
-    Column {
-        Layout.fillWidth: true
-        spacing: 3
-        Text {
-            typography: Typography.BodyStrong
-            text: "Appearances"
-        }
-
-        SettingCard {
-            width: parent.width
-            title: qsTr("App Theme")
-            description: qsTr("Select which app theme to display")
-            icon: "ic_fluent_paint_brush_20_regular"
-
-            content: ComboBox {
-                property var data: ["Light", "Dark", "Auto"]
-                model: ["Light", "Dark", "Use system setting"]
-                currentIndex: data.indexOf(Theme.getTheme())
-                onCurrentIndexChanged: {
-                    Theme.setTheme(data[currentIndex])
-                }
-            }
-        }
-
-        SettingCard {
-            width: parent.width
-            title: qsTr("Window Backdrop Effect")
-            description: qsTr("Adjust the appearance of the window background (Only available on Windows platform, some styles may only support on Windows 11)")
-            icon: "ic_fluent_square_hint_sparkles_20_regular"
-
-            content: ComboBox {
-                property var data: ["mica", "acrylic", "tabbed", "none"]
-                model: ["Mica", "Acrylic", "Tabbed", "None"]
-                currentIndex: data.indexOf(Theme.getBackdropEffect())
-                onCurrentIndexChanged: {
-                    Theme.setBackdropEffect(data[currentIndex])
-                }
-            }
-        }
+    function jumpURL(url) {
+        return ItemData.getItemsByType(type).map(item => ({
+            title: item.title,
+            page: item.page,
+        }));
     }
 
-
     Column {
         Layout.fillWidth: true
-        spacing: 3
-        Text {
-            typography: Typography.BodyStrong
-            text: "About"
+        spacing: 3   
+        Text{
+            typography: Typography.Title
+            text: "关于NamePicker"
         }
 
         SettingCard {
             width: parent.width
-            title: qsTr("RinUI Gallery")
-            description: qsTr("© 2025 RinLit. All rights reserved.")
-            source: Qt.resolvedUrl("../assets/BA_Pic_Shiroko-chibi.png")
-            iconSize: 28
-
-            content: Text {
-                color: Theme.currentTheme.colors.textSecondaryColor
-                text: "0.0.8"
+            title: qsTr(Bridge.VerTxt)
+            description: qsTr("『鸟儿为何要飞向天空？也许鸟儿注定要如此，因为那是它的愿望、归宿，以及不可剥夺的权利……』")
+            icon: "ic_fluent_info_sparkle_20_regular"
+        }
+        SettingCard {
+            width: parent.width
+            title: qsTr("作者")
+            description: qsTr("by 灵魂歌手er（GitHub @LHGS-github）")
+            icon: "ic_fluent_people_20_regular"
+        }
+        SettingCard {
+            width: parent.width
+            title: qsTr("版权相关")
+            description: qsTr("基于GNU GPLv3获得授权")
+            icon: "ic_fluent_document_20_regular"
+        }
+    }
+    Column{
+        Layout.fillWidth: true
+        spacing: 3  
+        Text{
+            typography: Typography.Subtitle
+            text: "相关链接"
+        }
+        SettingCard {
+            width: parent.width
+            title: qsTr("官方文档")
+            description: qsTr("点击查看官方文档")
+            icon: "ic_fluent_document_20_regular"
+            content: Button {
+                text: qsTr("点击跳转")
+                enabled: true
+                onClicked: Bridge.jumpURL("https://namepicker-docs.netlify.app")
+            }
+        }
+        SettingCard {
+            width: parent.width
+            title: qsTr("GitHub仓库")
+            description: qsTr("觉得满意的话欢迎Star")
+            icon: "ic_fluent_box_20_regular"
+            content: Button {
+                text: qsTr("点击跳转")
+                enabled: true
+                onClicked: Bridge.jumpURL("https://github.com/NamePickerOrg/NamePicker")
             }
         }
     }

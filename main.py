@@ -2,12 +2,14 @@ import json
 import importlib
 import os
 import sys
-# import pandas as pd
+import pandas as pd
 import tempfile
 import random
 import traceback
-# from loguru import logger
+from loguru import logger
+from PySide6.QtCore import QObject, Slot,Property
 from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QDesktopServices,QIcon,QGuiApplication
 from RinUI import RinUIWindow
 if os.name == 'nt':
     from win32com.client import Dispatch
@@ -256,7 +258,23 @@ APIVER = 1
 #         if os.path.exists(shortcut_path):
 #             os.remove(shortcut_path)
 
+class UI(RinUIWindow):
+    def __init__(self):
+        super().__init__("pages/main.qml")
+        self.bridge = Bridge()
+        self.engine.rootContext().setContextProperty("Bridge", self.bridge)
+
+class Bridge(QObject):
+    @Slot(str)
+    def jumpURL(self,url):
+        QDesktopServices.openUrl(url)
+
+    @Property(str)
+    def VerTxt(self):
+        return "当前版本：%s - Codename %s"%(VERSION,CODENAME)
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    gallery = RinUIWindow("pages/main.qml")
+    app.setWindowIcon(QIcon("../assets/favicon.ico"))
+    main = UI()
     app.exec()
