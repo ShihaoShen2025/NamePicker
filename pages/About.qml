@@ -78,10 +78,10 @@ FluentPage {
             title: qsTr("官方文档")
             description: qsTr("点击查看官方文档")
             icon: "ic_fluent_document_20_regular"
-            content: Button {
+            content: Hyperlink {
                 text: qsTr("点击跳转")
+                openUrl: "https://namepicker-docs.netlify.app"
                 enabled: true
-                onClicked: Bridge.jumpURL("https://namepicker-docs.netlify.app")
             }
         }
         SettingCard {
@@ -89,10 +89,10 @@ FluentPage {
             title: qsTr("GitHub仓库")
             description: qsTr("觉得满意的话欢迎Star")
             icon: "ic_fluent_box_20_regular"
-            content: Button {
+            content: Hyperlink {
                 text: qsTr("点击跳转")
+                openUrl: "https://github.com/NamePickerOrg/NamePicker"
                 enabled: true
-                onClicked: Bridge.jumpURL("https://github.com/NamePickerOrg/NamePicker")
             }
         }
     }
