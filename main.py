@@ -253,17 +253,22 @@ def removeStartup():
 class Config:
     def __init__(self,filename:str,rules:dict,default:dict):
         self.filename = filename
-        with open(filename,"r",encoding="utf-8") as f:
-            self.cfgf = f.read()
-            self.cfg = json.loads(self.cfgf)
-        for i in list(rules.keys()):
-            if i not in self.cfg.keys():
-                self.cfg[i] = {}
-            for j in list(rules[i].keys()):
-                if j not in rules[i].keys():
-                    self.cfg[i][j] = default[i][j]
-                elif not self.val(i,j,self.cfg[i][j],rules):
+        try:
+            with open(filename,"r",encoding="utf-8") as f:
+                self.cfgf = f.read()
+                self.cfg = json.loads(self.cfgf)
+            for i in list(rules.keys()):
+                if i not in self.cfg.keys():
+                    self.cfg[i] = {}
+                for j in list(rules[i].keys()):
+                    if j not in rules[i].keys():
                         self.cfg[i][j] = default[i][j]
+                    elif not self.val(i,j,self.cfg[i][j],rules):
+                            self.cfg[i][j] = default[i][j]
+        except FileNotFoundError:
+            logger.warning("未找到配置文件，将创建默认配置")
+            with open(filename,"w",encoding="utf-8") as f:
+                f.write(json.dumps(default))
 
     def val(self,i:str,j:str,chk,rules:dict):
         if type(rules[i][j]) == list:
