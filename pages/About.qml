@@ -32,12 +32,6 @@ FluentPage {
             }
         }
     }
-    function jumpURL(url) {
-        return ItemData.getItemsByType(type).map(item => ({
-            title: item.title,
-            page: item.page,
-        }));
-    }
 
     Column {
         Layout.fillWidth: true

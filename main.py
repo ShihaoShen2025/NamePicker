@@ -99,133 +99,133 @@ APIVER = 1
 #         pass
 # sys.excepthook = hookExceptions
 
-# class Choose:
-#     def __init__(self, text: str, parent=None):
-#         super().__init__(parent=parent)
-#         self.names = {}
-#         self.sexlen = [0,0,0]
-#         self.sexl = [[],[],[]]
-#         self.numlen = [0,0,0]
-#         self.numl = [[],[],[]]
-#         self.chosen = []
-#         self.loadname()
+class Choose:
+    def __init__(self,sexFavor:str,numFavor:str):
+        self.names = {}
+        self.sexlen = [0,0,0]
+        self.sexl = [[],[],[]]
+        self.numlen = [0,0,0]
+        self.numl = [[],[],[]]
+        self.chosen = []
+        self.sexFavor = sexFavor
+        self.numFavor = numFavor
+        self.loadname()
 
-#     def pick(self):
-#         global cfg
-#         if self.sexCombo.currentText() != "都抽":
-#             if self.sexCombo.currentText() == "只抽男":
-#                 le = self.sexlen[0]
-#                 tar = self.sexl[0]
-#             elif self.sexCombo.currentText() == "只抽女":
-#                 le = self.sexlen[1]
-#                 tar = self.sexl[1]
-#             else:
-#                 le = self.sexlen[2]
-#                 tar = self.sexl[2]
-#         else:
-#             le = self.length
-#             tar = self.names["name"]
+    def pick(self):
+        global cfg
+        if self.sexFavor != "都抽":
+            if self.sexFavor == "只抽男":
+                le = self.sexlen[0]
+                tar = self.sexl[0]
+            elif self.sexFavor == "只抽女":
+                le = self.sexlen[1]
+                tar = self.sexl[1]
+            else:
+                le = self.sexlen[2]
+                tar = self.sexl[2]
+        else:
+            le = self.length
+            tar = self.names["name"]
 
-#         if self.numCombo.currentText() != "都抽":
-#             if self.numCombo.currentText() == "只抽双数":
-#                 tar = list(set(tar) & set(self.numl[0]))
-#                 le = len(tar)
-#             else:
-#                 tar = list(set(tar) & set(self.numl[1]))
-#                 le = len(tar)
-#         if plugin_filters:
-#             for i in range(len(tar)):
-#                 for j in range(len(plugin_filters_name)):
-#                     if self.filswitch[j].isChecked() and not plugin_filters[j](tar[i]):
-#                         tar.remove(tar[i])
-#         le = len(tar)
-#         if le != 0:
-#             chs = random.randint(0, le - 1)
-#             if not cfg.get(cfg.allowRepeat):
-#                 if len(self.chosen) >= le:
-#                     self.chosen = []
-#                     chs = random.randint(0, le - 1)
-#                 else:
-#                     while chs in self.chosen:
-#                         chs = random.randint(0, le - 1)
-#                 self.chosen.append(chs)
-#                 logger.debug(self.chosen)
-#             tmp = {"name":tar[chs],"no":str(self.names["no"][self.names["name"].index(tar[chs])])}
-#             for i in self.names.keys():
-#                 if i == "name" or i == "no":
-#                     continue
-#                 tmp[i] = str(self.names[i][self.names["name"].index(tar[chs])])
-#             return tmp
-#         else:
-#             return "尚未抽选"
+        if self.numFavor != "都抽":
+            if self.numFavor == "只抽双数":
+                tar = list(set(tar) & set(self.numl[0]))
+                le = len(tar)
+            else:
+                tar = list(set(tar) & set(self.numl[1]))
+                le = len(tar)
+        # if plugin_filters:
+        #     for i in range(len(tar)):
+        #         for j in range(len(plugin_filters_name)):
+        #             if self.filswitch[j].isChecked() and not plugin_filters[j](tar[i]):
+        #                 tar.remove(tar[i])
+        le = len(tar)
+        if le != 0:
+            chs = random.randint(0, le - 1)
+            if not cfg.get("General","allowRepeat"):
+                if len(self.chosen) >= le:
+                    self.chosen = []
+                    chs = random.randint(0, le - 1)
+                else:
+                    while chs in self.chosen:
+                        chs = random.randint(0, le - 1)
+                self.chosen.append(chs)
+                logger.debug(self.chosen)
+            tmp = {"name":tar[chs],"no":str(self.names["no"][self.names["name"].index(tar[chs])])}
+            for i in self.names.keys():
+                if i == "name" or i == "no":
+                    continue
+                tmp[i] = str(self.names[i][self.names["name"].index(tar[chs])])
+            return tmp
+        else:
+            return "尚未抽选"
 
-#     def pickcb(self):
-#         logger.debug("pickcb被调用")
-#         for i in plugin.keys():
-#             plugin[i].beforePick()
-#         self.table.setRowCount(self.pickNum.value())
-#         namet = []
-#         namel = []
-#         for i in range(self.pickNum.value()):
-#             n = self.pick()
-#             if n != "尚未抽选":
-#                 namet.append(n)
-#             else:
-#                 self.nost()
+    def pickcb(self,nb:int):
+        logger.debug("pickcb被调用")
+        # for i in plugin.keys():
+        #     plugin[i].beforePick()
+        namet = []
+        namel = []
+        for i in range(nb):
+            n = self.pick()
+            if n != "尚未抽选":
+                namet.append(n)
+            else:
+                return ["bydcnm","没有符合条件的学生"]
 
-#         if cfg.get(cfg.supportCS):
-#             with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
-#                 f.write("111")
-#             with open("%s\\res.txt" % temp_dir, "w", encoding="utf-8") as f:
-#                 for i in namet:
-#                     namel.append("%s（%s）" % (i["name"], i["no"]))
-#                 f.writelines(namel)
-#             logger.info("文件存储完成")
-#         else:
-#             for i in range(len(namet)):
-#                 pass
-#             logger.debug("表格设置完成")
-#         for i in plugin.keys():
-#             plugin[i].afterPick(namet)
+        if cfg.get("General","supportCS"):
+            with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
+                f.write("111")
+            with open("%s\\res.txt" % temp_dir, "w", encoding="utf-8") as f:
+                for i in namet:
+                    namel.append("%s（%s）" % (i["name"], i["no"]))
+                f.writelines(namel)
+            logger.info("文件存储完成")
+        else:
+            for i in namet:
+                    namel.append("%s（%s）" % (i["name"], i["no"]))
+            return namel
+        # for i in plugin.keys():
+        #     plugin[i].afterPick(namet)
 
-#     def loadname(self):
-#         try:
-#             name = pd.read_csv("names.csv", sep=",", header=0)
-#             name = name.to_dict()
-#             self.names["name"] = list(name["name"].values())
-#             self.names["sex"] = list(name["sex"].values())
-#             self.names["no"] = list(name["no"].values())
-#             for i in plugin_customkey:
-#                 self.names[i] = list(name[i].values())
-#             for k in self.names.keys():
-#                 for i in range(len(self.names[k])):
-#                     self.names[k][i] = str(self.names[k][i])
-#             self.length =len(name["name"])
-#             self.sexlen[0] = self.names["sex"].count("0")
-#             self.sexlen[1] = self.names["sex"].count("1")
-#             self.sexlen[2] = self.names["sex"].count("2")
-#             for i in self.names["name"]:
-#                 if int(self.names["sex"][self.names["name"].index(i)]) == 0:
-#                     self.sexl[0].append(i)
-#                 elif int(self.names["sex"][self.names["name"].index(i)]) == 1:
-#                     self.sexl[1].append(i)
-#                 else:
-#                     self.sexl[2].append(i)
+    def loadname(self):
+        try:
+            name = pd.read_csv("names.csv", sep=",", header=0)
+            name = name.to_dict()
+            self.names["name"] = list(name["name"].values())
+            self.names["sex"] = list(name["sex"].values())
+            self.names["no"] = list(name["no"].values())
+            # for i in plugin_customkey:
+            #     self.names[i] = list(name[i].values())
+            for k in self.names.keys():
+                for i in range(len(self.names[k])):
+                    self.names[k][i] = str(self.names[k][i])
+            self.length =len(name["name"])
+            self.sexlen[0] = self.names["sex"].count("0")
+            self.sexlen[1] = self.names["sex"].count("1")
+            self.sexlen[2] = self.names["sex"].count("2")
+            for i in self.names["name"]:
+                if int(self.names["sex"][self.names["name"].index(i)]) == 0:
+                    self.sexl[0].append(i)
+                elif int(self.names["sex"][self.names["name"].index(i)]) == 1:
+                    self.sexl[1].append(i)
+                else:
+                    self.sexl[2].append(i)
 
-#             for i in self.names["name"]:
-#                 if int(self.names["no"][self.names["name"].index(i)])%2==0:
-#                     self.numl[0].append(i)
-#                 else:
-#                     self.numl[1].append(i)
-#             self.numlen[0] = len(self.numl[0])
-#             self.numlen[1] = len(self.numl[1])
-#             logger.info("名单加载完成")
-#         except FileNotFoundError:
-#             logger.warning("没有找到名单文件")
-#             with open("names.csv","w",encoding="utf-8") as f:
-#                 st  = ["name,sex,no\n","example,0,1"]
-#                 f.writelines(st)
-#             self.loadname()
+            for i in self.names["name"]:
+                if int(self.names["no"][self.names["name"].index(i)])%2==0:
+                    self.numl[0].append(i)
+                else:
+                    self.numl[1].append(i)
+            self.numlen[0] = len(self.numl[0])
+            self.numlen[1] = len(self.numl[1])
+            logger.info("名单加载完成")
+        except FileNotFoundError:
+            logger.warning("没有找到名单文件")
+            with open("names.csv","w",encoding="utf-8") as f:
+                st  = ["name,sex,no\n","example,0,1"]
+                f.writelines(st)
+            self.loadname()
 
 # class Settings:
 #     def setStartup(self):
@@ -302,6 +302,7 @@ logger.remove(0)
 logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
+core = Choose("都抽","都抽")
 
 class UI(RinUIWindow):
     def __init__(self):
@@ -310,9 +311,14 @@ class UI(RinUIWindow):
         self.engine.rootContext().setContextProperty("Bridge", self.bridge)
 
 class Bridge(QObject):
-    @Slot(str)
-    def jumpURL(self,url):
-        QDesktopServices.openUrl(url)
+    @Slot(str,str,str,result=list)
+    def Pick(self,num,sexf,numf):
+        core.sexFavor = sexf
+        core.numFavor = numf
+        try:
+            return core.pickcb(int(num))
+        except ValueError:
+            return core.pickcb(int(1))   
 
     @Property(str)
     def VerTxt(self):

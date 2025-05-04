@@ -1,7 +1,19 @@
+colorama==0.4.6
 darkdetect==0.8.0
+loguru==0.7.3
+Nuitka==2.7
+numpy==2.0.2
+ordered-set==4.1.0
+pandas==2.2.3
 PySide6==6.9.0
 PySide6_Addons==6.9.0
 PySide6_Essentials==6.9.0
-pywin32==310
+python-dateutil==2.9.0.post0
+pytz==2025.2
+pywin32==310; platform_system == "Windows"
 RinUI==0.0.8.5
 shiboken6==6.9.0
+six==1.17.0
+tzdata==2025.2
+win32_setctime==1.2.0
+zstandard==0.23.0
