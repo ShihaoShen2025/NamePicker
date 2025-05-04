@@ -25,7 +25,7 @@ FluentPage {
             highlighted: true
             text: qsTr("点击抽选")
             onClicked: {
-                var pk = Bridge.Pick(chooseNum.text,sexCombo.currentText,numCombo.currentText)
+                var pk = Bridge.Pick(chooseNum.value,sexCombo.currentText,numCombo.currentText)
                 if(pk[0]!="bydcnm"){
                     studentsModel.clear()
                     for(var i = 0; i < pk.length; i++){
@@ -49,12 +49,13 @@ FluentPage {
                 typography:Typography.Body
                 text: qsTr("抽选数量")
             }
-            TextField {
+            SpinBox {
                 id: chooseNum
                 width: parent.width
                 Layout.alignment: Qt.AlignRight
-                placeholderText: qsTr("输入抽选数量")
                 validator: IntValidator
+                from: 1
+                to: Bridge.GetNLen
             }
         }
         RowLayout{

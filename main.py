@@ -328,6 +328,10 @@ class Bridge(QObject):
     def GetCfg(self,cls,key):
         return [cfg.get(cls,key)]
     
+    @Slot(result=int)
+    def GetNLen(self):
+        return len(core.names.keys())
+    
     @Slot(str,str,list)
     def SetCfg(self,cls,key,val):
         if cfg.val(cls,key,val[0],CFGRULE):
