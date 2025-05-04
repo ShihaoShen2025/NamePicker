@@ -7,7 +7,7 @@ import tempfile
 import random
 import traceback
 from loguru import logger
-from PySide6.QtCore import QObject, Slot,Property
+from PySide6.QtCore import QObject, Slot,Property,Signal
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QDesktopServices,QIcon,QGuiApplication
 from RinUI import RinUIWindow
@@ -87,13 +87,6 @@ APIVER = 1
 #             namewrite.append(namesread[i]+"\n")
 #         f.writelines(namewrite)
 
-# if os.path.exists("out.log"):
-#     os.remove("out.log")
-# logger.remove(0)
-# logger.add("out.log")
-# logger.add(sys.stderr, level=cfg.get(cfg.logLevel))
-
-# logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
 
 # def hookExceptions(exc_type, exc_value, exc_tb):
 #     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
@@ -257,6 +250,58 @@ APIVER = 1
 #         shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
 #         if os.path.exists(shortcut_path):
 #             os.remove(shortcut_path)
+
+class Config:
+    def __init__(self,filename:str,rules:dict,default:dict):
+        self.filename = filename
+        with open(filename,"r",encoding="utf-8") as f:
+            self.cfgf = f.read()
+            self.cfg = json.loads(self.cfgf)
+        for i in list(rules.keys()):
+            if i not in self.cfg.keys():
+                self.cfg[i] = {}
+            for j in list(rules[i].keys()):
+                if j not in rules[i].keys():
+                    self.cfg[i][j] = default[i][j]
+                elif type(rules[i][j]) == list:
+                    if ((rules[i][j][0] == "range" and (rules[i][j][1] > self.cfg[i][j] or rules[i][j][2] < self.cfg[i][j])) 
+                        or (rules[i][j][0] == "option" and self.cfg[i][j] not in rules[i][j]) 
+                        or (rules[i][j][0] == "list" and type(self.cfg[i][j]) != list)):
+                        self.cfg[i][j] = default[i][j]
+                else:
+                    if type(self.cfg[i][j]) != rules[i][j]:
+                        self.cfg[i][j] = default[i][j]
+
+    def get(self,cls:str,key:str):
+        return self.cfg[cls][key]
+    
+    def set(self,cls:str,key:str,val):
+        self.cfg[cls][key] = val
+        with open(self.filename,"w",encoding="utf-8") as f:
+            f.write(json.dumps(self.cfg))
+
+CFGRULE = {
+    "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool},
+    "Version": {"apiver": ["range",2,2]},
+    "Huanyu": {"ecoMode": bool,"justice": bool},
+    "Debug": {"logLevel": ["option","DEBUG","INFO","WARNING","ERROR"]}
+}
+
+CFGDEFAULT = {
+    "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False},
+    "Version": {"apiver": 2},
+    "Huanyu": {"ecoMode": False,"justice": False},
+    "Debug": {"logLevel": "INFO"}
+}
+
+cfg = Config("config.json",CFGRULE,CFGDEFAULT)
+
+if os.path.exists("out.log"):
+    os.remove("out.log")
+logger.remove(0)
+logger.add("out.log")
+logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
+logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
 
 class UI(RinUIWindow):
     def __init__(self):
