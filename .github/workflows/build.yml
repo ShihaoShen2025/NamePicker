@@ -25,6 +25,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
+          pip install -i https://test.pypi.org/simple/ RinUI --no-deps
 
       - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
@@ -32,11 +33,12 @@ jobs:
           nuitka-version: main
           script-name: main.py
           mode: standalone
-          enable-plugins: pyqt5
+          enable-plugins: pyside6
           include-data-files: LICENSE=LICENSE
           include-data-dir: |
             assets=assets
             plugins=plugins
+            pages=pages
           windows-console-mode: attach
           windows-icon-from-ico: ./assets/favicon.ico
 
@@ -67,6 +69,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
+          pip install -i https://test.pypi.org/simple/ RinUI --no-deps
 
       - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
@@ -74,9 +77,12 @@ jobs:
           nuitka-version: main
           script-name: main.py
           mode: standalone
-          enable-plugins: pyqt5
+          enable-plugins: pyside6
           include-data-files: LICENSE=LICENSE
-          include-data-dir: assets=assets
+          include-data-dir: |
+            assets=assets
+            plugins=plugins
+            pages=pages
           windows-console-mode: attach
           linux-icon: ./assets/favicon.ico
 
