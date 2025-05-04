@@ -227,29 +227,28 @@ class Choose:
                 f.writelines(st)
             self.loadname()
 
-# class Settings:
-#     def setStartup(self):
-#         if os.name != 'nt':
-#             return
-#         file_path='%s/main.exe'%os.path.dirname(os.path.abspath(__file__))
-#         icon_path = 'assets/favicon.ico'
-#         startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
-#         name = os.path.splitext(os.path.basename(file_path))[0]  # 使用文件名作为快捷方式名称
-#         shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
-#         shell = Dispatch('WScript.Shell')
-#         shortcut = shell.CreateShortCut(shortcut_path)
-#         shortcut.Targetpath = file_path
-#         shortcut.WorkingDirectory = os.path.dirname(file_path)
-#         shortcut.IconLocation = icon_path  # 设置图标路径
-#         shortcut.save()
+def setStartup():
+    if os.name != 'nt':
+        return
+    file_path='%s/main.exe'%os.path.dirname(os.path.abspath(__file__))
+    icon_path = 'assets/favicon.ico'
+    startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
+    name = os.path.splitext(os.path.basename(file_path))[0]  # 使用文件名作为快捷方式名称
+    shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
+    shell = Dispatch('WScript.Shell')
+    shortcut = shell.CreateShortCut(shortcut_path)
+    shortcut.Targetpath = file_path
+    shortcut.WorkingDirectory = os.path.dirname(file_path)
+    shortcut.IconLocation = icon_path  # 设置图标路径
+    shortcut.save()
 
-#     def removeStartup(self):
-#         file_path = '%s/main.exe' % os.path.dirname(os.path.abspath(__file__))
-#         name = os.path.splitext(os.path.basename(file_path))[0]
-#         startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
-#         shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
-#         if os.path.exists(shortcut_path):
-#             os.remove(shortcut_path)
+def removeStartup():
+    file_path = '%s/main.exe' % os.path.dirname(os.path.abspath(__file__))
+    name = os.path.splitext(os.path.basename(file_path))[0]
+    startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
+    shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
+    if os.path.exists(shortcut_path):
+        os.remove(shortcut_path)
 
 class Config:
     def __init__(self,filename:str,rules:dict,default:dict):
@@ -263,14 +262,19 @@ class Config:
             for j in list(rules[i].keys()):
                 if j not in rules[i].keys():
                     self.cfg[i][j] = default[i][j]
-                elif type(rules[i][j]) == list:
-                    if ((rules[i][j][0] == "range" and (rules[i][j][1] > self.cfg[i][j] or rules[i][j][2] < self.cfg[i][j])) 
-                        or (rules[i][j][0] == "option" and self.cfg[i][j] not in rules[i][j]) 
-                        or (rules[i][j][0] == "list" and type(self.cfg[i][j]) != list)):
+                elif not self.val(i,j,self.cfg[i][j],rules):
                         self.cfg[i][j] = default[i][j]
-                else:
-                    if type(self.cfg[i][j]) != rules[i][j]:
-                        self.cfg[i][j] = default[i][j]
+
+    def val(self,i:str,j:str,chk,rules:dict):
+        if type(rules[i][j]) == list:
+            if ((rules[i][j][0] == "range" and (rules[i][j][1] > chk or rules[i][j][2] < chk)) 
+                or (rules[i][j][0] == "option" and chk not in rules[i][j]) 
+                or (rules[i][j][0] == "list" and type(chk) != list)):
+                return False
+        elif type(chk) != rules[i][j]:
+            return False
+        else:
+            return True
 
     def get(self,cls:str,key:str):
         return self.cfg[cls][key]
@@ -318,11 +322,32 @@ class Bridge(QObject):
         try:
             return core.pickcb(int(num))
         except ValueError:
-            return core.pickcb(int(1))   
+            return core.pickcb(int(1))
+        
+    @Slot(str,str,result=list)
+    def GetCfg(self,cls,key):
+        return [cfg.get(cls,key)]
+    
+    @Slot(str,str,list)
+    def SetCfg(self,cls,key,val):
+        if cfg.val(cls,key,val[0],CFGRULE):
+            cfg.set(cls,key,val[0])
+
+    @Slot(int,result=int)
+    def GetDbg(self,cls):
+        return ["DEBUG","INFO","WARNING","ERROR"].index(cfg.get("Debug","logLevel"))
+
+    @Slot(bool)
+    def Startup(self,stat):
+        if stat:
+            setStartup()
+        else:
+            removeStartup()
 
     @Property(str)
     def VerTxt(self):
         return "当前版本：%s - Codename %s"%(VERSION,CODENAME)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

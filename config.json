@@ -1,1 +1,1 @@
-{"General": {"allowRepeat": false, "autoStartup": false, "chooseKey": "ctrl+w", "supportCS": false}, "Version": {"apiver": 2}, "Huanyu": {"ecoMode": false, "justice": false}, "Debug": {"logLevel": "DEBUG"}}
+{"General": {"allowRepeat": false, "autoStartup": false, "chooseKey": "ctrl+w", "supportCS": false}, "Version": {"apiver": 2}, "Huanyu": {"ecoMode": false, "justice": false}, "Debug": {"logLevel": "INFO"}}
