@@ -2,7 +2,7 @@ name: Bulid dev version
 on:
   push:
     branches:
-      - master
+      - rinui
   workflow_dispatch:
 
 jobs:
