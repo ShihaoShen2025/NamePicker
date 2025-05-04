@@ -34,6 +34,7 @@ jobs:
           script-name: main.py
           mode: standalone
           enable-plugins: pyside6
+          include-qt-plugins: qml
           include-data-files: LICENSE=LICENSE
           include-data-dir: |
             assets=assets
