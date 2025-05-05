@@ -63,8 +63,8 @@ jobs:
           run-id: ${{needs.build_matrix.outputs.artiid}}
       - name: Prepare artifacts
         run: |
-          mv artifacts/NamePicker-Actions-Windows release/
-          mv artifacts/NamePicker-Actions-Linux release/
+          mv ${{ github.workspace }}/artifacts/NamePicker-Actions-Windows/* release/
+          mv ${{ github.workspace }}/artifacts/NamePicker-Actions-Linux/* release/
 
       - name: Release
         uses: softprops/action-gh-release@v2
