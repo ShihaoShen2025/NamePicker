@@ -77,8 +77,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/NamePicker-Action-Windows.zip
-            release/NamePicker-Action-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
           body_path: CHANGELOG.md
           draft: true
         env:
