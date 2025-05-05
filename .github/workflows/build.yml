@@ -55,6 +55,8 @@ jobs:
       - name: Prepare release
         run: |
           mkdir release
+          mkdir -p release/NamePicker-Action-Windows
+          mkdir -p release/NamePicker-Action-Linux
           mkdir artifacts
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -63,8 +65,8 @@ jobs:
           run-id: ${{needs.build_matrix.outputs.artiid}}
       - name: Prepare artifacts
         run: |
-          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/
-          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Linux release/
+          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/NamePicker-Action-Windows
+          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Linux release/NamePicker-Action-Linux
 
       - name: Release
         uses: softprops/action-gh-release@v2
