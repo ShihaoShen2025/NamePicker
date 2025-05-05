@@ -68,7 +68,7 @@
 > 
 > `pip install -i https://test.pypi.org/simple/ RinUI --no-deps`
 2. 在虚拟环境中运行
-`nuitka --standalone --enable-plugin=pyqt5 --windows-console-mode=attach --include-data-dir=assets=assets --include-data-files=LICENSE=LICENSE --windows-icon-from-ico=./assets/favicon.ico main.py`
+`pyinstaller main.spec`
 3. **_必须将main.exe置于main.dist文件夹中运行，分发构建时必须分发整个main.dist文件夹_**
 
 ## FAQ
