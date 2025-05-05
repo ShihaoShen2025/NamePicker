@@ -78,7 +78,7 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
-            ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-Action-Linux.zip
           body_path: CHANGELOG.md
           draft: true
         env:
