@@ -18,6 +18,18 @@ temp_dir = tempfile.gettempdir()
 VERSION = "v2.0.3dev"
 CODENAME = "Robin"
 APIVER = 1
+
+if not sys.stdout:
+    class FakeStdOut:
+        def __init__(self):
+            pass
+        def write(self, message):
+            pass
+        def flush(self):
+            pass
+        def isatty(self):
+            return True
+    sys.stdout = FakeStdOut()
 # error_dialog = None
 # tray = None
 # unlocked = [False,False]
@@ -88,17 +100,22 @@ APIVER = 1
 #         f.writelines(namewrite)
 
 
-# def hookExceptions(exc_type, exc_value, exc_tb):
-#     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
-#     if "TypeError: disconnect() of all signals failed" in error_details:
-#         return
-#     logger.error(error_details)
-#     if not error_dialog:
-#         # w = ErrorDialog(error_details)
-#         # w.exec()
-#         pass
-# sys.excepthook = hookExceptions
+def hookExceptions(exc_type, exc_value, exc_tb):
+    error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    if "TypeError: disconnect() of all signals failed" in error_details:
+        return
+    logger.error(error_details)
+    # if not error_dialog:
+    #     # w = ErrorDialog(error_details)
+    #     # w.exec()
+    #     pass
+sys.excepthook = hookExceptions
 
+def resource_path(relative_path:str)-> str:
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.abspath(relative_path)
+                        
 class Choose:
     def __init__(self,sexFavor:str,numFavor:str):
         self.names = {}
@@ -269,6 +286,7 @@ class Config:
             logger.warning("未找到配置文件，将创建默认配置")
             with open(filename,"w",encoding="utf-8") as f:
                 f.write(json.dumps(default))
+            self.cfg = default
 
     def val(self,i:str,j:str,chk,rules:dict):
         if type(rules[i][j]) == list:
@@ -307,15 +325,14 @@ cfg = Config("config.json",CFGRULE,CFGDEFAULT)
 
 if os.path.exists("out.log"):
     os.remove("out.log")
-logger.remove(0)
 logger.add("out.log")
-logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
+logger.add(sys.stdout, level=cfg.get("Debug","logLevel"))
 logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
 core = Choose("都抽","都抽")
 
 class UI(RinUIWindow):
     def __init__(self):
-        super().__init__("pages/main.qml")
+        super().__init__(resource_path("pages/main.qml"))
         self.bridge = Bridge()
         self.engine.rootContext().setContextProperty("Bridge", self.bridge)
 
@@ -360,6 +377,6 @@ class Bridge(QObject):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("../assets/favicon.ico"))
+    app.setWindowIcon(QIcon(resource_path("assets/favicon.ico")))
     main = UI()
     app.exec()

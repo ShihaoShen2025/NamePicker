@@ -6,9 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_windows:
-    runs-on: windows-latest
-
+  build_matrix:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check-out repository
         uses: actions/checkout@v4
@@ -28,69 +30,12 @@ jobs:
           pip install -i https://test.pypi.org/simple/ RinUI --no-deps
 
       - name: Build Executable
-        uses: Nuitka/Nuitka-Action@main
-        with:
-          nuitka-version: main
-          script-name: main.py
-          mode: standalone
-          enable-plugins: pyside6
-          include-qt-plugins: qml
-          include-data-files: LICENSE=LICENSE
-          include-data-dir: |
-            assets=assets
-            plugins=plugins
-            pages=pages
-          windows-console-mode: attach
-          windows-icon-from-ico: ./assets/favicon.ico
+        run: pyinstaller main.spec
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.dist
-          include-hidden-files: true
-
-  build_linux:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check-out repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-          architecture: 'x64'
-          cache: 'pip'
-          cache-dependency-path: |
-            **/requirements*.txt
-
-      - name: Install Dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install -i https://test.pypi.org/simple/ RinUI --no-deps
-
-      - name: Build Executable
-        uses: Nuitka/Nuitka-Action@main
-        with:
-          nuitka-version: main
-          script-name: main.py
-          mode: standalone
-          enable-plugins: pyside6
-          include-data-files: LICENSE=LICENSE
-          include-data-dir: |
-            assets=assets
-            plugins=plugins
-            pages=pages
-          windows-console-mode: attach
-          linux-icon: ./assets/favicon.ico
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: NamePicker-Action-${{ runner.os }}
-          path: |
-            ${{ github.workspace }}/build/main.dist
+            ${{ github.workspace }}/dist/main
           include-hidden-files: true
