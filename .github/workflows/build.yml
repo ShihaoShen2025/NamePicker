@@ -5,6 +5,9 @@ on:
       - rinui
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build_matrix:
     strategy:
@@ -49,7 +52,25 @@ jobs:
     steps:
       - name: Check-out repository
         uses: actions/checkout@v4
+      - name: Prepare release
+        run: |
+          mkdir release
+          mkdir artifacts
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          run-id: ${{needs.build_matrix.outputs.artiid}}
+      - name: Prepare artifacts
+        run: |
+          mv artifacts/NamePicker-Actions-Windows/* release/
+          mv artifacts/NamePicker-Actions-Windows/* release/
+
       - name: Release
-        uses: ./.github/workflows/release.yml
-        with: |
-        run_id: ${{needs.build_matrix.outputs.artiid}}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          body_path: CHANGELOG.md
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
