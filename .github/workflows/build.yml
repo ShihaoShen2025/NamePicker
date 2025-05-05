@@ -39,3 +39,8 @@ jobs:
           path: |
             ${{ github.workspace }}/dist/main
           include-hidden-files: true
+
+      - name: Release
+        uses: release.yml
+        with: |
+          run_id: ${{ steps.artifact-upload-step.outputs.artifact-id }}
