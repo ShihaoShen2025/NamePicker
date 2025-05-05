@@ -68,10 +68,17 @@ jobs:
           mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/NamePicker-Action-Windows
           mv ${{ github.workspace }}/artifacts/NamePicker-Action-Linux release/NamePicker-Action-Linux
 
+      - name: Zip artifact
+        run: |
+          zip -r NamePicker-Action-Windows.zip release/NamePicker-Action-Windows
+          zip -r NamePicker-Action-Linux.zip release/NamePicker-Action-Linux
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: release/*
+          files: |
+            release/NamePicker-Action-Windows.zip
+            release/NamePicker-Action-Windows.zip
           body_path: CHANGELOG.md
           draft: true
         env:
