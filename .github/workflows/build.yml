@@ -45,6 +45,7 @@ jobs:
 
   release:
     needs: [build_matrix]
+    runs-on: ubuntu-latest
     steps:
     - name: Release
       uses: ./.github/workflows/release.yml
