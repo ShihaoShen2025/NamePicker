@@ -41,6 +41,6 @@ jobs:
           include-hidden-files: true
 
       - name: Release
-        uses: release.yml
+        uses: ./.github/workflows/release.yml
         with: |
           run_id: ${{ steps.artifact-upload-step.outputs.artifact-id }}
