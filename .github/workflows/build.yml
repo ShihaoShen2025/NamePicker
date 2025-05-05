@@ -70,8 +70,8 @@ jobs:
 
       - name: Zip artifact
         run: |
-          zip -r NamePicker-Action-Windows.zip release/NamePicker-Action-Windows
-          zip -r NamePicker-Action-Linux.zip release/NamePicker-Action-Linux
+          zip -r release/NamePicker-Action-Windows.zip release/NamePicker-Action-Windows
+          zip -r release/NamePicker-Action-Linux.zip release/NamePicker-Action-Linux
 
       - name: Release
         uses: softprops/action-gh-release@v2
