@@ -55,8 +55,6 @@ jobs:
       - name: Prepare release
         run: |
           mkdir release
-          mkdir -p release/NamePicker-Action-Windows
-          mkdir -p release/NamePicker-Action-Linux
           mkdir artifacts
       - name: Download artifacts
         uses: actions/download-artifact@v4
