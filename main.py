@@ -1,5 +1,7 @@
 import json
 import importlib
+import hashlib
+import socket
 import os
 import sys
 import tempfile
@@ -18,8 +20,8 @@ VERSION = "v2.0.4dev"
 CODENAME = "Robin"
 APIVER = 1
 
-if not sys.stdout:
-    class FakeStdOut:
+if not sys.stderr:
+    class FakeStderr:
         def __init__(self):
             pass
         def write(self, message):
@@ -28,7 +30,7 @@ if not sys.stdout:
             pass
         def isatty(self):
             return True
-    sys.stdout = FakeStdOut()
+    sys.stderr = FakeStderr()
 # error_dialog = None
 # tray = None
 # unlocked = [False,False]
@@ -279,6 +281,12 @@ def removeStartup():
     if os.path.exists(shortcut_path):
         os.remove(shortcut_path)
 
+def macAddr():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    mac_address = ':'.join(['{:02x}'.format((int(i, 16) & 0xff)) for i in hex(int(ip_address.split('.')[0])).split('0x')[1:]])
+    return mac_address
+
 class Config:
     def __init__(self,filename:str,rules:dict,default:dict):
         self.filename = filename
@@ -288,7 +296,8 @@ class Config:
                 self.cfg = json.loads(self.cfgf)
             for i in list(rules.keys()):
                 if i not in self.cfg.keys():
-                    self.cfg[i] = {}
+                    self.cfg[i] = default[i]
+                    continue
                 for j in list(rules[i].keys()):
                     if j not in rules[i].keys():
                         self.cfg[i][j] = default[i][j]
@@ -296,6 +305,11 @@ class Config:
                             self.cfg[i][j] = default[i][j]
         except FileNotFoundError:
             logger.warning("未找到配置文件，将创建默认配置")
+            with open(filename,"w",encoding="utf-8") as f:
+                f.write(json.dumps(default))
+            self.cfg = default
+        except json.JSONDecodeError:
+            logger.warning("无效的配置文件")
             with open(filename,"w",encoding="utf-8") as f:
                 f.write(json.dumps(default))
             self.cfg = default
@@ -321,6 +335,7 @@ class Config:
 
 CFGRULE = {
     "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool},
+    "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"]},
     "Version": {"apiver": ["range",2,2]},
     "Huanyu": {"ecoMode": bool,"justice": bool},
     "Debug": {"logLevel": ["option","DEBUG","INFO","WARNING","ERROR"]}
@@ -328,6 +343,7 @@ CFGRULE = {
 
 CFGDEFAULT = {
     "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False},
+    "Secure": {"lock":False,"password":"","require2FA":False,"2FAMethod":"otp"},
     "Version": {"apiver": 2},
     "Huanyu": {"ecoMode": False,"justice": False},
     "Debug": {"logLevel": "INFO"}
@@ -338,9 +354,10 @@ cfg = Config("config.json",CFGRULE,CFGDEFAULT)
 if os.path.exists("out.log"):
     os.remove("out.log")
 logger.add("out.log")
-logger.add(sys.stdout, level=cfg.get("Debug","logLevel"))
+logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
 core = Choose("都抽","都抽")
+verified = False
 
 class UI(RinUIWindow):
     def __init__(self):
@@ -368,8 +385,7 @@ class Bridge(QObject):
     
     @Slot(str,str,list)
     def SetCfg(self,cls,key,val):
-        if cfg.val(cls,key,val[0],CFGRULE):
-            cfg.set(cls,key,val[0])
+        cfg.set(cls,key,val[0])
 
     @Slot(int,result=int)
     def GetDbg(self,cls):
@@ -381,6 +397,39 @@ class Bridge(QObject):
             setStartup()
         else:
             removeStartup()
+
+    @Slot(str,result=bool)
+    def VerifyPassword(self,password):
+        return hashlib.md5(password.encode(encoding='UTF-8')).hexdigest() == cfg.get("Secure","password")
+    
+    @Slot(bool,result=bool)
+    def setVerified(self,vl):
+        global verified
+        verified = vl
+
+    @Slot(result=bool)
+    def getVerified(self):
+        global verified
+        if verified:
+            return True
+        else:
+            return not cfg.get("Secure","lock")
+    
+    @Slot(str,result=bool)
+    def VerifyFile(self,path):
+        pass
+
+    @Slot(str)
+    def setPassword(self,password):
+        cfg.set("Secure","password",hashlib.md5(password.encode(encoding='UTF-8')).hexdigest())
+
+    @Slot(str,result=bool)
+    def VerifyOTP(self,code):
+        pass
+        
+    @Slot(int,result=int)
+    def Get2FA(self,cls):
+        return ["file","otp"].index(cfg.get("Secure","2FAMethod"))
 
     @Property(str)
     def VerTxt(self):
