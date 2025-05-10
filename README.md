@@ -62,11 +62,6 @@
 0. （可选）创建虚拟环境
 1. 安装依赖项
 `pip install -r requirements.txt`
-> [!note]
-> 
-> 由于RinUI尚未上架PyPi，请使用以下指令手动安装
-> 
-> `pip install -i https://test.pypi.org/simple/ RinUI --no-deps`
 2. 在虚拟环境中运行
 `pyinstaller main.spec`
 3. **_必须将main.exe置于main.dist文件夹中运行，分发构建时必须分发整个main.dist文件夹_**
