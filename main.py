@@ -2,7 +2,6 @@ import json
 import importlib
 import os
 import sys
-import pandas as pd
 import tempfile
 import random
 import traceback
@@ -15,7 +14,7 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.0.3dev"
+VERSION = "v2.0.4dev"
 CODENAME = "Robin"
 APIVER = 1
 
@@ -207,8 +206,21 @@ class Choose:
 
     def loadname(self):
         try:
-            name = pd.read_csv("names.csv", sep=",", header=0)
-            name = name.to_dict()
+            # name = pd.read_csv("names.csv", sep=",", header=0)
+            # name = name.to_dict()
+            with open("names.csv","r",encoding="utf-8") as f:
+                nl = f.readlines()
+                ns = []
+                head = nl[0].strip("\n").split(",")
+                del nl[0]
+                for i in nl:
+                    ns.append(i.strip("\n").split(","))
+            logger.debug(ns)
+            name = {}
+            for j in head:
+                name[j] = {}
+                for i in range(len(ns)):
+                    name[j][i] = ns[i][head.index(j)]
             self.names["name"] = list(name["name"].values())
             self.names["sex"] = list(name["sex"].values())
             self.names["no"] = list(name["no"].values())
