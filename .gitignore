@@ -2,3 +2,16 @@ main.spec
 main.exe
 .idea
 /plugins/Example/
+__pycache__
+.vscode
+build
+dist
+main.build
+main.dist
+KEY
+nuitka-crash-report.xml
+out.log
+qr.png
+test.py
+test.dist
+test.build

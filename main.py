@@ -501,7 +501,7 @@ class Choose(QFrame):
                 f.write("111")
             with open("%s\\res.txt" % temp_dir, "w", encoding="utf-8") as f:
                 for i in namet:
-                    namel.append("%s（%s）" % (i[0], i[1]))
+                    namel.append("%s（%s）" % (i["name"], i["no"]))
                 f.writelines(namel)
             logger.info("文件存储完成")
         else:
