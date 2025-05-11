@@ -35,7 +35,9 @@ jobs:
           pip install -i https://test.pypi.org/simple/ RinUI --no-deps
 
       - name: Build Executable
-        run: pyinstaller main.spec
+        run: |
+          pyinstaller main.spec
+          python post_build.py
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
