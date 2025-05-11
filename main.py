@@ -1,5 +1,8 @@
 import json
 import importlib
+import pyotp
+import base64
+import qrcode
 import hashlib
 import socket
 import os
@@ -301,8 +304,10 @@ class Config:
                 for j in list(rules[i].keys()):
                     if j not in rules[i].keys():
                         self.cfg[i][j] = default[i][j]
+                    elif j not in self.cfg[i].keys():
+                        self.cfg[i][j] = default[i][j]
                     elif not self.val(i,j,self.cfg[i][j],rules):
-                            self.cfg[i][j] = default[i][j]
+                        self.cfg[i][j] = default[i][j]
         except FileNotFoundError:
             logger.warning("未找到配置文件，将创建默认配置")
             with open(filename,"w",encoding="utf-8") as f:
@@ -315,15 +320,18 @@ class Config:
             self.cfg = default
 
     def val(self,i:str,j:str,chk,rules:dict):
-        if type(rules[i][j]) == list:
-            if ((rules[i][j][0] == "range" and (rules[i][j][1] > chk or rules[i][j][2] < chk)) 
-                or (rules[i][j][0] == "option" and chk not in rules[i][j]) 
-                or (rules[i][j][0] == "list" and type(chk) != list)):
+        try:
+            if type(rules[i][j]) == list:
+                if ((rules[i][j][0] == "range" and (rules[i][j][1] > chk or rules[i][j][2] < chk)) 
+                    or (rules[i][j][0] == "option" and chk not in rules[i][j]) 
+                    or (rules[i][j][0] == "list" and type(chk) != list)):
+                    return False
+            elif type(chk) != rules[i][j]:
                 return False
-        elif type(chk) != rules[i][j]:
+            else:
+                return True
+        except KeyError:
             return False
-        else:
-            return True
 
     def get(self,cls:str,key:str):
         return self.cfg[cls][key]
@@ -335,7 +343,7 @@ class Config:
 
 CFGRULE = {
     "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool},
-    "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"]},
+    "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"],"OTPnote":str},
     "Version": {"apiver": ["range",2,2]},
     "Huanyu": {"ecoMode": bool,"justice": bool},
     "Debug": {"logLevel": ["option","DEBUG","INFO","WARNING","ERROR"]}
@@ -343,7 +351,7 @@ CFGRULE = {
 
 CFGDEFAULT = {
     "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False},
-    "Secure": {"lock":False,"password":"","require2FA":False,"2FAMethod":"otp"},
+    "Secure": {"lock":False,"password":"","require2FA":False,"2FAMethod":"otp","OTPnote":""},
     "Version": {"apiver": 2},
     "Huanyu": {"ecoMode": False,"justice": False},
     "Debug": {"logLevel": "INFO"}
@@ -358,6 +366,10 @@ logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
 core = Choose("都抽","都抽")
 verified = False
+mac = macAddr()
+secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
+totp = pyotp.TOTP(secretKey)
+totp_url = totp.provisioning_uri("NamePicker - %s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
 
 class UI(RinUIWindow):
     def __init__(self):
@@ -405,6 +417,7 @@ class Bridge(QObject):
     @Slot(bool,result=bool)
     def setVerified(self,vl):
         global verified
+        logger.debug("setVerified")
         verified = vl
 
     @Slot(result=bool)
@@ -425,11 +438,26 @@ class Bridge(QObject):
 
     @Slot(str,result=bool)
     def VerifyOTP(self,code):
-        pass
+        global totp
+        return totp.verify(code)
         
     @Slot(int,result=int)
     def Get2FA(self,cls):
-        return ["file","otp"].index(cfg.get("Secure","2FAMethod"))
+        return ["otp"].index(cfg.get("Secure","2FAMethod"))
+    
+    @Slot(result=str)
+    def GetOTPSecret(self):
+        global secretKey
+        return secretKey
+    
+    @Slot(str)
+    def GenTOTPImg(self,note):
+        global totp,totp_url
+        logger.debug("TOTP Image")
+        cfg.set("Secure","OTPnote",note)
+        totp_url = totp.provisioning_uri("NamePicker/%s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
+        qr = qrcode.make(totp_url)
+        qr.save("qr.png")
 
     @Property(str)
     def VerTxt(self):

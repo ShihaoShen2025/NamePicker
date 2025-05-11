@@ -37,20 +37,24 @@ FluentPage {
         }
         onAccepted: {
             var accPswd = Bridge.VerifyPassword(pswdInput.text)
-            if(!Bridge.GetCfg("Secure","require2FA")[0]&accPswd){
+            if(accPswd&Bridge.GetCfg("Secure","require2FA")[0]){
+                pswdInput.text=""
+                askOTP.open()
+            }
+            else if(accPswd&!Bridge.GetCfg("Secure","require2FA")[0]){
                 Bridge.setVerified(true)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("成功"),
-                        text: qsTr("您现在应该可以使用功能了，如果还不能使用，请切换一下界面")
+                        title: qsTr("Success"),
+                        text: qsTr("You can access the features now,if you still can't use it,please switch to another page and switch back again")
                     })
                 pswdInput.text=""
             }
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("失败"),
-                        text: qsTr("密码错误，请再试一遍")
+                        title: qsTr("Failure"),
+                        text: qsTr("Wrong password,please try again")
                     })
                 pswdInput.text=""
             }
@@ -99,8 +103,8 @@ FluentPage {
                 Bridge.setPassword(pswdSet.text)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("成功"),
-                        text: qsTr("密码设置成功")
+                        title: qsTr("Success"),
+                        text: qsTr("Password set successfully")
                     })
                 pswdSet.text=""
                 pswdSet2nd.text=""
@@ -108,8 +112,8 @@ FluentPage {
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("失败"),
-                        text: qsTr("两次密码输入不一致")
+                        title: qsTr("Failure"),
+                        text: qsTr("The two password inputs are inconsistent")
                     })
                 pswdSet.text=""
                 pswdSet2nd.text=""
@@ -174,8 +178,8 @@ FluentPage {
                 Bridge.setPassword(pswdReset.text)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("成功"),
-                        text: qsTr("密码重置成功")
+                        title: qsTr("Success"),
+                        text: qsTr("Password set successfully")
                     })
                 pswdOld.text=""
                 pswdReset.text=""
@@ -184,12 +188,152 @@ FluentPage {
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("失败"),
-                        text: qsTr("两次密码输入不一致，或者原密码错误")
+                        title: qsTr("Failure"),
+                        text: qsTr("The two password inputs are inconsistent,or the original password is wrong")
                     })
                 pswdOld.text=""
                 pswdReset.text=""
                 pswdReset2nd.text=""
+            }
+        }
+        standardButtons: Dialog.Ok | Dialog.Cancel
+    }
+    Dialog {
+        id: askOTP
+        title: qsTr("使用您的TOTP APP进行认证")
+        modal: true
+        width: 500
+        Text {
+            Layout.fillWidth: true
+            text: qsTr("按照管理员的设置，您需要额外步骤才能解锁功能")
+        }
+        RowLayout {
+            spacing: 4
+            Text {
+                Layout.fillWidth: true
+                text: qsTr("输入TOTP APP中显示的代码")
+            }
+            TextField {
+                id: otpInput
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                placeholderText: qsTr("输入代码")
+            }
+        }
+        onAccepted: {
+            if(Bridge.VerifyOTP(otpInput.text)){
+                Bridge.setVerified(true)
+                floatLayer.createInfoBar({
+                        severity: Severity.Success,
+                        title: qsTr("Success"),
+                        text: qsTr("You can access the features now,if you still can't use it,please switch to another page and switch back again")
+                    })
+                otpInput.text=""
+            }
+            else{
+                floatLayer.createInfoBar({
+                        severity: Severity.Error,
+                        title: qsTr("Failure"),
+                        text: qsTr("Wrong TOTP code,lease try again")
+                    })
+                otpInput.text=""
+            }
+        }
+        standardButtons: Dialog.Ok | Dialog.Cancel
+    }
+    Dialog {
+        id: oTPSetup
+        title: qsTr("设置您的TOTP APP")
+        modal: true
+        width: 500
+        Text {
+            Layout.fillWidth: true
+            text: qsTr("使用您的TOTP APP扫码以设置TOTP")
+        }
+        InfoBar {
+            Layout.fillWidth: true
+            severity: Severity.Info
+            title: qsTr("如果您无法扫码，请在您的TOTP APP中输入以下代码以设置")
+            text: Bridge.GetOTPSecret()
+            closable: false
+        }
+        RowLayout {
+            spacing: 4
+            Text {
+                Layout.fillWidth: true
+                text: qsTr("输入设备备注")
+            }
+            TextField {
+                id: note
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                placeholderText: qsTr("输入备注")
+                text: qsTr("测试机")
+            }
+        }
+        RowLayout {
+            spacing: 4
+            Text {
+                Layout.fillWidth: true
+                text: qsTr("生成二维码")
+            }
+            Button{
+                text: qsTr("点击生成")
+                onClicked: {
+                    Bridge.GenTOTPImg(note.text)
+                    flyoutQR.open()
+                }
+            }
+            Flyout {
+                id: flyoutQR
+                // image: Qt.resolvedUrl("../qr.png")
+                text: qsTr("请在软件根目录下找到qr.png进行扫描")
+            }
+        }
+        RowLayout {
+            spacing: 4
+            Text {
+                Layout.fillWidth: true
+                text: qsTr("输入TOTP APP中显示的代码")
+            }
+            TextField {
+                id: otpVal
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                placeholderText: qsTr("输入代码")
+            }
+        }
+        RowLayout {
+            spacing: 4
+            Text {
+                Layout.fillWidth: true
+                text: qsTr("输入您的密码")
+            }
+            TextField {
+                id: passVal
+                width: parent.width
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                placeholderText: qsTr("输入密码")
+            }
+        }
+        onAccepted: {
+            if(Bridge.VerifyOTP(otpVal.text)&Bridge.VerifyPassword(passVal.text)){
+                floatLayer.createInfoBar({
+                        severity: Severity.Success,
+                        title: qsTr("Success"),
+                        text: qsTr("You have set up TOTP successfully")
+                    })
+            }
+            else{
+                floatLayer.createInfoBar({
+                        severity: Severity.Error,
+                        title: qsTr("Failure"),
+                        text: qsTr("Wrong TOTP code or password")
+                    })
             }
         }
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -223,8 +367,8 @@ FluentPage {
                     Bridge.setVerified(false)
                     floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("成功"),
-                        text: qsTr("功能已经锁定，如果没有生效请切换页面")
+                        title: qsTr("Success"),
+                        text: qsTr("If it still works,please switch to another page and switch back again")
                     })
                 }
             }
@@ -321,7 +465,12 @@ FluentPage {
             enabled: Bridge.GetCfg("Secure","lock")[0] & Bridge.getVerified()
             content: Switch{
                 checked: Bridge.GetCfg("Secure","require2FA")[0]
-                onClicked: Bridge.SetCfg("Secure","require2FA",[checked])
+                onClicked: {
+                    Bridge.SetCfg("Secure","require2FA",[checked])
+                    if(tfam.data[tfam.currentIndex]=="otp"&checked&Bridge.GetCfg("Secure","lock")[0]){
+                        oTPSetup.open()
+                    }
+                }
             }
         }
         SettingCard {
@@ -330,6 +479,7 @@ FluentPage {
             description: qsTr("进行二步验证的方式（你没得选）")
             icon: "ic_fluent_lock_shield_20_regular"
             content: ComboBox {
+                id: tfam
                 property var data: ["otp"]
                 model: ["2FA APP"]
                 currentIndex: Bridge.Get2FA(1)[0]
@@ -337,7 +487,7 @@ FluentPage {
                     Bridge.SetCfg("Secure","2FAMethod",[data[currentIndex]])
                 }
             }
-            enabled: Bridge.GetCfg("Secure","require2FA")[0]&Bridge.GetCfg("Secure","lock")[0]&Bridge.getVerified()
+            enabled: Bridge.GetCfg("Secure","lock")[0]&Bridge.getVerified()
         }
     }
 

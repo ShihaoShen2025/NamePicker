@@ -9,6 +9,7 @@ FluentWindow {
     id: window
     visible: true
     title: qsTr("NamePicker")
+    icon: Qt.resolvedUrl("../assets/NamePicker.png")
     width: 900
     height: 700
     minimumWidth: 550
