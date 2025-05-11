@@ -1,9 +1,21 @@
 > [!caution]
-> 该版本为[RinUI](https://ui.rinlit.cn/zh)重构的极早期版本，尚未准备好在生产环境下使用
+> 该版本为[RinUI](https://ui.rinlit.cn/zh)重构的早期版本，尚未准备好在生产环境下使用
 
-## Bgu修复
+## 新特性
 
-1. 修复了关于页Banner在浅色模式下显示异常的问题
+- 增加了密码保护功能
+
+- 可以使用TOTP APP进行二步验证
+
+## 其它优化
+
+- 优化了Windows下包体体积
+
+## 已知Bug
+
+- TOTP APP设置时看不到手动设置的代码（没啥头绪）
+
+- Linux版本无法打开（同理，没啥头绪）
 
 > [!warning]
 >

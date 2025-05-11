@@ -445,8 +445,9 @@ class Bridge(QObject):
     def Get2FA(self,cls):
         return ["otp"].index(cfg.get("Secure","2FAMethod"))
     
-    @Slot(result=str)
+    @Property(str)
     def GetOTPSecret(self):
+        logger.debug("GetOTPSecret")
         global secretKey
         return secretKey
     
