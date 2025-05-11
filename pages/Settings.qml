@@ -45,16 +45,16 @@ FluentPage {
                 Bridge.setVerified(true)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("You can access the features now,if you still can't use it,please switch to another page and switch back again")
+                        title: qsTr("成功"),
+                        text: qsTr("您现在应该可以正常访问功能，如果还不能，请切换界面再切换回来.")
                     })
                 pswdInput.text=""
             }
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("Failure"),
-                        text: qsTr("Wrong password,please try again")
+                        title: qsTr("错误"),
+                        text: qsTr("密码错误，请再试一次.")
                     })
                 pswdInput.text=""
             }
@@ -103,8 +103,8 @@ FluentPage {
                 Bridge.setPassword(pswdSet.text)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("Password set successfully")
+                        title: qsTr("成功"),
+                        text: qsTr("密码设置成功.")
                     })
                 pswdSet.text=""
                 pswdSet2nd.text=""
@@ -112,8 +112,8 @@ FluentPage {
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("Failure"),
-                        text: qsTr("The two password inputs are inconsistent")
+                        title: qsTr("失败"),
+                        text: qsTr("两次密码输入不一致.")
                     })
                 pswdSet.text=""
                 pswdSet2nd.text=""
@@ -178,8 +178,8 @@ FluentPage {
                 Bridge.setPassword(pswdReset.text)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("Password set successfully")
+                        title: qsTr("成功"),
+                        text: qsTr("密码重置成功.")
                     })
                 pswdOld.text=""
                 pswdReset.text=""
@@ -188,8 +188,8 @@ FluentPage {
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("Failure"),
-                        text: qsTr("The two password inputs are inconsistent,or the original password is wrong")
+                        title: qsTr("错误"),
+                        text: qsTr("两次密码输入不匹配，或者原密码错误.")
                     })
                 pswdOld.text=""
                 pswdReset.text=""
@@ -226,16 +226,16 @@ FluentPage {
                 Bridge.setVerified(true)
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("You can access the features now,if you still can't use it,please switch to another page and switch back again")
+                        title: qsTr("成功"),
+                        text: qsTr("您现在应该可以正常访问功能，如果还不能，请切换界面再切换回来.")
                     })
                 otpInput.text=""
             }
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("Failure"),
-                        text: qsTr("Wrong TOTP code,lease try again")
+                        title: qsTr("错误"),
+                        text: qsTr("代码错误，请再试一遍.")
                     })
                 otpInput.text=""
             }
@@ -324,15 +324,15 @@ FluentPage {
             if(Bridge.VerifyOTP(otpVal.text)&Bridge.VerifyPassword(passVal.text)){
                 floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("You have set up TOTP successfully")
+                        title: qsTr("成功"),
+                        text: qsTr("TOTP APP设置成功.")
                     })
             }
             else{
                 floatLayer.createInfoBar({
                         severity: Severity.Error,
-                        title: qsTr("Failure"),
-                        text: qsTr("Wrong TOTP code or password")
+                        title: qsTr("错误"),
+                        text: qsTr("代码或密码错误.")
                     })
             }
         }
@@ -549,6 +549,22 @@ FluentPage {
                 onCurrentIndexChanged: {
                     Bridge.SetCfg("Debug","logLevel",[data[currentIndex]])
                 }
+            }
+            enabled: Bridge.getVerified()
+        }
+        SettingCard {
+            width: parent.width
+            title: qsTr("测试InfoBar")
+            description: qsTr("日")
+            icon: "ic_fluent_document_20_regular"
+            content: Button{
+                text: qsTr("1234")
+                onClicked:{
+                    floatLayer.createInfoBar({
+                        severity: Severity.Success,
+                        title: qsTr("Success"),
+                        text: qsTr("中文")
+                    })}
             }
             enabled: Bridge.getVerified()
         }
