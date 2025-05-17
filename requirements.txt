@@ -14,12 +14,14 @@ PySide6_Addons==6.9.0
 PySide6_Essentials==6.9.0
 python-dateutil==2.9.0.post0
 pytz==2025.2
-pywin32==310; platform_system == "Windows"
-pywin32-ctypes==0.2.3; platform_system == "Windows"
+qrcode==8.2
 RinUI==0.0.9.1.post1
+setuptools==80.7.1
 shiboken6==6.9.0
 six==1.17.0
 tzdata==2025.2
-win32_setctime==1.2.0; platform_system == "Windows"
 zipp==3.21.0
 zstandard==0.23.0
+win32_setctime==1.2.0; platform_system == "Windows"
+pywin32==310; platform_system == "Windows"
+pywin32-ctypes==0.2.3; platform_system == "Windows"
