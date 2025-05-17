@@ -11,9 +11,9 @@ import tempfile
 import random
 import traceback
 from loguru import logger
-from PySide6.QtCore import QObject, Slot,Property,Signal
-from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QDesktopServices,QIcon,QGuiApplication
+from PySide6.QtCore import QObject, Slot,Property,Signal,QPoint,Qt
+from PySide6.QtWidgets import QApplication,QSystemTrayIcon, QMenu, QWidget
+from PySide6.QtGui import QDesktopServices,QIcon,QGuiApplication, QPixmap, QPainter, QColor
 from RinUI import RinUIWindow
 if os.name == 'nt':
     from win32com.client import Dispatch
@@ -464,6 +464,89 @@ class Bridge(QObject):
     def VerTxt(self):
         return "当前版本：%s - Codename %s"%(VERSION,CODENAME)
 
+class TrayIcon(QSystemTrayIcon):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setIcon(QIcon(resource_path("assets/NamePickerCircle.png")))
+        self.menu = QMenu()
+        self.show_action = self.menu.addAction("显示主界面")
+        self.exit_action = self.menu.addAction("退出")
+        
+        self.show_action.triggered.connect(self.show_main_window)
+        self.exit_action.triggered.connect(QApplication.quit)
+        
+        self.setContextMenu(self.menu)
+        self.activated.connect(self.on_tray_icon_clicked)
+        
+        self.main_window = None
+    
+    def show_main_window(self):
+        if self.main_window is None:
+            self.main_window = UI()
+            self.main_window.show()
+        else:
+            self.main_window.show()
+            self.main_window.activateWindow()
+    
+    def on_tray_icon_clicked(self, reason):
+        if reason == QSystemTrayIcon.Trigger:  # 左键点击
+            self.show_main_window()
+
+class FloatingWindow(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowFlags(
+            Qt.FramelessWindowHint | 
+            Qt.WindowStaysOnTopHint |
+            Qt.Tool
+        )
+        self.setFixedSize(300, 300)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        
+        # 设置图标
+        self.icon = QPixmap(resource_path("assets/NamePickerCircle.png"))
+        if self.icon.isNull():
+            logger.error("无法加载图标")
+        
+        # 初始位置在右下角
+        screen_geometry = QGuiApplication.primaryScreen().availableGeometry()
+        self.move(
+            screen_geometry.right() - self.width() - 20,
+            screen_geometry.bottom() - self.height() - 20
+        )
+        
+        self.main_window = None
+        self.drag_position = None
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.drawPixmap(self.rect(), self.icon)
+    
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.drag_position = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            event.accept()
+    
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.LeftButton and self.drag_position:
+            self.move(event.globalPosition().toPoint() - self.drag_position)
+            event.accept()
+    
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.drag_position = None
+            # 点击后打开主界面
+            self.show_main_window()
+            event.accept()
+    
+    def show_main_window(self):
+        if self.main_window is None:
+            self.main_window = UI()
+            self.main_window.show()
+        else:
+            self.main_window.show()
+            self.main_window.activateWindow()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
