@@ -3,9 +3,14 @@ name: bug反馈
 about: bug反馈
 title: "[BUG]"
 labels: Bug, 未读
-assignees: LHGS-github
 
 ---
+
+> [!warning]
+>
+> GitHub有完善的附件上传系统，**不要**使用任何不能免登陆和客户端下载附件的网盘上传附件，否则开发者有权拒收附件
+
+> 我恨不得直接拒收这些附件 ———HelloWRC，[ClassIsland](https://classisland.tech)主力维护者
 
 ## 您是否完成了以下内容？
 1. [ ] 我已将软件更新至最新版本，该问题仍然没有被解决
