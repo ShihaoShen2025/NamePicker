@@ -277,6 +277,8 @@ def setStartup():
     shortcut.save()
 
 def removeStartup():
+    if os.name != 'nt':
+        return
     file_path = '%s/main.exe' % os.path.dirname(os.path.abspath(__file__))
     name = os.path.splitext(os.path.basename(file_path))[0]
     startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
@@ -469,15 +471,15 @@ class TrayIcon(QSystemTrayIcon):
         super().__init__(parent)
         self.setIcon(QIcon(resource_path("assets/NamePickerCircle.png")))
         self.menu = QMenu()
+        self.product_name = self.menu.addAction("NamePicker")
+        self.menu.addSeparator()
         self.show_action = self.menu.addAction("显示主界面")
+        self.res_action = self.menu.addAction("重启")
         self.exit_action = self.menu.addAction("退出")
-        
         self.show_action.triggered.connect(self.show_main_window)
+        self.res_action.triggered.connect(self.restart)
         self.exit_action.triggered.connect(QApplication.quit)
-        
         self.setContextMenu(self.menu)
-        self.activated.connect(self.on_tray_icon_clicked)
-        
         self.main_window = None
     
     def show_main_window(self):
@@ -488,9 +490,9 @@ class TrayIcon(QSystemTrayIcon):
             self.main_window.show()
             self.main_window.activateWindow()
     
-    def on_tray_icon_clicked(self, reason):
-        if reason == QSystemTrayIcon.Trigger:  # 左键点击
-            self.show_main_window()
+    def restart(self):
+        self.hide()
+        os.execl(sys.executable, sys.executable, *sys.argv)
 
 class FloatingWindow(QWidget):
     def __init__(self, parent=None):
@@ -498,58 +500,71 @@ class FloatingWindow(QWidget):
         self.setWindowFlags(
             Qt.FramelessWindowHint | 
             Qt.WindowStaysOnTopHint |
-            Qt.Tool
+            Qt.Tool |
+            Qt.X11BypassWindowManagerHint 
         )
-        self.setFixedSize(300, 300)
+        self.setFixedSize(100, 100)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        
-        # 设置图标
+        self.tray = TrayIcon(self)
+        self.tray.show()
         self.icon = QPixmap(resource_path("assets/NamePickerCircle.png"))
+        self.icon = self.icon.scaled(100, 100, Qt.KeepAspectRatio)
         if self.icon.isNull():
             logger.error("无法加载图标")
-        
-        # 初始位置在右下角
         screen_geometry = QGuiApplication.primaryScreen().availableGeometry()
-        self.move(
-            screen_geometry.right() - self.width() - 20,
-            screen_geometry.bottom() - self.height() - 20
-        )
-        
+        self.move(int(screen_geometry.width()*0.7), int(screen_geometry.height()*0.7))
         self.main_window = None
-        self.drag_position = None
-    
+        self.drag_start_pos = QPoint()
+        self.drag_threshold = 0  # 拖动判定阈值（像素）
+        self.is_dragging = False
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         painter.drawPixmap(self.rect(), self.icon)
-    
+
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.drag_position = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            self.drag_start_pos = event.globalPosition().toPoint()
+            self.mouse_press_pos = event.globalPosition().toPoint()
+            self.is_dragging = False
             event.accept()
-    
+
     def mouseMoveEvent(self, event):
-        if event.buttons() == Qt.LeftButton and self.drag_position:
-            self.move(event.globalPosition().toPoint() - self.drag_position)
+        if event.buttons() == Qt.LeftButton:
+            # 计算移动距离
+            move_distance = (event.globalPosition().toPoint() - self.mouse_press_pos).manhattanLength()
+            logger.debug(move_distance)
+            if move_distance > self.drag_threshold:
+                self.is_dragging = True
+            
+            if self.is_dragging:
+                # 更新窗口位置
+                delta = event.globalPosition().toPoint() - self.drag_start_pos
+                self.move(self.pos() + delta)
+                self.drag_start_pos = event.globalPosition().toPoint()
             event.accept()
-    
+
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.drag_position = None
-            # 点击后打开主界面
-            self.show_main_window()
+            if not self.is_dragging:
+                # 点击逻辑
+                if not cfg.get("General", "supportCS"):
+                    self.show_main_window()
+                else:
+                    core.pickcb(1)
+            self.is_dragging = False
             event.accept()
-    
+
     def show_main_window(self):
-        if self.main_window is None:
-            self.main_window = UI()
-            self.main_window.show()
-        else:
-            self.main_window.show()
-            self.main_window.activateWindow()
+        self.main_window = UI()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon(resource_path("assets/favicon.ico")))
-    main = UI()
+    if "noshortcut" in sys.argv:
+        main = UI()
+    else:
+        main = FloatingWindow()
+        main.show()
     app.exec()
