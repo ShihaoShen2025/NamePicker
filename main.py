@@ -463,6 +463,14 @@ class Bridge(QObject):
         qr = qrcode.make(totp_url)
         qr.save("qr.png")
 
+    @Slot(bool)
+    def chgStartup(self,stat):
+        cfg.set("General","autoStartup",stat)
+        if stat:
+            setStartup()
+        else:
+            removeStartup()
+
     @Property(str)
     def VerTxt(self):
         return "当前版本：%s - Codename %s"%(VERSION,CODENAME)

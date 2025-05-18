@@ -367,8 +367,8 @@ FluentPage {
                     Bridge.setVerified(false)
                     floatLayer.createInfoBar({
                         severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("If it still works,please switch to another page and switch back again")
+                        title: qsTr("成功"),
+                        text: qsTr("切换界面使设置生效.")
                     })
                 }
             }
@@ -397,14 +397,18 @@ FluentPage {
         SettingCard {
             width: parent.width
             title: qsTr("开机自启")
-            description: qsTr("目前没有浮窗功能，所以这个设置项只是拿来占位的")
+            description: qsTr("是否开机自动启动，对于非Windows系统无效")
             icon: "ic_fluent_bin_recycle_20_regular"
+            content: Switch{
+                checked: Bridge.GetCfg("General","autoStartup")[0]
+                onClicked: chgStartup(checked)
+            }
             enabled: Bridge.getVerified()
         }
         SettingCard {
             width: parent.width
             title: qsTr("抽选快捷键")
-            description: qsTr("同理，也是拿来占位的")
+            description: qsTr("拿来占位的")
             icon: "ic_fluent_bin_recycle_20_regular"
             enabled: Bridge.getVerified()
         }
