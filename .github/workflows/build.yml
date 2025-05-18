@@ -1,8 +1,6 @@
 name: Bulid dev version
 on:
   push:
-    branches:
-      - rinui
   workflow_dispatch:
 
 permissions:
