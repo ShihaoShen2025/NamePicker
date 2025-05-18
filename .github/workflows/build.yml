@@ -2,13 +2,20 @@ name: Bulid dev version
 on:
   push:
     branches:
-      - master
+      - rinui
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  build_windows:
-    runs-on: windows-latest
-
+  build_matrix:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    outputs:
+      artiid: ${{ steps.artifact-upload-step.outputs.artifact-id }}
     steps:
       - name: Check-out repository
         uses: actions/checkout@v4
@@ -25,65 +32,54 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
+          pip install -i https://test.pypi.org/simple/ RinUI --no-deps
 
       - name: Build Executable
-        uses: Nuitka/Nuitka-Action@main
-        with:
-          nuitka-version: main
-          script-name: main.py
-          mode: standalone
-          enable-plugins: pyqt5
-          include-data-files: LICENSE=LICENSE
-          include-data-dir: |
-            assets=assets
-            plugins=plugins
-          windows-console-mode: attach
-          windows-icon-from-ico: ./assets/favicon.ico
+        run: |
+          pyinstaller main.spec
+          python post_build.py
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
+        id: artifact-upload-step
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/build/main.dist
+            ${{ github.workspace }}/dist/main
           include-hidden-files: true
 
-  build_linux:
+  release:
+    needs: [build_matrix]
     runs-on: ubuntu-latest
-
     steps:
       - name: Check-out repository
         uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-          architecture: 'x64'
-          cache: 'pip'
-          cache-dependency-path: |
-            **/requirements*.txt
-
-      - name: Install Dependencies
+      - name: Prepare release
         run: |
-          pip install -r requirements.txt
-
-      - name: Build Executable
-        uses: Nuitka/Nuitka-Action@main
+          mkdir release
+          mkdir artifacts
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          nuitka-version: main
-          script-name: main.py
-          mode: standalone
-          enable-plugins: pyqt5
-          include-data-files: LICENSE=LICENSE
-          include-data-dir: assets=assets
-          windows-console-mode: attach
-          linux-icon: ./assets/favicon.ico
+          path: artifacts
+          run-id: ${{needs.build_matrix.outputs.artiid}}
+      - name: Prepare artifacts
+        run: |
+          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/NamePicker-Action-Windows
+          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Linux release/NamePicker-Action-Linux
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Zip artifact
+        run: |
+          zip -r release/NamePicker-Action-Windows.zip release/NamePicker-Action-Windows
+          zip -r release/NamePicker-Action-Linux.zip release/NamePicker-Action-Linux
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: NamePicker-Action-${{ runner.os }}
-          path: |
-            ${{ github.workspace }}/build/main.dist
-          include-hidden-files: true
+          files: |
+            ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-Action-Linux.zip
+          body_path: CHANGELOG.md
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
