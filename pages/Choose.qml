@@ -17,7 +17,7 @@ FluentPage {
             height: 370
             model:ListModel {
                 id: studentsModel
-                ListElement { name: qsTr("example")}
+                ListElement { name: qsTr("别紧张...")}
             }
         }
         Button{

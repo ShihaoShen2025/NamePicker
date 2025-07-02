@@ -44,7 +44,7 @@ FluentPage {
         SettingCard {
             width: parent.width
             title: qsTr(Bridge.VerTxt)
-            description: qsTr("『鸟儿为何要飞向天空？也许鸟儿注定要如此，因为那是它的愿望、归宿，以及不可剥夺的权利……』")
+            description: qsTr("『八面玲珑的狐人少女，样貌、名字、身份皆被人夺去。命运为她留下一线生机，而「毁灭」的烙印仍在蠢蠢欲动。』")
             icon: "ic_fluent_info_sparkle_20_regular"
         }
         SettingCard {

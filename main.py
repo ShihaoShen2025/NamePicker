@@ -19,10 +19,10 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.1.0rel"
-CODENAME = "Robin"
-VER_NO = 1
-APIVER = 1
+VERSION = "v2.1.1dev"
+CODENAME = "Fugue"
+VER_NO = 2
+APIVER = 2
 
 if not sys.stderr:
     class FakeStderr:
@@ -366,7 +366,8 @@ if os.path.exists("out.log"):
     os.remove("out.log")
 logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
-logger.info("「她将自己的生活形容为一首歌，而那首歌的开始阴沉而苦涩。⌋")
+logger.info("NamePicker %s - Codename %s (Inside version %d,Plugin API Version %d)"%(VERSION,CODENAME,VER_NO,APIVER))
+logger.info("「历经生死、重获新生的忘归人，何时才能返乡？⌋")
 core = Choose("都抽","都抽")
 verified = False
 mac = macAddr()
