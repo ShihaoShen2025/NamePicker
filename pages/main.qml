@@ -65,10 +65,10 @@ FluentWindow {
     //         }
     //     }
     // }
-    // onClosing: {
-    //     if (Qt.platform.os === "windows" || Qt.platform.os === "linux") {
-    //         close.accepted = false
-    //         window.hide()
-    //     }
-    // }
+    onClosing: {
+        if (Qt.platform.os === "windows" || Qt.platform.os === "linux") {
+            close.accepted = false
+            window.hide()
+        }
+    }
 }

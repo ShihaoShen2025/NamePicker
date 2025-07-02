@@ -517,7 +517,7 @@ class FloatingWindow(QWidget):
         self.tray = TrayIcon(self)
         self.tray.show()
         self.icon = QPixmap(resource_path("assets/NamePickerCircle.png"))
-        self.icon = self.icon.scaled(100, 100, Qt.KeepAspectRatio)
+        self.icon = self.icon.scaled(300, 300, Qt.KeepAspectRatio)
         if self.icon.isNull():
             logger.error("无法加载图标")
         screen_geometry = QGuiApplication.primaryScreen().availableGeometry()
@@ -543,7 +543,6 @@ class FloatingWindow(QWidget):
         if event.buttons() == Qt.LeftButton:
             # 计算移动距离
             move_distance = (event.globalPosition().toPoint() - self.mouse_press_pos).manhattanLength()
-            logger.debug(move_distance)
             if move_distance > self.drag_threshold:
                 self.is_dragging = True
             
