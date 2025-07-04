@@ -25,7 +25,7 @@ FluentPage {
             highlighted: true
             text: qsTr("点击抽选")
             onClicked: {
-                var pk = Bridge.Pick(chooseNum.value,sexCombo.currentText,numCombo.currentText)
+                var pk = Bridge.Pick(chooseNum.value)
                 if(pk[0]!="bydcnm"){
                     studentsModel.clear()
                     for(var i = 0; i < pk.length; i++){
@@ -71,6 +71,9 @@ FluentPage {
                 model: ["都抽", "只抽男", "只抽女", "只抽特殊性别"]
                 currentIndex: 0
                 placeholderText: qsTr("选择性别偏好")
+                onCurrentIndexChanged: {
+                    Bridge.setSexFavor(sexCombo.currentText)
+                }
             }
         }
         RowLayout{
@@ -87,6 +90,9 @@ FluentPage {
                 model: ["都抽", "只抽单数", "只抽双数"]
                 currentIndex: 0
                 placeholderText: qsTr("选择学号偏好")
+                onCurrentIndexChanged: {
+                    Bridge.setNumFavor(numCombo.currentText)
+                }
             }
         }
     }

@@ -24,6 +24,11 @@ CODENAME = "Fugue"
 VER_NO = 2
 APIVER = 2
 
+SEXFAVOR_ALL = NUMFAVOR_BOTH = -1
+SEXFAVOR_BOY = NUMFAVOR_1 = 0
+SEXFAVOR_GIRL = NUMFAVOR_2 = 1
+SEXFAVOR_SPEC = 2
+
 if not sys.stderr:
     class FakeStderr:
         def __init__(self):
@@ -122,145 +127,88 @@ def resource_path(relative_path:str)-> str:
     return os.path.abspath(relative_path)
                         
 class Choose:
-    def __init__(self,sexFavor:str,numFavor:str):
-        self.names = {}
-        self.sexlen = [0,0,0]
-        self.sexl = [[],[],[]]
-        self.numlen = [0,0,0]
-        self.numl = [[],[],[]]
+    def __init__(self,path:str):
+        self.names = []
+        self.namel = []
+        self.sex = [[],[],[]]
+        self.num = [[],[],[]]
         self.chosen = []
-        self.sexFavor = sexFavor
-        self.numFavor = numFavor
-        self.loadname()
+        self.sexFavor = SEXFAVOR_ALL
+        self.numFavor = NUMFAVOR_BOTH
+        self.loadnames(path)
 
-    def pick(self):
-        global cfg
-        if self.sexFavor != "都抽":
-            if self.sexFavor == "只抽男":
-                le = self.sexlen[0]
-                tar = self.sexl[0]
-            elif self.sexFavor == "只抽女":
-                le = self.sexlen[1]
-                tar = self.sexl[1]
-            else:
-                le = self.sexlen[2]
-                tar = self.sexl[2]
-        else:
-            le = self.length
-            tar = self.names["name"]
-
-        if self.numFavor != "都抽":
-            if self.numFavor == "只抽双数":
-                tar = list(set(tar) & set(self.numl[0]))
-                le = len(tar)
-            else:
-                tar = list(set(tar) & set(self.numl[1]))
-                le = len(tar)
-        # if plugin_filters:
-        #     for i in range(len(tar)):
-        #         for j in range(len(plugin_filters_name)):
-        #             if self.filswitch[j].isChecked() and not plugin_filters[j](tar[i]):
-        #                 tar.remove(tar[i])
-        le = len(tar)
-        if le != 0:
-            chs = random.randint(0, le - 1)
-            if not cfg.get("General","allowRepeat"):
-                if len(self.chosen) >= le:
-                    self.chosen = []
-                    chs = random.randint(0, le - 1)
-                else:
-                    while chs in self.chosen:
-                        chs = random.randint(0, le - 1)
-                self.chosen.append(chs)
-                logger.debug(self.chosen)
-            tmp = {"name":tar[chs],"no":str(self.names["no"][self.names["name"].index(tar[chs])])}
-            for i in self.names.keys():
-                if i == "name" or i == "no":
-                    continue
-                tmp[i] = str(self.names[i][self.names["name"].index(tar[chs])])
-            return tmp
-        else:
-            return "尚未抽选"
-
-    def pickcb(self,nb:int):
-        logger.debug("pickcb被调用")
-        # for i in plugin.keys():
-        #     plugin[i].beforePick()
-        namet = []
-        namel = []
-        for i in range(nb):
-            n = self.pick()
-            if n != "尚未抽选":
-                namet.append(n)
-            else:
-                return ["bydcnm","没有符合条件的学生"]
-
-        if cfg.get("General","supportCS"):
-            with open("%s\\unread" % temp_dir, "w", encoding="utf-8") as f:
-                f.write("111")
-            with open("%s\\res.txt" % temp_dir, "w", encoding="utf-8") as f:
-                for i in namet:
-                    namel.append("%s（%s）" % (i["name"], i["no"]))
-                f.writelines(namel)
-            logger.info("文件存储完成")
-        else:
-            for i in namet:
-                    namel.append("%s（%s）" % (i["name"], i["no"]))
-            return namel
-        # for i in plugin.keys():
-        #     plugin[i].afterPick(namet)
-
-    def loadname(self):
+    def loadnames(self,path:str):
         try:
-            # name = pd.read_csv("names.csv", sep=",", header=0)
-            # name = name.to_dict()
-            with open("names.csv","r",encoding="utf-8") as f:
-                nl = f.readlines()
-                ns = []
-                head = nl[0].strip("\n").split(",")
-                del nl[0]
-                for i in nl:
-                    ns.append(i.strip("\n").split(","))
-            logger.debug(ns)
-            name = {}
-            for j in head:
-                name[j] = {}
-                for i in range(len(ns)):
-                    name[j][i] = ns[i][head.index(j)]
-            self.names["name"] = list(name["name"].values())
-            self.names["sex"] = list(name["sex"].values())
-            self.names["no"] = list(name["no"].values())
-            # for i in plugin_customkey:
-            #     self.names[i] = list(name[i].values())
-            for k in self.names.keys():
-                for i in range(len(self.names[k])):
-                    self.names[k][i] = str(self.names[k][i])
-            self.length =len(name["name"])
-            self.sexlen[0] = self.names["sex"].count("0")
-            self.sexlen[1] = self.names["sex"].count("1")
-            self.sexlen[2] = self.names["sex"].count("2")
-            for i in self.names["name"]:
-                if int(self.names["sex"][self.names["name"].index(i)]) == 0:
-                    self.sexl[0].append(i)
-                elif int(self.names["sex"][self.names["name"].index(i)]) == 1:
-                    self.sexl[1].append(i)
-                else:
-                    self.sexl[2].append(i)
-
-            for i in self.names["name"]:
-                if int(self.names["no"][self.names["name"].index(i)])%2==0:
-                    self.numl[0].append(i)
-                else:
-                    self.numl[1].append(i)
-            self.numlen[0] = len(self.numl[0])
-            self.numlen[1] = len(self.numl[1])
-            logger.info("名单加载完成")
+            with open(path,"r",encoding="utf-8") as f:
+                fl = f.readlines()
+            head = fl[0].strip("\n").split(",")
+            del fl[0]
+            for i in range(len(fl)):
+                l = fl[i].strip("\n").split(",")
+                struct = {}
+                for j in range(len(head)):
+                    struct[head[j]] = l[j]
+                self.names.append(struct)
+                self.namel.append(i)
+        except (UnicodeDecodeError,IndexError):
+            logger.warning("名单文件无效")
+            os.remove(path)
+            if not os.path.exists("names"):
+                os.makedirs("names")
+            with open(path,"w",encoding="utf-8") as f:
+                f.write("name,sex,no\n某人,0,1")
         except FileNotFoundError:
-            logger.warning("没有找到名单文件")
-            with open("names.csv","w",encoding="utf-8") as f:
-                st  = ["name,sex,no\n","example,0,1"]
-                f.writelines(st)
-            self.loadname()
+            logger.warning("没有找到指定文件")
+            if not os.path.exists("names"):
+                os.makedirs("names")
+            with open(path,"w",encoding="utf-8") as f:
+                f.write("name,sex,no\n某人,0,1")
+
+    def loadFavor(self):
+        logger.debug("loadFavor")
+        self.namel = []
+        for i in range(len(self.names)):
+            self.namel.append(i)
+        for i in range(len(self.namel)):
+            if self.sexFavor == SEXFAVOR_ALL and self.numFavor == NUMFAVOR_BOTH:
+                break
+            else:
+                if ((int(self.names[i]["sex"]) != self.sexFavor)
+                or (int(self.names[i]["no"])%2 == 0 and self.numFavor==NUMFAVOR_1) 
+                or (int(self.names[i]["no"])%2 == 1 and self.numFavor==NUMFAVOR_2)):
+                    del self.namel[i]
+
+    def setSexFavor(self,target):
+        self.sexFavor = target
+        self.loadFavor()
+
+    def setNumFavor(self,target):
+        self.numFavor = target
+        self.loadFavor()
+
+    def pick(self,num=1):
+        resi = []
+        res = []
+        for i in range(num):
+            if not cfg.get("General","allowRepeat") and not self.namel==[]:
+                ans = random.choice(self.namel)
+                resi.append(self.namel[self.namel.index(ans)])
+                del self.namel[self.namel.index(ans)]
+                logger.debug(self.namel)
+                continue
+            elif not cfg.get("General","allowRepeat") and self.namel==[]:
+                self.loadFavor()
+                ans = random.choice(self.namel)
+            else:
+                ans = random.choice(self.namel)
+            resi.append(self.namel[self.namel.index(ans)])
+
+        for i in resi:
+            res.append(self.names[i])
+        if res != []:
+            return res
+        else:
+            return ["bydcnm"]
 
 def setStartup():
     if os.name != 'nt':
@@ -368,7 +316,7 @@ logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info("NamePicker %s - Codename %s (Inside version %d,Plugin API Version %d)"%(VERSION,CODENAME,VER_NO,APIVER))
 logger.info("「历经生死、重获新生的忘归人，何时才能返乡？⌋")
-core = Choose("都抽","都抽")
+core = Choose("names/names.csv")
 verified = False
 mac = macAddr()
 secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
@@ -382,14 +330,16 @@ class UI(RinUIWindow):
         self.engine.rootContext().setContextProperty("Bridge", self.bridge)
 
 class Bridge(QObject):
-    @Slot(str,str,str,result=list)
-    def Pick(self,num,sexf,numf):
-        core.sexFavor = sexf
-        core.numFavor = numf
-        try:
-            return core.pickcb(int(num))
-        except ValueError:
-            return core.pickcb(int(1))
+    @Slot(str,result=list)
+    def Pick(self,num):
+        r = core.pick(int(num))
+        re = []
+        if r == ["bydcnm"]:
+            return r
+        else:
+            for i in r:
+                re.append("%s(%s)"%(i["name"],i["no"]))
+            return re
         
     @Slot(str,str,result=list)
     def GetCfg(self,cls,key):
@@ -475,6 +425,14 @@ class Bridge(QObject):
     @Property(str)
     def VerTxt(self):
         return "当前版本：%s - Codename %s"%(VERSION,CODENAME)
+    
+    @Slot(str)
+    def setSexFavor(self,sexf):
+        core.setSexFavor(["都抽", "只抽男", "只抽女", "只抽特殊性别"].index(sexf)-1)
+    
+    @Slot(str)
+    def setNumFavor(self,numf):
+        core.setNumFavor(["都抽", "只抽单数", "只抽双数"].index(numf)-1)
 
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
