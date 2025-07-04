@@ -139,6 +139,8 @@ class Choose:
 
     def loadnames(self,path:str):
         try:
+            self.names = []
+            self.namel = []
             with open(path,"r",encoding="utf-8") as f:
                 fl = f.readlines()
             head = fl[0].strip("\n").split(",")
