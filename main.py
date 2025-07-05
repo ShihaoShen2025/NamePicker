@@ -295,7 +295,7 @@ class Config:
             f.write(json.dumps(self.cfg))
 
 CFGRULE = {
-    "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool},
+    "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool,"floatingPos":str},
     "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"],"OTPnote":str},
     "Version": {"apiver": ["range",2,2]},
     "Huanyu": {"ecoMode": bool,"justice": bool},
@@ -303,7 +303,7 @@ CFGRULE = {
 }
 
 CFGDEFAULT = {
-    "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False},
+    "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False,"floatingPos":"auto"},
     "Secure": {"lock":False,"password":"","require2FA":False,"2FAMethod":"otp","OTPnote":""},
     "Version": {"apiver": 2},
     "Huanyu": {"ecoMode": False,"justice": False},
@@ -324,6 +324,8 @@ mac = macAddr()
 secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
 totp = pyotp.TOTP(secretKey)
 totp_url = totp.provisioning_uri("NamePicker - %s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
+x = 0
+y = 0
 
 class UI(RinUIWindow):
     def __init__(self):
@@ -491,7 +493,11 @@ class FloatingWindow(QWidget):
         if self.icon.isNull():
             logger.error("无法加载图标")
         screen_geometry = QGuiApplication.primaryScreen().availableGeometry()
-        self.move(int(screen_geometry.width()*0.7), int(screen_geometry.height()*0.7))
+        if cfg.get("General","floatingPos") == "auto":
+            self.move(int(screen_geometry.width()*0.7), int(screen_geometry.height()*0.7))
+        else:
+            cur = cfg.get("General","floatingPos")
+            self.move(int(cur.split(",")[0]), int(cur.split(",")[1]))
         self.main_window = None
         self.drag_start_pos = QPoint()
         self.drag_threshold = 0  # 拖动判定阈值（像素）
@@ -530,8 +536,11 @@ class FloatingWindow(QWidget):
                 if not cfg.get("General", "supportCS"):
                     self.show_main_window()
                 else:
-                    core.pickcb(1)
+                    core.pick(1)
             self.is_dragging = False
+            x = self.pos().x()
+            y = self.pos().y()
+            cfg.set("General","floatingPos","%d,%d"%(x,y))
             event.accept()
 
     def show_main_window(self):
