@@ -318,7 +318,7 @@ logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info("NamePicker %s - Codename %s (Inside version %d,Plugin API Version %d)"%(VERSION,CODENAME,VER_NO,APIVER))
 logger.info("「历经生死、重获新生的忘归人，何时才能返乡？⌋")
-core = Choose("names/names.csv")
+core = Choose("names/%s"%os.listdir("names")[0])
 verified = False
 mac = macAddr()
 secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
@@ -435,6 +435,15 @@ class Bridge(QObject):
     @Slot(str)
     def setNumFavor(self,numf):
         core.setNumFavor(["都抽", "只抽单数", "只抽双数"].index(numf)-1)
+
+    @Slot(result=list)
+    def getNameList(self):
+        return os.listdir("names")
+    
+    @Slot(int)
+    def changeNameList(self,path):
+        logger.debug("names/%s"%os.listdir("names")[path])
+        core.loadnames("names/%s"%os.listdir("names")[path])
 
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):

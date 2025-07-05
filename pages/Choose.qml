@@ -95,5 +95,23 @@ FluentPage {
                 }
             }
         }
+        RowLayout{
+            Layout.fillWidth: true
+            width: parent.width
+            Text{
+                typography:Typography.Body
+                text: qsTr("选择抽选名单")
+            }
+            ComboBox {
+                id: nameCombo
+                Layout.alignment: Qt.AlignRight
+                model: Bridge.getNameList()
+                currentIndex: 0
+                placeholderText: qsTr("选择抽选名单")
+                onCurrentIndexChanged: {
+                    Bridge.changeNameList(currentIndex)
+                }
+            }
+        }
     }
 }
