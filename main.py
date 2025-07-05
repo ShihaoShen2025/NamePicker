@@ -40,75 +40,6 @@ if not sys.stderr:
         def isatty(self):
             return True
     sys.stderr = FakeStderr()
-# error_dialog = None
-# tray = None
-# unlocked = [False,False]
-# plugin = {}
-# plugin_info = {}
-# plugin_settings = {}
-# plugin_customkey = []
-# plugin_customkey_title = []
-# plugin_filters = []
-# plugin_filters_name = []
-# plugin_icon = {}
-# plugin_path = {}
-# def load_plugins():
-#     for i in os.listdir("plugins"):
-#         if not (os.path.exists("plugins/%s/info.json"%i) and os.path.exists("plugins/%s/icon.png"%i) and os.path.exists("plugins/%s/main.py"%i)):
-#             logger.warning("目录%s没有有效插件"%i)
-#             continue
-#         elif os.path.exists("plugins/%s/DEL"%i):
-#             os.remove("plugins/%s"%i)
-#             logger.info("插件被成功移除")
-#             continue
-#         else:
-#             with open("plugins/%s/info.json"%i,"r",encoding="utf-8") as f:
-#                 ct = f.read()
-#                 js = json.loads(ct)
-#                 if js["api"] > cfg.get(cfg.apiver):
-#                     logger.warning("当前插件API版本过高，拒绝加载")
-#                     continue
-#                 plugin_info[js["id"]] = js
-#             pgin = importlib.import_module("plugins.%s.main"%i)
-#             plugin_icon[js["id"]] = "plugins/%s/icon.png"%i
-#             plugin_path[js["id"]] = "plugins/%s" % i
-#             if hasattr(pgin,"Settings") and not os.path.exists("plugins/%s/DISABLED"%i):
-#                 plugin_settings[js["id"]] = pgin.Settings()
-#             if hasattr(pgin,"Plugin"):
-#                 if not os.path.exists("plugins/%s/DISABLED"%i):
-#                     plugin[js["id"]] = pgin.Plugin()
-#                     for i in plugin[js["id"]].customKey:
-#                         plugin_customkey.append(i)
-#                     for i in plugin[js["id"]].customKeyTitle:
-#                         plugin_customkey_title.append(i)
-#                     for i in plugin[js["id"]].filters:
-#                         plugin_filters.append(i)
-#                     for i in plugin[js["id"]].filtersName:
-#                         plugin_filters_name.append(i)
-#                 else:
-#                     logger.warning("插件%s已被禁用" % js["id"])
-#                     continue
-#             logger.info("加载插件：%s成功"%js["id"])
-
-# def apply_customkey():
-#     with open("names.csv", "r", encoding="utf-8") as f:
-#         namesread = f.readlines()
-#         for i in range(len(namesread)):
-#             namesread[i] = namesread[i].strip("\n")
-#         for i in range(len(plugin_customkey)):
-#             if plugin_customkey[i] not in namesread[0]:
-#                 namesread[0] += ",%s"%plugin_customkey[i]
-#                 for j in range(len(namesread)):
-#                     if j == 0:
-#                         continue
-#                     namesread[j] += ",Nope"
-
-#     with open("names.csv","w",encoding="utf-8") as f:
-#         namewrite = []
-#         for i in range(len(namesread)):
-#             namewrite.append(namesread[i]+"\n")
-#         f.writelines(namewrite)
-
 
 def hookExceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
@@ -137,7 +68,7 @@ class Choose:
         self.numFavor = NUMFAVOR_BOTH
         self.loadnames(path)
 
-    def loadnames(self,path:str):
+    def loadnames(self,path:str) -> None:
         try:
             self.names = []
             self.namel = []
@@ -166,7 +97,7 @@ class Choose:
             with open(path,"w",encoding="utf-8") as f:
                 f.write("name,sex,no\n某人,0,1")
 
-    def loadFavor(self):
+    def loadFavor(self) -> None:
         logger.debug("loadFavor")
         self.namel = []
         for i in range(len(self.names)):
@@ -180,15 +111,15 @@ class Choose:
                 or (int(self.names[i]["no"])%2 == 1 and self.numFavor==NUMFAVOR_2)):
                     del self.namel[i]
 
-    def setSexFavor(self,target):
+    def setSexFavor(self,target:str) -> None:
         self.sexFavor = target
         self.loadFavor()
 
-    def setNumFavor(self,target):
+    def setNumFavor(self,target:str) -> None:
         self.numFavor = target
         self.loadFavor()
 
-    def pick(self,num=1):
+    def pick(self,num:int=1) -> list:
         resi = []
         res = []
         for i in range(num):
@@ -212,7 +143,7 @@ class Choose:
         else:
             return ["bydcnm"]
 
-def setStartup():
+def setStartup() -> None:
     if os.name != 'nt':
         return
     file_path='%s/main.exe'%os.path.dirname(os.path.abspath(__file__))
@@ -227,7 +158,7 @@ def setStartup():
     shortcut.IconLocation = icon_path  # 设置图标路径
     shortcut.save()
 
-def removeStartup():
+def removeStartup() -> None:
     if os.name != 'nt':
         return
     file_path = '%s/main.exe' % os.path.dirname(os.path.abspath(__file__))
@@ -237,7 +168,7 @@ def removeStartup():
     if os.path.exists(shortcut_path):
         os.remove(shortcut_path)
 
-def macAddr():
+def macAddr() -> str:
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     mac_address = ':'.join(['{:02x}'.format((int(i, 16) & 0xff)) for i in hex(int(ip_address.split('.')[0])).split('0x')[1:]])
@@ -272,7 +203,7 @@ class Config:
                 f.write(json.dumps(default))
             self.cfg = default
 
-    def val(self,i:str,j:str,chk,rules:dict):
+    def val(self,i:str,j:str,chk:any,rules:dict) -> bool:
         try:
             if type(rules[i][j]) == list:
                 if ((rules[i][j][0] == "range" and (rules[i][j][1] > chk or rules[i][j][2] < chk)) 
@@ -286,10 +217,10 @@ class Config:
         except KeyError:
             return False
 
-    def get(self,cls:str,key:str):
+    def get(self,cls:str,key:str) -> any:
         return self.cfg[cls][key]
     
-    def set(self,cls:str,key:str,val):
+    def set(self,cls:str,key:str,val) -> None:
         self.cfg[cls][key] = val
         with open(self.filename,"w",encoding="utf-8") as f:
             f.write(json.dumps(self.cfg))
@@ -335,7 +266,7 @@ class UI(RinUIWindow):
 
 class Bridge(QObject):
     @Slot(str,result=list)
-    def Pick(self,num):
+    def Pick(self,num:str) -> list:
         r = core.pick(int(num))
         re = []
         if r == ["bydcnm"]:
@@ -346,40 +277,40 @@ class Bridge(QObject):
             return re
         
     @Slot(str,str,result=list)
-    def GetCfg(self,cls,key):
+    def GetCfg(self,cls:str,key:str) -> list:
         return [cfg.get(cls,key)]
     
     @Slot(result=int)
-    def GetNLen(self):
+    def GetNLen(self) -> int:
         return len(core.names.keys())
     
     @Slot(str,str,list)
-    def SetCfg(self,cls,key,val):
+    def SetCfg(self,cls:str,key:str,val:list) -> list:
         cfg.set(cls,key,val[0])
 
     @Slot(int,result=int)
-    def GetDbg(self,cls):
+    def GetDbg(self,cls:int) -> int:
         return ["DEBUG","INFO","WARNING","ERROR"].index(cfg.get("Debug","logLevel"))
 
     @Slot(bool)
-    def Startup(self,stat):
+    def Startup(self,stat:bool) -> None:
         if stat:
             setStartup()
         else:
             removeStartup()
 
     @Slot(str,result=bool)
-    def VerifyPassword(self,password):
+    def VerifyPassword(self,password:str) -> bool:
         return hashlib.md5(password.encode(encoding='UTF-8')).hexdigest() == cfg.get("Secure","password")
     
     @Slot(bool,result=bool)
-    def setVerified(self,vl):
+    def setVerified(self,vl:bool) -> None:
         global verified
         logger.debug("setVerified")
         verified = vl
 
     @Slot(result=bool)
-    def getVerified(self):
+    def getVerified(self) -> bool:
         global verified
         if verified:
             return True
@@ -387,30 +318,30 @@ class Bridge(QObject):
             return not cfg.get("Secure","lock")
     
     @Slot(str,result=bool)
-    def VerifyFile(self,path):
+    def VerifyFile(self,path:str) -> bool:
         pass
 
     @Slot(str)
-    def setPassword(self,password):
+    def setPassword(self,password:str) -> None:
         cfg.set("Secure","password",hashlib.md5(password.encode(encoding='UTF-8')).hexdigest())
 
     @Slot(str,result=bool)
-    def VerifyOTP(self,code):
+    def VerifyOTP(self,code:str) -> bool:
         global totp
         return totp.verify(code)
         
     @Slot(int,result=int)
-    def Get2FA(self,cls):
+    def Get2FA(self,cls:int) -> int:
         return ["otp"].index(cfg.get("Secure","2FAMethod"))
     
     @Property(str)
-    def GetOTPSecret(self):
+    def GetOTPSecret(self) -> str:
         logger.debug("GetOTPSecret")
         global secretKey
         return secretKey
     
     @Slot(str)
-    def GenTOTPImg(self,note):
+    def GenTOTPImg(self,note:str) -> None:
         global totp,totp_url
         logger.debug("TOTP Image")
         cfg.set("Secure","OTPnote",note)
@@ -419,7 +350,7 @@ class Bridge(QObject):
         qr.save("qr.png")
 
     @Slot(bool)
-    def chgStartup(self,stat):
+    def chgStartup(self,stat:bool) -> None:
         cfg.set("General","autoStartup",stat)
         if stat:
             setStartup()
@@ -427,23 +358,23 @@ class Bridge(QObject):
             removeStartup()
 
     @Property(str)
-    def VerTxt(self):
+    def VerTxt(self) -> str:
         return "当前版本：%s - Codename %s"%(VERSION,CODENAME)
     
     @Slot(str)
-    def setSexFavor(self,sexf):
+    def setSexFavor(self,sexf:str) -> None:
         core.setSexFavor(["都抽", "只抽男", "只抽女", "只抽特殊性别"].index(sexf)-1)
     
     @Slot(str)
-    def setNumFavor(self,numf):
+    def setNumFavor(self,numf:str) -> None:
         core.setNumFavor(["都抽", "只抽单数", "只抽双数"].index(numf)-1)
 
     @Slot(result=list)
-    def getNameList(self):
+    def getNameList(self) -> list:
         return os.listdir("names")
     
     @Slot(int)
-    def changeNameList(self,path):
+    def changeNameList(self,path:int) -> None:
         logger.debug("names/%s"%os.listdir("names")[path])
         core.loadnames("names/%s"%os.listdir("names")[path])
 
@@ -463,7 +394,7 @@ class TrayIcon(QSystemTrayIcon):
         self.setContextMenu(self.menu)
         self.main_window = None
     
-    def show_main_window(self):
+    def show_main_window(self) -> None:
         if self.main_window is None:
             self.main_window = UI()
             self.main_window.show()
@@ -471,7 +402,7 @@ class TrayIcon(QSystemTrayIcon):
             self.main_window.show()
             self.main_window.activateWindow()
     
-    def restart(self):
+    def restart(self) -> None:
         self.hide()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
@@ -503,19 +434,19 @@ class FloatingWindow(QWidget):
         self.drag_threshold = 0  # 拖动判定阈值（像素）
         self.is_dragging = False
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None: # 真不是我不想写Type Hint，我真不知道event是什么类型
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         painter.drawPixmap(self.rect(), self.icon)
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None: # 同理
         if event.button() == Qt.LeftButton:
             self.drag_start_pos = event.globalPosition().toPoint()
             self.mouse_press_pos = event.globalPosition().toPoint()
             self.is_dragging = False
             event.accept()
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None: # 同理
         if event.buttons() == Qt.LeftButton:
             # 计算移动距离
             move_distance = (event.globalPosition().toPoint() - self.mouse_press_pos).manhattanLength()
@@ -529,7 +460,7 @@ class FloatingWindow(QWidget):
                 self.drag_start_pos = event.globalPosition().toPoint()
             event.accept()
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> None: # 同理
         if event.button() == Qt.LeftButton:
             if not self.is_dragging:
                 # 点击逻辑
@@ -543,7 +474,7 @@ class FloatingWindow(QWidget):
             cfg.set("General","floatingPos","%d,%d"%(x,y))
             event.accept()
 
-    def show_main_window(self):
+    def show_main_window(self) -> None:
         self.main_window = UI()
 
 if __name__ == "__main__":
