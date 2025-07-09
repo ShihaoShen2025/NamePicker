@@ -19,9 +19,9 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.1.1dev"
+VERSION = "v2.1.1d1dev"
 CODENAME = "Fugue"
-VER_NO = 2
+VER_NO = 3
 APIVER = 2
 
 SEXFAVOR_ALL = NUMFAVOR_BOTH = -1
@@ -467,7 +467,17 @@ class FloatingWindow(QWidget):
                 if not cfg.get("General", "supportCS"):
                     self.show_main_window()
                 else:
-                    core.pick(1)
+                    r = core.pick(1)
+                    re = []
+                    if r == ["bydcnm"]:
+                        pass
+                    else:
+                        for i in r:
+                            re.append("%s(%s)"%(i["name"],i["no"]))
+                        with open("%s/unread"%temp_dir,"w",encoding="utf-8") as f:
+                            f.write("91")
+                        with open("%s/res.txt"%temp_dir,"w",encoding="utf-8") as f:
+                            f.write(",".join(re))
             self.is_dragging = False
             x = self.pos().x()
             y = self.pos().y()
