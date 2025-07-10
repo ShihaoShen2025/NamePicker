@@ -40,6 +40,9 @@ FluentPage{
                 id: dwnBtn
                 text: qsTr("下载并安装")
                 enabled: false
+                onClicked:{
+                    Bridge.update()
+                }
             }
         }
         ProgressBar{
@@ -96,6 +99,27 @@ FluentPage{
                 upSubtitle.text = qsTr("已经是最新版本了")
                 sticker.source = "../assets/Firefly-heart.png"
                 dwnBtn.enabled = false
+            }
+        }
+        function onChgProg(prog){
+            progress.value = prog
+        }
+        function onChgPhase(prog){
+            if(prog=="get"){
+                upSubtitle.text = qsTr("获取下载链接")
+            }
+            else if(prog=="down"){
+                upSubtitle.text = qsTr("下载中")
+            }
+            else if(prog=="extract"){
+                upSubtitle.text = qsTr("解压中")
+            }
+            else if(prog=="complete"){
+                upSubtitle.text = qsTr("完成！")
+            }
+            else if(prog=="error"){
+                upSubtitle.text = qsTr("发生错误！查看日志获取详情")
+                sticker.source = "../assets/Firefly-no.png"
             }
         }
     }

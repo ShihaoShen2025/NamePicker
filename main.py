@@ -271,6 +271,8 @@ class UI(RinUIWindow):
 
 class Bridge(QObject):
     chgVer = Signal(str)
+    chgProg = Signal(int)
+    chgPhase = Signal(str)
 
     @Slot(str,result=list)
     def Pick(self,num:str) -> list:
@@ -404,7 +406,9 @@ class Bridge(QObject):
         # return self.ver
         
     def emitCg(self,s):
+        global ver
         logger.debug(s)
+        ver = s
         self.chgVer.emit(s)
 
     # @Property(str)
@@ -426,6 +430,20 @@ class Bridge(QObject):
     def getForce(self):
         global force
         return force
+    
+    @Slot()
+    def update(self):
+        global upd,ver
+        upd.tag = ver
+        upd.valueChange.connect(self.emitProg)
+        upd.phaseChange.connect(self.emitPhase)
+        upd.start()
+
+    def emitProg(self,s):
+        self.chgProg.emit(s)
+
+    def emitPhase(self,s):
+        self.chgPhase.emit(s)
 
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
