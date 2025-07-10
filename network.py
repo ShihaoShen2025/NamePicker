@@ -64,6 +64,8 @@ class Update(QThread):
                         self.phase = "error"
                         self.phaseChange.emit(self.phase)
                         return
+                # if os.path.exists("release"):
+                #     os.remove("release")
                 zip = zipfile.ZipFile(file_name)
                 zip.extractall()
                 zip.close()

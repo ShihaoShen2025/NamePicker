@@ -23,7 +23,7 @@ FluentPage{
                 }
                 Text{
                     id: upSubtitle
-                    typography: Typography.Subtitle
+                    typography: Typography.BodyStrong
                     text: qsTr("点击下方按钮一键检查更新")
                 }
             }
@@ -115,7 +115,7 @@ FluentPage{
                 upSubtitle.text = qsTr("解压中")
             }
             else if(prog=="complete"){
-                upSubtitle.text = qsTr("完成！")
+                upSubtitle.text = qsTr("完成！\n请手动将软件目录/release/NamePicker-Actions-xxx\n内的内容覆盖到NamePicker目录下")
             }
             else if(prog=="error"){
                 upSubtitle.text = qsTr("发生错误！查看日志获取详情")
