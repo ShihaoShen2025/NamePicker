@@ -10,6 +10,7 @@ import sys
 import tempfile
 import random
 import traceback
+import network
 from loguru import logger
 from PySide6.QtCore import QObject, Slot,Property,Signal,QPoint,Qt
 from PySide6.QtWidgets import QApplication,QSystemTrayIcon, QMenu, QWidget
@@ -19,10 +20,11 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.1.1d1dev"
+VERSION = "v2.1.2dev"
 CODENAME = "Fugue"
-VER_NO = 3
+VER_NO = 4
 APIVER = 2
+force = False
 
 SEXFAVOR_ALL = NUMFAVOR_BOTH = -1
 SEXFAVOR_BOY = NUMFAVOR_1 = 0
@@ -228,7 +230,7 @@ class Config:
 CFGRULE = {
     "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool,"floatingPos":str},
     "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"],"OTPnote":str},
-    "Version": {"apiver": ["range",2,2]},
+    "Version": {"apiver": ["range",2,2],"channel":["option","rel","dev"]},
     "Huanyu": {"ecoMode": bool,"justice": bool},
     "Debug": {"logLevel": ["option","DEBUG","INFO","WARNING","ERROR"]}
 }
@@ -236,7 +238,7 @@ CFGRULE = {
 CFGDEFAULT = {
     "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False,"floatingPos":"auto"},
     "Secure": {"lock":False,"password":"","require2FA":False,"2FAMethod":"otp","OTPnote":""},
-    "Version": {"apiver": 2},
+    "Version": {"apiver": 2,"channel":"rel"},
     "Huanyu": {"ecoMode": False,"justice": False},
     "Debug": {"logLevel": "INFO"}
 }
@@ -250,6 +252,8 @@ logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info("NamePicker %s - Codename %s (Inside version %d,Plugin API Version %d)"%(VERSION,CODENAME,VER_NO,APIVER))
 logger.info("「历经生死、重获新生的忘归人，何时才能返乡？⌋")
 core = Choose("names/%s"%os.listdir("names")[0])
+th = network.Version()
+upd = network.Update()
 verified = False
 mac = macAddr()
 secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
@@ -257,6 +261,7 @@ totp = pyotp.TOTP(secretKey)
 totp_url = totp.provisioning_uri("NamePicker - %s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
 x = 0
 y = 0
+ver = ""
 
 class UI(RinUIWindow):
     def __init__(self):
@@ -265,6 +270,8 @@ class UI(RinUIWindow):
         self.engine.rootContext().setContextProperty("Bridge", self.bridge)
 
 class Bridge(QObject):
+    chgVer = Signal(str)
+
     @Slot(str,result=list)
     def Pick(self,num:str) -> list:
         r = core.pick(int(num))
@@ -377,6 +384,48 @@ class Bridge(QObject):
     def changeNameList(self,path:int) -> None:
         logger.debug("names/%s"%os.listdir("names")[path])
         core.loadnames("names/%s"%os.listdir("names")[path])
+
+    @Property(int)
+    def getDwn(self) -> int:
+        return 0
+    
+    @Property(str)
+    def getStat(self) -> str:
+        return 1
+    
+    @Slot()
+    def checkNew(self) -> str:
+        global force,th
+        th.versionChange.connect(self.emitCg)
+        th.local = VER_NO
+        th.channel = cfg.get("Version","channel")
+        th.force = force
+        th.start()
+        # return self.ver
+        
+    def emitCg(self,s):
+        logger.debug(s)
+        self.chgVer.emit(s)
+
+    # @Property(str)
+    # def getVer(self):
+    #     global ver
+    #     logger.debug(ver)
+    #     return ver
+        
+    @Slot(result=int)
+    def getChannel(self):
+        return ["rel","dev"].index(cfg.get("Version","channel"))
+    
+    @Slot(bool)
+    def setForce(self,b:bool):
+        global force
+        force = b
+
+    @Slot(result=bool)
+    def getForce(self):
+        global force
+        return force
 
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
