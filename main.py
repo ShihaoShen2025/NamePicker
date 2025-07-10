@@ -228,7 +228,7 @@ class Config:
             f.write(json.dumps(self.cfg))
 
 CFGRULE = {
-    "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool,"floatingPos":str},
+    "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool,"floatingPos":str,"autoCheck":bool},
     "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"],"OTPnote":str},
     "Version": {"apiver": ["range",2,2],"channel":["option","rel","dev"]},
     "Huanyu": {"ecoMode": bool,"justice": bool},
@@ -236,7 +236,7 @@ CFGRULE = {
 }
 
 CFGDEFAULT = {
-    "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False,"floatingPos":"auto"},
+    "General": {"allowRepeat": False,"autoStartup": False,"chooseKey": "ctrl+w","supportCS": False,"floatingPos":"auto","autoCheck":False},
     "Secure": {"lock":False,"password":"","require2FA":False,"2FAMethod":"otp","OTPnote":""},
     "Version": {"apiver": 2,"channel":"rel"},
     "Huanyu": {"ecoMode": False,"justice": False},
@@ -460,7 +460,18 @@ class TrayIcon(QSystemTrayIcon):
         self.exit_action.triggered.connect(QApplication.quit)
         self.setContextMenu(self.menu)
         self.main_window = None
+        if cfg.get("General","autoCheck"):
+            th.channel = cfg.get("Version","channel")
+            th.force = False
+            th.local = VER_NO
+            th.versionChange.connect(self.notify)
+            th.start()
     
+    def notify(self,s:str):
+        if s == "latest":
+            pass
+        else:
+            self.showMessage("NamePicker","检测到更新：%s -> %s"%(VERSION,s),QIcon("assets/NamePickerCircle.png"))
     def show_main_window(self) -> None:
         if self.main_window is None:
             self.main_window = UI()

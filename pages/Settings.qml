@@ -424,6 +424,17 @@ FluentPage {
             }
             enabled: Bridge.getVerified()
         }
+        SettingCard {
+            width: parent.width
+            title: qsTr("自动检查更新")
+            description: qsTr("是否在启动时检查更新")
+            icon: "ic_fluent_arrow_sync_checkmark_20_regular"
+            content: Switch{
+                checked: Bridge.GetCfg("General","autoCheck")[0]
+                onClicked: Bridge.SetCfg("General","autoCheck",[checked])
+            }
+            enabled: Bridge.getVerified()
+        }
     }
 
     Column {
