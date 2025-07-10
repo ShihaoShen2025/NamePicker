@@ -1,5 +1,4 @@
 import requests
-from PyQt5.QtCore import QThread, pyqtSignal, QEventLoop
 from loguru import logger
 import datetime
 
