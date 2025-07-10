@@ -2,7 +2,7 @@ import requests
 from loguru import logger
 import datetime
 
-def getDownloadUrl(user,repo,reltag):
+def getDownloadUrl(user:str,repo:str,reltag:str) -> list | None:
     try:
         url = f"https://api.github.com/repos/{user}/{repo}/releases/{reltag}"
         response = requests.get(url)
@@ -23,6 +23,26 @@ def getDownloadUrl(user,repo,reltag):
     except Exception as e:
         logger.error(f"获取下载链接错误: {e}")
 
+def compareVersion(local:int):
+    try:
+        url = "https://github.com/NamePickerOrg/NamePicker/raw/refs/heads/master/version.json"
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            print(resp.json())
+        elif resp.status_code == 403:  # 触发API限制
+            logger.warning("到达Github API限制，请稍后再试")
+            resp = requests.get('https://api.github.com/users/octocat')
+            reset_time = resp.headers.get('X-RateLimit-Reset')
+            reset_time = datetime.fromtimestamp(int(reset_time))
+        else:
+            logger.error(f"网络连接错误：{resp.status_code}")
+    except Exception as e:
+        logger.error(f"错误: {e}")
+
 if __name__ == "__main__":
     dl = getDownloadUrl("NamePickerOrg","NamePicker","latest")
     print(dl)
+    # url = "https://github.com/NamePickerOrg/NamePicker/blob/master/version.json"
+    # resp = requests.get(url)
+    # if resp.status_code == 200:
+    #     print(resp.text)
