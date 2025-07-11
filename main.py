@@ -1,5 +1,6 @@
 import json
 import importlib
+import time
 import pyotp
 import base64
 import qrcode
@@ -12,7 +13,7 @@ import random
 import traceback
 import network
 from loguru import logger
-from PySide6.QtCore import QObject, Slot,Property,Signal,QPoint,Qt
+from PySide6.QtCore import QObject, Slot,Property,Signal,QPoint,Qt,QThread, QWaitCondition, QMutex,QMutexLocker
 from PySide6.QtWidgets import QApplication,QSystemTrayIcon, QMenu, QWidget
 from PySide6.QtGui import QDesktopServices,QIcon,QGuiApplication, QPixmap, QPainter, QColor
 from RinUI import RinUIWindow
@@ -20,9 +21,9 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
-VERSION = "v2.1.2dev"
+VERSION = "v2.1.3dev"
 CODENAME = "Fugue"
-VER_NO = 4
+VER_NO = 5
 APIVER = 2
 force = False
 
@@ -58,7 +59,23 @@ def resource_path(relative_path:str)-> str:
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.abspath(relative_path)
-                        
+
+class LifeCycle(QThread):
+    def __init__(self, parent = None):
+        super().__init__(parent)
+        self.mutex = QMutex()  # 互斥锁，用于线程同步
+        self.cond = QWaitCondition()
+        self.stop = False
+
+    def run(self):
+        while True:
+            with QMutexLocker(self.mutex):
+                if self.stop:
+                    return
+                # 接插件lifecycle
+                time.sleep(0.05)
+            
+
 class Choose:
     def __init__(self,path:str):
         self.names = []
