@@ -199,6 +199,40 @@ FluentPage {
         standardButtons: Dialog.Ok | Dialog.Cancel
     }
     Dialog {
+        id: ask2FA
+        title: qsTr("选择一种二步严重方式")
+        modal: true
+        width: 500
+        Text {
+            Layout.fillWidth: true
+            text: qsTr("按照管理员的设置，您需要额外步骤才能解锁功能")
+        }
+        RowLayout {
+            spacing: 4
+            Text {
+                Layout.fillWidth: true
+                text: qsTr("输入TOTP APP中显示的代码")
+            }
+            ComboBox{
+                id: Choose2FA
+                ComboBox {
+                    property var data: ["otp"]
+                    model: ["2FA APP"]
+                    currentIndex: 0
+                    onCurrentIndexChanged: {
+                        Bridge.SetCfg("Secure","2FAMethod",[data[currentIndex]])
+                    }
+                }
+            }
+        }
+        onAccepted: {
+            if(Choose2FA.currentIndex==0){
+                askOTP.open()
+            }
+        }
+        standardButtons: Dialog.Ok | Dialog.Cancel
+    }
+    Dialog {
         id: askOTP
         title: qsTr("使用您的TOTP APP进行认证")
         modal: true
@@ -482,24 +516,19 @@ FluentPage {
                 checked: Bridge.GetCfg("Secure","require2FA")[0]
                 onClicked: {
                     Bridge.SetCfg("Secure","require2FA",[checked])
-                    if(tfam.data[tfam.currentIndex]=="otp"&checked&Bridge.GetCfg("Secure","lock")[0]){
-                        oTPSetup.open()
-                    }
                 }
             }
         }
-        SettingCard {
+        SettingExpander {
             width: parent.width
             title: qsTr("二步验证方法")
-            description: qsTr("进行二步验证的方式（你没得选）")
+            description: qsTr("进行二步验证的方式")
             icon: "ic_fluent_lock_shield_20_regular"
-            content: ComboBox {
-                id: tfam
-                property var data: ["otp"]
-                model: ["2FA APP"]
-                currentIndex: Bridge.Get2FA(1)[0]
-                onCurrentIndexChanged: {
-                    Bridge.SetCfg("Secure","2FAMethod",[data[currentIndex]])
+            SettingItem {
+                title: qsTr("TOTP APP")
+                description: qsTr("使用您的手机APP完成设置")
+                Switch {
+                    
                 }
             }
             enabled: Bridge.GetCfg("Secure","lock")[0]&Bridge.getVerified()

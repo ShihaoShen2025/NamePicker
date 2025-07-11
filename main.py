@@ -246,7 +246,7 @@ class Config:
 
 CFGRULE = {
     "General": {"allowRepeat": bool,"autoStartup": bool,"chooseKey": str,"supportCS": bool,"floatingPos":str,"autoCheck":bool},
-    "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":["option","otp"],"OTPnote":str},
+    "Secure": {"lock":bool,"password":str,"require2FA":bool,"2FAMethod":str,"OTPnote":str},
     "Version": {"apiver": ["range",2,2],"channel":["option","rel","dev"]},
     "Huanyu": {"ecoMode": bool,"justice": bool},
     "Debug": {"logLevel": ["option","DEBUG","INFO","WARNING","ERROR"]}
@@ -275,6 +275,7 @@ verified = False
 mac = macAddr()
 secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
 totp = pyotp.TOTP(secretKey)
+methods = []
 totp_url = totp.provisioning_uri("NamePicker - %s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
 x = 0
 y = 0
