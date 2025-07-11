@@ -528,7 +528,9 @@ FluentPage {
                 title: qsTr("TOTP APP")
                 description: qsTr("使用您的手机APP完成设置")
                 Switch {
-                    
+                    onClicked: {
+                        Bridge.SetCfg("Secure","require2FA",[checked])
+                    }
                 }
             }
             enabled: Bridge.GetCfg("Secure","lock")[0]&Bridge.getVerified()
