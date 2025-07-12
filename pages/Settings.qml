@@ -39,7 +39,7 @@ FluentPage {
             var accPswd = Bridge.VerifyPassword(pswdInput.text)
             if(accPswd&Bridge.GetCfg("Secure","require2FA")[0]){
                 pswdInput.text=""
-                askOTP.open()
+                ask2FA.open()
             }
             else if(accPswd&!Bridge.GetCfg("Secure","require2FA")[0]){
                 Bridge.setVerified(true)
@@ -200,7 +200,7 @@ FluentPage {
     }
     Dialog {
         id: ask2FA
-        title: qsTr("选择一种二步严重方式")
+        title: qsTr("选择一种二步验证方式")
         modal: true
         width: 500
         Text {
@@ -211,22 +211,18 @@ FluentPage {
             spacing: 4
             Text {
                 Layout.fillWidth: true
-                text: qsTr("输入TOTP APP中显示的代码")
+                text: qsTr("选择一种二步验证方式")
             }
             ComboBox{
-                id: Choose2FA
-                ComboBox {
-                    property var data: ["otp"]
-                    model: ["2FA APP"]
-                    currentIndex: 0
-                    onCurrentIndexChanged: {
-                        Bridge.SetCfg("Secure","2FAMethod",[data[currentIndex]])
-                    }
-                }
+                id: choose2FA
+                property var data: Bridge.get2FA[0]
+                model: Bridge.get2FA[1]
+                currentIndex: 0
             }
         }
         onAccepted: {
-            if(Choose2FA.currentIndex==0){
+            console.log(Bridge.get2FA[0])
+            if(choose2FA.data[choose2FA.currentIndex]=="otp"){
                 askOTP.open()
             }
         }
@@ -289,7 +285,7 @@ FluentPage {
             Layout.fillWidth: true
             severity: Severity.Info
             title: qsTr("如果您无法扫码，请在您的TOTP APP中输入以下代码以设置")
-            text: Bridge.GetOTPSecret()
+            text: Bridge.GetOTPSecret
             closable: false
         }
         RowLayout {
@@ -368,6 +364,7 @@ FluentPage {
                         title: qsTr("错误"),
                         text: qsTr("代码或密码错误.")
                     })
+                otpSwitch.checked = false
             }
         }
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -524,16 +521,24 @@ FluentPage {
             title: qsTr("二步验证方法")
             description: qsTr("进行二步验证的方式")
             icon: "ic_fluent_lock_shield_20_regular"
+            enabled: Bridge.GetCfg("Secure","lock")[0]&Bridge.GetCfg("Secure","require2FA")[0] & Bridge.getVerified()
             SettingItem {
                 title: qsTr("TOTP APP")
                 description: qsTr("使用您的手机APP完成设置")
                 Switch {
+                    id: otpSwitch
+                    checked: Bridge.have2FA("otp")
                     onClicked: {
-                        Bridge.SetCfg("Secure","require2FA",[checked])
+                        if(checked){
+                            Bridge.add2FA("otp")
+                            oTPSetup.open()
+                        }
+                        else{
+                            Bridge.rem2FA("otp")
+                        }
                     }
                 }
             }
-            enabled: Bridge.GetCfg("Secure","lock")[0]&Bridge.getVerified()
         }
     }
 

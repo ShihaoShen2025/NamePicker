@@ -275,7 +275,11 @@ verified = False
 mac = macAddr()
 secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
 totp = pyotp.TOTP(secretKey)
-methods = []
+a = cfg.get("Secure","2FAMethod").split(",")
+if a != [""]:
+    methods = cfg.get("Secure","2FAMethod").split(",")
+else:
+    methods = []
 totp_url = totp.provisioning_uri("NamePicker - %s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
 x = 0
 y = 0
@@ -463,6 +467,35 @@ class Bridge(QObject):
     def emitPhase(self,s):
         self.chgPhase.emit(s)
 
+    @Slot(str)
+    def add2FA(self,s:str):
+        global methods
+        t = set(methods)
+        t.add(s)
+        methods = list(t)
+        cfg.set("Secure","2FAMethod",",".join(methods))
+
+    @Slot(str)
+    def rem2FA(self,s:str):
+        global methods
+        t = set(methods)
+        t.remove(s)
+        methods = list(t)
+        cfg.set("Secure","2FAMethod",",".join(methods))
+
+    @Property(list)
+    def get2FA(self):
+        global methods
+        readable = []
+        for i in range(len(methods)):
+            if methods[i] == "otp":
+                readable.append("2FA APP")
+        return [methods,readable]
+    
+    @Slot(str,result=bool)
+    def have2FA(self,s:str):
+        global methods
+        return s in methods
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
         super().__init__(parent)
