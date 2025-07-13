@@ -1,6 +1,11 @@
 name: 构建
 on:
   push:
+    tags-ignore:
+      - v*.*.*dev
+      - v*.*.*d*dev
+      - v*.*.*rel
+      - v*.*.*d*rel
   workflow_dispatch:
 
 permissions:

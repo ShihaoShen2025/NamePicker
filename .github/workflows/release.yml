@@ -2,10 +2,10 @@ name: 构建+自动发版
 on:
   push:
     tags:
-        - v*.*.*dev
-        - v*.*.*d*dev
-        - v*.*.*rel
-        - v*.*.*d*rel
+      - v*.*.*dev
+      - v*.*.*d*dev
+      - v*.*.*rel
+      - v*.*.*d*rel
   workflow_dispatch:
 
 permissions:
