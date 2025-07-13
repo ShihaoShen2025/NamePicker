@@ -48,23 +48,19 @@ jobs:
 
   release:
     needs: [build_matrix]
-    if: ${{ github.ref && github.event_name != 'pull_request'&& github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check-out repository
         uses: actions/checkout@v4
-
       - name: Prepare release
         run: |
           mkdir release
           mkdir artifacts
-
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
           run-id: ${{needs.build_matrix.outputs.artiid}}
-
       - name: Prepare artifacts
         run: |
           mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/NamePicker-Action-Windows
@@ -72,26 +68,16 @@ jobs:
 
       - name: Zip artifact
         run: |
-          zip -r release/NamePicker-${{ github.ref }}-Windows.zip release/NamePicker-Action-Windows
-          zip -r release/NamePicker-${{ github.ref }}-Linux.zip release/NamePicker-Action-Linux
-    
-      - name: Get release info
-        id: release_info
-        run: |
-          $tag = "${{ github.ref }}"
-          $version = $tag -replace '^v', ''
-          echo "version=$version" >> $env:GITHUB_OUTPUT
-          echo "tag=$tag" >> $env:GITHUB_OUTPUT
+          zip -r release/NamePicker-Action-Windows.zip release/NamePicker-Action-Windows
+          zip -r release/NamePicker-Action-Linux.zip release/NamePicker-Action-Linux
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          name: NamePicker ${{ steps.release_info.outputs.tag }} - Codename Fugue
           files: |
-            ${{ github.workspace }}/release/NamePicker-${{ github.ref }}-Windows.zip
-            ${{ github.workspace }}/release/NamePicker-${{ github.ref }}-Linux.zip
+            ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-Action-Linux.zip
           body_path: CHANGELOG.md
-          draft: false
-          prerelease: ${{ contains(steps.release_info.outputs.tag, 'dev') }}
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
