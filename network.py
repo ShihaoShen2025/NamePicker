@@ -1,9 +1,9 @@
 import requests
-from loguru import logger
 import datetime
 import time
 import os
 import zipfile
+from loguru import logger
 from PySide6.QtCore import (QThread, QWaitCondition, QMutex, Signal, QMutexLocker)
 
 class Update(QThread):
@@ -60,7 +60,7 @@ class Update(QThread):
                             self.phaseChange.emit(self.phase)
                             logger.debug("Download complete")
                     else:
-                        logger.error("错误：%d"%r.status_code)
+                        logger.error(f"错误：{r.status_code}")
                         self.phase = "error"
                         self.phaseChange.emit(self.phase)
                         return
@@ -98,7 +98,7 @@ class Update(QThread):
                 response = requests.get('https://api.github.com/users/octocat')
                 reset_time = response.headers.get('X-RateLimit-Reset')
                 reset_time = int(reset_time)
-                logger.debug("重置：%s"%time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(reset_time)))
+                logger.debug(f"重置：{time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(reset_time))}")
                 self.phase = "down"
                 self.phaseChange.emit(self.phase)
             else:
@@ -169,7 +169,7 @@ class Version(QThread):
             resp = requests.get(url,verify=False)
             if resp.status_code == 200:
                 data = resp.json()
-                return local < data["VERNO_%s"%channel]
+                return local < data[f"VERNO_{channel}"]
             elif resp.status_code == 403:  # 触发API限制
                 logger.warning("到达Github API限制，请稍后再试")
                 resp = requests.get('https://api.github.com/users/octocat')
@@ -189,7 +189,7 @@ class Version(QThread):
             resp = requests.get(url,verify=False)
             if resp.status_code == 200:
                 data = resp.json()
-                return data["version_%s"%channel]
+                return data[f"version_{channel}"]
             elif resp.status_code == 403:  # 触发API限制
                 logger.warning("到达Github API限制，请稍后再试")
                 resp = requests.get('https://api.github.com/users/octocat')

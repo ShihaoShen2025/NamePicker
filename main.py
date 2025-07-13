@@ -1,9 +1,6 @@
 import json
-import importlib
 import time
-import pyotp
 import base64
-import qrcode
 import hashlib
 import socket
 import os
@@ -11,12 +8,14 @@ import sys
 import tempfile
 import random
 import traceback
-import network
 from loguru import logger
-from PySide6.QtCore import QObject, Slot,Property,Signal,QPoint,Qt,QThread, QWaitCondition, QMutex,QMutexLocker
+import pyotp
+import qrcode
+from PySide6.QtCore import QObject,Slot,Property,Signal,QPoint,Qt,QThread,QWaitCondition,QMutex,QMutexLocker
 from PySide6.QtWidgets import QApplication,QSystemTrayIcon, QMenu, QWidget
-from PySide6.QtGui import QDesktopServices,QIcon,QGuiApplication, QPixmap, QPainter, QColor
+from PySide6.QtGui import QIcon,QGuiApplication, QPixmap, QPainter
 from RinUI import RinUIWindow
+import network
 if os.name == 'nt':
     from win32com.client import Dispatch
 
@@ -25,8 +24,6 @@ VERSION = "v2.1.3dev"
 CODENAME = "Fugue"
 VER_NO = 5
 APIVER = 2
-force = False
-
 SEXFAVOR_ALL = NUMFAVOR_BOTH = -1
 SEXFAVOR_BOY = NUMFAVOR_1 = 0
 SEXFAVOR_GIRL = NUMFAVOR_2 = 1
@@ -44,7 +41,7 @@ if not sys.stderr:
             return True
     sys.stderr = FakeStderr()
 
-def hookExceptions(exc_type, exc_value, exc_tb):
+def hook_exceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
     if "TypeError: disconnect() of all signals failed" in error_details:
         return
@@ -53,29 +50,28 @@ def hookExceptions(exc_type, exc_value, exc_tb):
     #     # w = ErrorDialog(error_details)
     #     # w.exec()
     #     pass
-sys.excepthook = hookExceptions
+sys.excepthook = hook_exceptions
 
 def resource_path(relative_path:str)-> str:
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.abspath(relative_path)
 
-class LifeCycle(QThread):
-    def __init__(self, parent = None):
-        super().__init__(parent)
-        self.mutex = QMutex()  # 互斥锁，用于线程同步
-        self.cond = QWaitCondition()
-        self.stop = False
+# class LifeCycle(QThread):
+#     def __init__(self, parent = None):
+#         super().__init__(parent)
+#         self.mutex = QMutex()  # 互斥锁，用于线程同步
+#         self.cond = QWaitCondition()
+#         self.stop = False
 
-    def run(self):
-        while True:
-            with QMutexLocker(self.mutex):
-                if self.stop:
-                    return
-                # 接插件lifecycle
-                time.sleep(0.05)
+#     def run(self):
+#         while True:
+#             with QMutexLocker(self.mutex):
+#                 if self.stop:
+#                     return
+#                 # 接插件lifecycle
+#                 time.sleep(0.05)
             
-
 class Choose:
     def __init__(self,path:str):
         self.names = []
@@ -85,9 +81,9 @@ class Choose:
         self.chosen = []
         self.sexFavor = SEXFAVOR_ALL
         self.numFavor = NUMFAVOR_BOTH
-        self.loadnames(path)
+        self.load_names(path)
 
-    def loadnames(self,path:str) -> None:
+    def load_names(self,path:str) -> None:
         try:
             self.names = []
             self.namel = []
@@ -116,7 +112,7 @@ class Choose:
             with open(path,"w",encoding="utf-8") as f:
                 f.write("name,sex,no\n某人,0,1")
 
-    def loadFavor(self) -> None:
+    def load_favor(self) -> None:
         logger.debug("loadFavor")
         self.namel = []
         for i in range(len(self.names)):
@@ -130,13 +126,13 @@ class Choose:
                 or (int(self.names[i]["no"])%2 == 1 and self.numFavor==NUMFAVOR_2)):
                     del self.namel[i]
 
-    def setSexFavor(self,target:str) -> None:
+    def set_sex_favor(self,target:str) -> None:
         self.sexFavor = target
-        self.loadFavor()
+        self.load_favor()
 
-    def setNumFavor(self,target:str) -> None:
+    def set_num_favor(self,target:str) -> None:
         self.numFavor = target
-        self.loadFavor()
+        self.load_favor()
 
     def pick(self,num:int=1) -> list:
         resi = []
@@ -149,7 +145,7 @@ class Choose:
                 logger.debug(self.namel)
                 continue
             elif not cfg.get("General","allowRepeat") and self.namel==[]:
-                self.loadFavor()
+                self.load_favor()
                 ans = random.choice(self.namel)
             else:
                 ans = random.choice(self.namel)
@@ -162,10 +158,10 @@ class Choose:
         else:
             return ["bydcnm"]
 
-def setStartup() -> None:
+def set_startup() -> None:
     if os.name != 'nt':
         return
-    file_path='%s/main.exe'%os.path.dirname(os.path.abspath(__file__))
+    file_path=f'{os.path.dirname(os.path.abspath(__file__))}/main.exe'
     icon_path = 'assets/favicon.ico'
     startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
     name = os.path.splitext(os.path.basename(file_path))[0]  # 使用文件名作为快捷方式名称
@@ -177,17 +173,17 @@ def setStartup() -> None:
     shortcut.IconLocation = icon_path  # 设置图标路径
     shortcut.save()
 
-def removeStartup() -> None:
+def remove_startup() -> None:
     if os.name != 'nt':
         return
-    file_path = '%s/main.exe' % os.path.dirname(os.path.abspath(__file__))
+    file_path = f'{os.path.dirname(os.path.abspath(__file__))}/main.exe'
     name = os.path.splitext(os.path.basename(file_path))[0]
     startup_folder = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
     shortcut_path = os.path.join(startup_folder, f'{name}.lnk')
     if os.path.exists(shortcut_path):
         os.remove(shortcut_path)
 
-def macAddr() -> str:
+def mac_addr() -> str:
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     mac_address = ':'.join(['{:02x}'.format((int(i, 16) & 0xff)) for i in hex(int(ip_address.split('.')[0])).split('0x')[1:]])
@@ -261,26 +257,26 @@ CFGDEFAULT = {
 }
 
 cfg = Config("config.json",CFGRULE,CFGDEFAULT)
-
+force = False
 if os.path.exists("out.log"):
     os.remove("out.log")
 logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
-logger.info("NamePicker %s - Codename %s (Inside version %d,Plugin API Version %d)"%(VERSION,CODENAME,VER_NO,APIVER))
+logger.info(f"NamePicker {VERSION} - Codename {CODENAME} (Inside version {VER_NO},Plugin API Version {APIVER})")
 logger.info("「历经生死、重获新生的忘归人，何时才能返乡？⌋")
-core = Choose("names/%s"%os.listdir("names")[0])
+core = Choose(f"names/{os.listdir("names")[0]}")
 th = network.Version()
 upd = network.Update()
 verified = False
-mac = macAddr()
-secretKey = base64.b32encode(mac.encode(encoding="utf-8"))
-totp = pyotp.TOTP(secretKey)
+mac = mac_addr()
+secret_key = base64.b32encode(mac.encode(encoding="utf-8"))
+totp = pyotp.TOTP(secret_key)
 a = cfg.get("Secure","2FAMethod").split(",")
 if a != [""]:
     methods = cfg.get("Secure","2FAMethod").split(",")
 else:
     methods = []
-totp_url = totp.provisioning_uri("NamePicker - %s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
+totp_url = totp.provisioning_uri(f"NamePicker - {cfg.get("Secure","OTPnote")}", issuer_name="NamePicker 2FA")
 x = 0
 y = 0
 ver = ""
@@ -304,7 +300,7 @@ class Bridge(QObject):
             return r
         else:
             for i in r:
-                re.append("%s(%s)"%(i["name"],i["no"]))
+                re.append(f"{i["name"]}({i["no"]})")
             return re
         
     @Slot(str,str,result=list)
@@ -326,9 +322,9 @@ class Bridge(QObject):
     @Slot(bool)
     def Startup(self,stat:bool) -> None:
         if stat:
-            setStartup()
+            set_startup()
         else:
-            removeStartup()
+            remove_startup()
 
     @Slot(str,result=bool)
     def VerifyPassword(self,password:str) -> bool:
@@ -368,15 +364,15 @@ class Bridge(QObject):
     @Property(str)
     def GetOTPSecret(self) -> str:
         logger.debug("GetOTPSecret")
-        global secretKey
-        return secretKey
+        global secret_key
+        return secret_key
     
     @Slot(str)
     def GenTOTPImg(self,note:str) -> None:
         global totp,totp_url
         logger.debug("TOTP Image")
         cfg.set("Secure","OTPnote",note)
-        totp_url = totp.provisioning_uri("NamePicker/%s"%cfg.get("Secure","OTPnote"), issuer_name="NamePicker 2FA")
+        totp_url = totp.provisioning_uri(f"NamePicker/{note}", issuer_name="NamePicker 2FA")
         qr = qrcode.make(totp_url)
         qr.save("qr.png")
 
@@ -384,21 +380,21 @@ class Bridge(QObject):
     def chgStartup(self,stat:bool) -> None:
         cfg.set("General","autoStartup",stat)
         if stat:
-            setStartup()
+            set_startup()
         else:
-            removeStartup()
+            remove_startup()
 
     @Property(str)
     def VerTxt(self) -> str:
-        return "当前版本：%s - Codename %s"%(VERSION,CODENAME)
+        return "当前版本：{VERSION} - Codename {CODENAME}"
     
     @Slot(str)
     def setSexFavor(self,sexf:str) -> None:
-        core.setSexFavor(["都抽", "只抽男", "只抽女", "只抽特殊性别"].index(sexf)-1)
+        core.set_sex_favor(["都抽", "只抽男", "只抽女", "只抽特殊性别"].index(sexf)-1)
     
     @Slot(str)
     def setNumFavor(self,numf:str) -> None:
-        core.setNumFavor(["都抽", "只抽单数", "只抽双数"].index(numf)-1)
+        core.set_num_favor(["都抽", "只抽单数", "只抽双数"].index(numf)-1)
 
     @Slot(result=list)
     def getNameList(self) -> list:
@@ -406,8 +402,8 @@ class Bridge(QObject):
     
     @Slot(int)
     def changeNameList(self,path:int) -> None:
-        logger.debug("names/%s"%os.listdir("names")[path])
-        core.loadnames("names/%s"%os.listdir("names")[path])
+        logger.debug(f"names/{os.listdir("names")[path]}")
+        core.load_names(f"names/{os.listdir("names")[path]}")
 
     @Property(int)
     def getDwn(self) -> int:
@@ -496,6 +492,7 @@ class Bridge(QObject):
     def have2FA(self,s:str):
         global methods
         return s in methods
+    
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -522,7 +519,7 @@ class TrayIcon(QSystemTrayIcon):
         if s == "latest":
             pass
         else:
-            self.showMessage("NamePicker","检测到更新：%s -> %s"%(VERSION,s),QIcon("assets/NamePickerCircle.png"))
+            self.showMessage("NamePicker",f"检测到更新：{VERSION} -> {s}",QIcon("assets/NamePickerCircle.png"))
     def show_main_window(self) -> None:
         if self.main_window is None:
             self.main_window = UI()
@@ -602,15 +599,15 @@ class FloatingWindow(QWidget):
                         pass
                     else:
                         for i in r:
-                            re.append("%s(%s)"%(i["name"],i["no"]))
-                        with open("%s/unread"%temp_dir,"w",encoding="utf-8") as f:
+                            re.append(f"{i["name"]}({i["no"]})")
+                        with open(f"{temp_dir}/unread","w",encoding="utf-8") as f:
                             f.write("91")
-                        with open("%s/res.txt"%temp_dir,"w",encoding="utf-8") as f:
+                        with open(f"{temp_dir}/res.txt","w",encoding="utf-8") as f:
                             f.write(",".join(re))
             self.is_dragging = False
-            x = self.pos().x()
-            y = self.pos().y()
-            cfg.set("General","floatingPos","%d,%d"%(x,y))
+            fx = self.pos().x()
+            fy = self.pos().y()
+            cfg.set("General","floatingPos",f"{fx},{fy}")
             event.accept()
 
     def show_main_window(self) -> None:
