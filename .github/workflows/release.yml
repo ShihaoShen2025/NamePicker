@@ -90,11 +90,12 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          name: NamePicker ${{ steps.release_info.outputs.tag }} - Codename Fugue
           files: |
             ${{ github.workspace }}/release/NamePicker-${{ github.ref_name }}-Windows.zip
             ${{ github.workspace }}/release/NamePicker-${{ github.ref_name }}-Linux.zip
           body_path: CHANGELOG.md
           draft: false
-          prerelease: ${{ contains(steps.release_info.outputs.version, 'dev') }}
+          prerelease: ${{ contains(steps.release_info.outputs.tag, 'dev') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
