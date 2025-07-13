@@ -429,7 +429,7 @@ FluentPage {
             width: parent.width
             title: qsTr("开机自启")
             description: qsTr("是否开机自动启动，对于非Windows系统无效")
-            icon: "ic_fluent_bin_recycle_20_regular"
+            icon: "ic_fluent_power_20_regular"
             content: Switch{
                 checked: Bridge.GetCfg("General","autoStartup")[0]
                 onClicked: chgStartup(checked)
@@ -605,17 +605,12 @@ FluentPage {
         }
         SettingCard {
             width: parent.width
-            title: qsTr("测试InfoBar")
+            title: qsTr("抛出错误")
             description: qsTr("日")
             icon: "ic_fluent_document_20_regular"
             content: Button{
                 text: qsTr("1234")
-                onClicked:{
-                    floatLayer.createInfoBar({
-                        severity: Severity.Success,
-                        title: qsTr("Success"),
-                        text: qsTr("中文")
-                    })}
+                onClicked:Bridge.error()
             }
             enabled: Bridge.getVerified()
         }

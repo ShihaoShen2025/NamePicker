@@ -20,6 +20,8 @@ if os.name == 'nt':
     from win32com.client import Dispatch
 
 temp_dir = tempfile.gettempdir()
+err_info = ""
+err_dialog = ""
 VERSION = "v2.1.3dev"
 CODENAME = "Fugue"
 VER_NO = 5
@@ -41,15 +43,32 @@ if not sys.stderr:
             return True
     sys.stderr = FakeStderr()
 
+# class ErrorWindow(RinUIWindow):
+#     def __init__(self):
+#         super().__init__(resource_path("pages/error.qml"))
+#         self.bridge = ErrorBridge()
+#         self.engine.rootContext().setContextProperty("Bridge", self.bridge)
+
+# class ErrorBridge(QObject):
+#     @Slot(result=str)
+#     def err_info(self):
+#         global err_info
+#         return err_info
+
+#     @Slot()
+#     def restart(self):
+#         if not "noshortcut" in sys.argv:
+#             main.tray.hide()
+#         os.execl(sys.executable, sys.executable, *sys.argv)
+
 def hook_exceptions(exc_type, exc_value, exc_tb):
     error_details = ''.join(traceback.format_exception(exc_type, exc_value, exc_tb))
     if "TypeError: disconnect() of all signals failed" in error_details:
         return
     logger.error(error_details)
-    # if not error_dialog:
-    #     # w = ErrorDialog(error_details)
-    #     # w.exec()
-    #     pass
+    # err_info = error_details
+    # w = ErrorWindow()
+
 sys.excepthook = hook_exceptions
 
 def resource_path(relative_path:str)-> str:
@@ -493,6 +512,10 @@ class Bridge(QObject):
         global methods
         return s in methods
     
+    @Slot()
+    def error(self):
+        raise Exception("喵")
+    
 class TrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -616,6 +639,8 @@ class FloatingWindow(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon(resource_path("assets/favicon.ico")))
+    if "reset_pos" in sys.argv:
+        cfg.set("General","floatingPos","auto")
     if "noshortcut" in sys.argv:
         main = UI()
     else:
