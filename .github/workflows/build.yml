@@ -1,4 +1,4 @@
-name: Bulid dev version
+name: 构建
 on:
   push:
   workflow_dispatch:
@@ -45,39 +45,3 @@ jobs:
           path: |
             ${{ github.workspace }}/dist/main
           include-hidden-files: true
-
-  release:
-    needs: [build_matrix]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check-out repository
-        uses: actions/checkout@v4
-      - name: Prepare release
-        run: |
-          mkdir release
-          mkdir artifacts
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-          run-id: ${{needs.build_matrix.outputs.artiid}}
-      - name: Prepare artifacts
-        run: |
-          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/NamePicker-Action-Windows
-          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Linux release/NamePicker-Action-Linux
-
-      - name: Zip artifact
-        run: |
-          zip -r release/NamePicker-Action-Windows.zip release/NamePicker-Action-Windows
-          zip -r release/NamePicker-Action-Linux.zip release/NamePicker-Action-Linux
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            ${{ github.workspace }}/release/NamePicker-Action-Windows.zip
-            ${{ github.workspace }}/release/NamePicker-Action-Linux.zip
-          body_path: CHANGELOG.md
-          draft: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
