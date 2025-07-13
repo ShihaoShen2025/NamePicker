@@ -72,13 +72,13 @@ jobs:
 
       - name: Zip artifact
         run: |
-          zip -r release/NamePicker-${{ github.ref_name }}-Windows.zip release/NamePicker-Action-Windows
-          zip -r release/NamePicker-${{ github.ref_name }}-Linux.zip release/NamePicker-Action-Linux
+          zip -r release/NamePicker-${{ github.ref }}-Windows.zip release/NamePicker-Action-Windows
+          zip -r release/NamePicker-${{ github.ref }}-Linux.zip release/NamePicker-Action-Linux
     
       - name: Get release info
         id: release_info
         run: |
-          $tag = "${{ github.ref_name }}"
+          $tag = "${{ github.ref }}"
           $version = $tag -replace '^v', ''
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=$tag" >> $env:GITHUB_OUTPUT
@@ -88,8 +88,8 @@ jobs:
         with:
           name: NamePicker ${{ steps.release_info.outputs.tag }} - Codename Fugue
           files: |
-            ${{ github.workspace }}/release/NamePicker-${{ github.ref_name }}-Windows.zip
-            ${{ github.workspace }}/release/NamePicker-${{ github.ref_name }}-Linux.zip
+            ${{ github.workspace }}/release/NamePicker-${{ github.ref }}-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-${{ github.ref }}-Linux.zip
           body_path: CHANGELOG.md
           draft: false
           prerelease: ${{ contains(steps.release_info.outputs.tag, 'dev') }}
