@@ -1,11 +1,6 @@
-name: 构建
+name: 构建+发版
 on:
   push:
-    tags-ignore:
-      - v*.*.*dev
-      - v*.*.*d*dev
-      - v*.*.*rel
-      - v*.*.*d*rel
   workflow_dispatch:
 
 permissions:
@@ -50,3 +45,53 @@ jobs:
           path: |
             ${{ github.workspace }}/dist/main
           include-hidden-files: true
+
+  release:
+    needs: [build_matrix]
+    if: ${{ github.ref && github.event_name != 'pull_request'&& github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v4
+
+      - name: Prepare release
+        run: |
+          mkdir release
+          mkdir artifacts
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          run-id: ${{needs.build_matrix.outputs.artiid}}
+
+      - name: Prepare artifacts
+        run: |
+          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Windows release/NamePicker-Action-Windows
+          mv ${{ github.workspace }}/artifacts/NamePicker-Action-Linux release/NamePicker-Action-Linux
+
+      - name: Zip artifact
+        run: |
+          zip -r release/NamePicker-${{ github.ref_name }}-Windows.zip release/NamePicker-Action-Windows
+          zip -r release/NamePicker-${{ github.ref_name }}-Linux.zip release/NamePicker-Action-Linux
+    
+      - name: Get release info
+        id: release_info
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $version = $tag -replace '^v', ''
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: NamePicker ${{ steps.release_info.outputs.tag }} - Codename Fugue
+          files: |
+            ${{ github.workspace }}/release/NamePicker-${{ github.ref_name }}-Windows.zip
+            ${{ github.workspace }}/release/NamePicker-${{ github.ref_name }}-Linux.zip
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: ${{ contains(steps.release_info.outputs.tag, 'dev') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
