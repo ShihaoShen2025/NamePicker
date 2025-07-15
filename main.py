@@ -283,7 +283,14 @@ logger.add("out.log")
 logger.add(sys.stderr, level=cfg.get("Debug","logLevel"))
 logger.info(f"NamePicker {VERSION} - Codename {CODENAME} (Inside version {VER_NO},Plugin API Version {APIVER})")
 logger.info("「历经生死、重获新生的忘归人，何时才能返乡？⌋")
-core = Choose(f"names/{os.listdir("names")[0]}")
+try:
+    core = Choose(f"names/{os.listdir("names")[0]}")
+except FileNotFoundError:
+    logger.warning("没有找到指定文件")
+    if not os.path.exists("names"):
+        os.makedirs("names")
+    with open("names/names.csv","w",encoding="utf-8") as f:
+        f.write("name,sex,no\n某人,0,1")
 th = network.Version()
 upd = network.Update()
 verified = False
