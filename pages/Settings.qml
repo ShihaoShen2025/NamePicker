@@ -120,6 +120,12 @@ FluentPage {
                 pswdSw.checked = false
             }
         }
+        onRejected: {
+            pswdSet.text=""
+            pswdSet2nd.text=""
+            pswdSw.checked = false
+            Bridge.SetCfg("Secure","lock",[false])
+        }
         standardButtons: Dialog.Ok | Dialog.Cancel
     }
     Dialog {
@@ -484,10 +490,10 @@ FluentPage {
                 id: pswdSw
                 checked: Bridge.GetCfg("Secure","lock")[0]
                 onClicked: {
-                    Bridge.SetCfg("Secure","lock",[checked])
                     if(Bridge.GetCfg("Secure","password")[0]==""&checked){
                         setPswd.open()
                     }
+                    Bridge.SetCfg("Secure","lock",[checked])
                 }
             }
             enabled: Bridge.getVerified()

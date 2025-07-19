@@ -22,7 +22,7 @@ if os.name == 'nt':
 temp_dir = tempfile.gettempdir()
 err_info = ""
 err_dialog = ""
-VERSION = "v2.2.0d2rel"
+VERSION = "v2.2.0d3rel"
 CODENAME = "Fugue"
 VER_NO = 7
 APIVER = 2
