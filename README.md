@@ -6,20 +6,21 @@
 
 [QQ群（群号2153027375）](https://qm.qq.com/q/fTjhKuAlCU)
 
+[NamePicker文档](https://namepicker-docs.netlify.app/)
+
+> [!note]
+> 
+> 从v2.0.0起，NamePicker本体将基于GNU GPLv3协议开源
+> 
+> GNU GPLv3具有Copyleft特性，也就是说，您可以修改NamePicker的源代码，但是**必须将修改版本同样以GNU GPLv3协议开源**
+
 > [!caution]
 > 
 > NamePicker是一款完全开源且免费的软件，官方也没有提供任何付费服务
 > 
 > 如果您需要在某处售卖NamePicker，或者需要提供有关NamePicker的付费服务，请参照[该指南](https://www.baidu.com/s?wd=家里人全死光了怎么办)
 
-> [!note]
-> 
-> 该分支（即legacy分支）用于维护NamePicker v1.x.x版本
-> 
-> v1.x.x版本仍然接受Bug修复，但是不会添加新功能
-
 ## 功能清单/大饼
-> 由于Tkinter过于原始，迁移至PyQt的计划将会提前
 
 > 概率内定过于缺德，并且实现难度相当高，不会考虑
 
@@ -34,18 +35,14 @@
 9. [ ] 播报抽选结果
 10. [x] 与ClassIsland/Class Widgets联动（联动插件均已上架对应软件的插件商城）（目前已知ClassIsland在进行多次抽选时100%崩溃（真不是我菜在开发环境都没这破事），Class Widgets不受影响）
 11. [ ] 手机遥控抽选
-12. [ ] 改用PyQt
+12. [x] 改用PyQt
 
 ## 支持的平台
 1. [x] Windows 10+
 2. [x] Linux（国产化系统）
 3. [ ] Windows 7-8.1 （尚未测试）
-4. [ ] MacOS（理论上可以，但是~~作者是懒狗~~作者没有果子设备可供测试，Action也没有MacOS构建）
+4. [ ] MacOS（理论上可以，但是~~作者是懒狗~~作者没有果子设备可供测试）
 ## 运行指南
-
-### 运行指南（成品程序）
-1. Windows：将Release中下载的压缩包解压到某个空文件夹中，随后运行main.exe
-2. Linux（国产化系统）：将Release中下载的压缩包解压到某个空文件夹中，双击运行main.bin（如果不能执行请检查是否为其提供了运行权限）
 
 ### 运行指南（源码）
 
@@ -54,25 +51,21 @@
 `pip install -r requirements.txt`
 2. 运行main.py
 
-### 打包可执行文件指南（使用打包脚本）
-
-1. 使用venv创建虚拟环境（如何创建请自行百度，并保证虚拟环境目录为./venv）
-2. 安装依赖项
-`pip install -r requirements.txt`
-3. 运行build.bat
-
-### 打包可执行文件指南（不使用打包脚本）
+### 打包可执行文件指南
 
 0. （可选）创建虚拟环境
 1. 安装依赖项
 `pip install -r requirements.txt`
 2. 在虚拟环境中运行
-`nuitka --standalone --onefile --enable-plugin=tk-inter --remove-output --windows-disable-console  main.py`
+`nuitka --standalone --enable-plugin=pyqt5 --windows-console-mode=attach --include-data-dir=assets=assets --include-data-files=LICENSE=LICENSE --windows-icon-from-ico=./assets/favicon.ico main.py`
+3. **_必须将main.exe置于main.dist文件夹中运行，分发构建时必须分发整个main.dist文件夹_**
 
 ## FAQ
 ### Q:怎么配置名单
 
-A:修改names.csv，第一行别改，第二行开始按照"学生名字,性别（0=男，1=女，2=非二元，不符合标准的性别代号理论上会被忽视）,学号"来填写，**务必使用英文符号**
+A:从v2.0.1dev起，NamePicker已经内置名单编辑器，以下是手动修改指南
+
+修改names.csv，第一行别改，第二行开始按照"学生名字,性别（0=男，1=女，2=非二元，不符合标准的性别代号理论上会被忽视）,学号"来填写，**务必使用英文符号**
 
 就像这样：
 ```
@@ -82,8 +75,6 @@ caixukun,2,2
 sunxiaochuan,1,3
 ```
 PS:不建议设置重复的学号和姓名，以免在使用时带来困扰
-
-图形化的编辑界面见[NP-NameEditor](https://github.com/NamePickerOrg/NP-NameEditor)
 
 当然，也没人拦着你用Excel或WPS Office编辑，但是请记住 _**务必使用UTF-8编码保存**_ ，否则会导致无法读取名单
 

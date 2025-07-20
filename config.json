@@ -1,1 +1,27 @@
-{"VERSION": "1.1.2dev", "VER_NO": 7, "CODENAME": "Sonetto", "allowRepeat": false, "alwaysOnTop": true, "SupportCW": false, "logLevel": "Debug", "consoleOutput": true}
+{
+    "General": {
+        "allowRepeat": false,
+        "autoStartup": false,
+        "chooseKey": "ctrl+w",
+        "supportCS": false
+    },
+    "Version": {
+        "apiver": 1
+    },
+    "Huanyu": {
+        "ecoMode": false,
+        "justice": false
+    },
+    "Secure": {
+        "keyChecksum": "6560500f27826e64de748b38405a0622",
+        "lockConfigItem": true,
+        "lockNameEdit": false
+    },
+    "Debug": {
+        "logLevel": "DEBUG"
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ff009faa",
+        "ThemeMode": "Auto"
+    }
+}

@@ -1,6 +1,8 @@
 name: Bulid dev version
 on:
   push:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -24,30 +26,26 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Python GUI With TkInter
+      - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
           script-name: main.py
-          mode: app
-          enable-plugins: tk-inter
+          mode: standalone
+          enable-plugins: pyqt5
+          include-data-files: LICENSE=LICENSE
+          include-data-dir: |
+            assets=assets
+            plugins=plugins
           windows-console-mode: attach
-          windows-icon-from-ico: favicon.ico
-          linux-icon: favicon.ico
-
-      - name: Pack
-        run: |
-          mkdir pub
-          copy ${{ github.workspace }}/build/main.exe ${{ github.workspace }}/pub
-          copy ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
-          copy ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
+          windows-icon-from-ico: ./assets/favicon.ico
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/pub
+            ${{ github.workspace }}/build/main.dist
           include-hidden-files: true
 
   build_linux:
@@ -70,28 +68,22 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Python GUI With TkInter
+      - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
           script-name: main.py
-          mode: app
-          enable-plugins: tk-inter
+          mode: standalone
+          enable-plugins: pyqt5
+          include-data-files: LICENSE=LICENSE
+          include-data-dir: assets=assets
           windows-console-mode: attach
-          windows-icon-from-ico: favicon.ico
-          linux-icon: favicon.ico
-
-      - name: Pack
-        run: |
-          mkdir pub
-          mv ${{ github.workspace }}/build/main.bin ${{ github.workspace }}/pub
-          mv ${{ github.workspace }}/NamePicker.png ${{ github.workspace }}/pub
-          mv ${{ github.workspace }}/favicon.ico ${{ github.workspace }}/pub
+          linux-icon: ./assets/favicon.ico
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NamePicker-Action-${{ runner.os }}
           path: |
-            ${{ github.workspace }}/pub
+            ${{ github.workspace }}/build/main.dist
           include-hidden-files: true
