@@ -17,5 +17,7 @@ build
 dist
 qr.png
 /names/0.NamePicker.csv
+/names/1.csv
+/names/测试1班.csv
 proto.zip
 release
